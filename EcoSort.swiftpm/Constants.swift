@@ -12,7 +12,7 @@ class Constants {
     // Singleton variable to share Constants
     static let shared = Constants()
     
-    private var speed = 2
+    private var speed = 1
     
     func getSpeed() -> Int {
         return speed
