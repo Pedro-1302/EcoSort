@@ -23,21 +23,20 @@ let package = Package(
             appIcon: .placeholder(icon: .rocket),
             accentColor: .presetColor(.red),
             supportedDeviceFamilies: [
-                .pad,
-                .phone
+                .pad
             ],
             supportedInterfaceOrientations: [
-                .portrait,
-                .landscapeRight,
-                .landscapeLeft,
-                .portraitUpsideDown(.when(deviceFamilies: [.pad]))
+                .landscapeRight
             ]
         )
     ],
     targets: [
         .executableTarget(
             name: "AppModule",
-            path: "."
+            path: ".",
+            resources: [
+                .process("Resources")
+            ]
         )
     ]
 )
