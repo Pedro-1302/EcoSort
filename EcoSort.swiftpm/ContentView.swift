@@ -2,7 +2,7 @@ import SwiftUI
 import SpriteKit
 
 struct ContentView: View {
-    let scene = SKScene(fileNamed: "GameScene")
+    let scene = SKScene(fileNamed: "HomeScene")
     
     var body: some View {
         VStack{
