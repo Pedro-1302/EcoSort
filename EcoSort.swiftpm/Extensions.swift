@@ -42,8 +42,9 @@ extension HomeSceneController {
     }
     
     func addLogoAnimation() {
-        guard let logoAction = logoAnimationAction else { return }
-        logo.run(logoAction)
+        var walkAnimation = SKAction.animate(with: lg, timePerFrame: 1)
+       let infiniteWalkAnimation = SKAction.repeatForever(walkAnimation)
+       logo.run(infiniteWalkAnimation)
     }
     
     func addRotateAction() {
