@@ -93,7 +93,6 @@ class GameSceneController: SKScene {
 
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         for _ in touches {
-            
             isMovingUp = false
             player.removeAction(forKey: "moveUp")
             
