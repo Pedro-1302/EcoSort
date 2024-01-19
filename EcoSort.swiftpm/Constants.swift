@@ -12,9 +12,19 @@ class Constants {
     // Singleton variable to share Constants
     static let shared = Constants()
     
-    private var speed = 1
+    private var menuSpeed = 1
+    private var baseGameSpeed = 5
+    private var gameScore = 10
     
-    func getSpeed() -> Int {
-        return speed
+    func getMenuSpeed() -> Int {
+        return menuSpeed
+    }
+    
+    func getBaseGameSpeed() -> Int {
+        return baseGameSpeed
+    }
+    
+    func getGameScore() -> Int {
+        return gameScore
     }
 }
