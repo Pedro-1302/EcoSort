@@ -24,7 +24,7 @@ class HomeSceneController: SKScene {
     var mapScrollSpeed = Constants.shared.getSpeed()
     
     var lg = [SKTexture(imageNamed: "logo0"), SKTexture(imageNamed: "logo1"), SKTexture(imageNamed: "logo2"), SKTexture(imageNamed: "logo3")]
-
+    
     override func sceneDidLoad() {
         createBackground()
         createRecycleSymbol()

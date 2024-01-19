@@ -43,8 +43,8 @@ extension HomeSceneController {
     
     func addLogoAnimation() {
         var walkAnimation = SKAction.animate(with: lg, timePerFrame: 1)
-       let infiniteWalkAnimation = SKAction.repeatForever(walkAnimation)
-       logo.run(infiniteWalkAnimation)
+        let infiniteWalkAnimation = SKAction.repeatForever(walkAnimation)
+        logo.run(infiniteWalkAnimation)
     }
     
     func addRotateAction() {
@@ -72,7 +72,7 @@ extension HomeSceneController {
             cityBackgroundArray.append(imageName)
         }
     }
-
+    
     public func addIndividualSprite(texture: String, size: CGSize, zPosition: Double, ancorPoint: CGPoint) -> SKSpriteNode {
         let node = SKSpriteNode()
         node.texture = SKTexture(imageNamed: texture)
