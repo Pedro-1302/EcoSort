@@ -53,9 +53,9 @@ extension HomeSceneController {
     }
     
     func createBeachNodes() {
-        for i in 0...3 {
+        for i in 0...2 {
             let imageName = "beach\(i)"
-            let beachBackground = addIndividualSprite(texture: imageName, size: CGSize(width: 1336, height: 594), zPosition: 1, ancorPoint: CGPoint(x: 1, y: 0))
+            let beachBackground = addIndividualSprite(texture: imageName, size: CGSize(width: 1366, height: 594), zPosition: 1, ancorPoint: CGPoint(x: 1, y: 0))
             beachBackground.position = CGPoint(x: beachBackground.size.width * CGFloat(i), y: -size.height / 2 + beachBackground.frame.size.height / 4)
             addChild(beachBackground)
             beachBackgroundArray.append(imageName)
@@ -64,7 +64,7 @@ extension HomeSceneController {
     }
     
     func createCityNodes() {
-        for i in 0...3 {
+        for i in 0...2 {
             let imageName = "city\(i)"
             let cityBackground = addIndividualSprite(texture: imageName, size: CGSize(width: 1366, height: 433), zPosition: 1, ancorPoint: CGPoint(x: 1, y: 0.5))
             cityBackground.position = CGPoint(x: cityBackground.size.width * CGFloat(i), y: beachBackgroundNodesArrays[i].frame.maxY + cityBackground.frame.height / 2)
@@ -90,7 +90,7 @@ extension HomeSceneController {
                 (node, error) in
                 node.position.x -=  CGFloat(speed)
                 if node.position.x < -((self.scene?.size.width)!) {
-                    node.position.x += (self.scene?.size.width)! * CGFloat(arraySize)
+                    node.position.x += (self.scene?.size.width)! * 3
                 }
             }))
         }
