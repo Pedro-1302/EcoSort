@@ -204,4 +204,18 @@ extension GameSceneController {
         let moveDown = SKAction.moveBy(x: 0, y: -1, duration: 0.1)
         moveDownAction = SKAction.repeatForever(moveDown)
     }
+    
+    func createInvisibleTopWall() {
+        topWall = SKSpriteNode(color: .clear, size: CGSize(width: size.height + 40, height: 2))
+        topWall.position = CGPoint(x: 0, y: 80)
+        topWall.zPosition = 3
+        addChild(topWall)
+    }
+    
+    func createInvisibleBottomWall() {
+        bottomWall = SKSpriteNode(color: .clear, size: CGSize(width: size.height + 40, height: 2))
+        bottomWall.position = CGPoint(x: 0, y: -260)
+        bottomWall.zPosition = 3
+        addChild(bottomWall)
+    }
 }

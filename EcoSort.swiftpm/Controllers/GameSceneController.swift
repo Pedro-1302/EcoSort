@@ -39,8 +39,7 @@ class GameSceneController: SKScene {
     
     var value = 0.0
     
-    // CREATE GROUPED VARIABLES
-
+    
     override func sceneDidLoad() {
         createScoreNode()
         createScoreLabel()
@@ -53,16 +52,8 @@ class GameSceneController: SKScene {
         createCityNodes()
         addMoveUpAction()
         addMoveDownAction()
-        
-        topWall = SKSpriteNode(color: .clear, size: CGSize(width: size.height + 40, height: 2))
-        topWall.position = CGPoint(x: 0, y: 80)
-        topWall.zPosition = 3
-        addChild(topWall)
-
-        bottomWall = SKSpriteNode(color: .clear, size: CGSize(width: size.height + 40, height: 2))
-        bottomWall.position = CGPoint(x: 0, y: -260)
-        bottomWall.zPosition = 3
-        addChild(bottomWall)
+        createInvisibleTopWall()
+        createInvisibleBottomWall()
     }
     
     override func update(_ currentTime: TimeInterval) {
