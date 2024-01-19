@@ -17,10 +17,15 @@ class GameSceneController: SKScene {
     var infoButton = SKSpriteNode()
     var upArrow = SKSpriteNode()
     var downArrow = SKSpriteNode()
+    var topWall = SKSpriteNode()
+    var bottomWall = SKSpriteNode()
+    var greenTrash = SKSpriteNode()
+    var yellowTrash = SKSpriteNode()
+    var blueTrash = SKSpriteNode()
+    var redTrash = SKSpriteNode()
     
     var runAction = SKAction(named: "Run")
-    var moveUpAction: SKAction!
-    var moveDownAction: SKAction!
+    var moveUpAction, moveDownAction: SKAction!
     
     var beachBackgroundArray = [String]()
     var cityBackgroundArray = [String]()
@@ -33,6 +38,8 @@ class GameSceneController: SKScene {
     var isMovingDown = false
     
     var value = 0.0
+    
+    // CREATE GROUPED VARIABLES
 
     override func sceneDidLoad() {
         createScoreNode()
@@ -46,18 +53,30 @@ class GameSceneController: SKScene {
         createCityNodes()
         addMoveUpAction()
         addMoveDownAction()
+        
+        topWall = SKSpriteNode(color: .clear, size: CGSize(width: size.height + 40, height: 2))
+        topWall.position = CGPoint(x: 0, y: 80)
+        topWall.zPosition = 3
+        addChild(topWall)
+
+        bottomWall = SKSpriteNode(color: .clear, size: CGSize(width: size.height + 40, height: 2))
+        bottomWall.position = CGPoint(x: 0, y: -260)
+        bottomWall.zPosition = 3
+        addChild(bottomWall)
     }
     
     override func update(_ currentTime: TimeInterval) {
-        if isMovingUp {
-            value += 1.0
-            player.position = CGPoint(x: player.position.x, y: value)
+        if isMovingUp && player.frame.minY < topWall.position.y {
+            value += 5.0
         }
         
-        if isMovingDown {
-            value -= 1.0
-            player.position = CGPoint(x: player.position.x, y: value)
+        // isMovingUp ? value += 5.0 : value -= 5
+        
+        if isMovingDown  && player.frame.minY > bottomWall.position.y {
+            value -= 5.0
         }
+        
+        player.position = CGPoint(x: player.position.x, y: value)
         
         addEnumerateNodes(arrayNodeName: beachBackgroundArray, speed: mapScrollSpeed, baseNameNode: "beach", arraySize: beachBackgroundArray.count - 1)
         
@@ -67,21 +86,25 @@ class GameSceneController: SKScene {
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         for touch in touches {
             let location = touch.location(in: self)
-
-            if upArrow.frame.contains(location) {
+            
+            if infoButton.frame.contains(location) {
+                print("teste som teste")
+            }
+            if upArrow.frame.contains(location) && player.frame.minY < topWall.position.y {
                 isMovingUp = true
                 player.run(moveUpAction, withKey: "moveUp")
             }
             
-            if downArrow.frame.contains(location) {
+            if downArrow.frame.contains(location) && player.frame.minY > bottomWall.position.y {
                 isMovingDown = true
                 player.run(moveDownAction, withKey: "moveDown")
             }
         }
     }
-    
+
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         for _ in touches {
+            
             isMovingUp = false
             player.removeAction(forKey: "moveUp")
             
