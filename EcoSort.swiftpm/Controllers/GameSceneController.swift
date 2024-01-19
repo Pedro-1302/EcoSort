@@ -60,9 +60,7 @@ class GameSceneController: SKScene {
         if isMovingUp && player.frame.minY < topWall.position.y {
             value += 5.0
         }
-        
-        // isMovingUp ? value += 5.0 : value -= 5
-        
+                
         if isMovingDown  && player.frame.minY > bottomWall.position.y {
             value -= 5.0
         }
