@@ -106,55 +106,6 @@ extension GameSceneController {
         addChild(player)
     }
     
-    func addRunAction() {
-        guard let runAction = runAction else { return }
-        player.run(runAction)
-    }
-    
-    func createBeachNodes() {
-        for i in 0...2 {
-            let imageName = "beach\(i)"
-            let beachBackground = addIndividualSprite(texture: imageName, size: CGSize(width: 1366, height: 594), zPosition: 1, ancorPoint: CGPoint(x: 1, y: 0))
-            beachBackground.position = CGPoint(x: beachBackground.size.width * CGFloat(i), y: -size.height / 2 + beachBackground.frame.size.height / 4)
-            addChild(beachBackground)
-            beachBackgroundArray.append(imageName)
-            beachBackgroundNodesArrays.append(beachBackground)
-        }
-    }
-    
-    func createCityNodes() {
-        for i in 0...2 {
-            let imageName = "city\(i)"
-            let cityBackground = addIndividualSprite(texture: imageName, size: CGSize(width: 1366, height: 433), zPosition: 1, ancorPoint: CGPoint(x: 1, y: 0.5))
-            cityBackground.position = CGPoint(x: cityBackground.size.width * CGFloat(i), y: beachBackgroundNodesArrays[i].frame.maxY + cityBackground.frame.height / 2)
-            addChild(cityBackground)
-            cityBackgroundArray.append(imageName)
-        }
-    }
-    
-    public func addIndividualSprite(texture: String, size: CGSize, zPosition: Double, ancorPoint: CGPoint) -> SKSpriteNode {
-        let node = SKSpriteNode()
-        node.texture = SKTexture(imageNamed: texture)
-        node.position = position
-        node.size = size
-        node.zPosition = zPosition
-        node.anchorPoint = ancorPoint
-        node.name = texture
-        return node
-    }
-    
-    func addEnumerateNodes(arrayNodeName: [String], speed: Int, baseNameNode: String, arraySize: Int) {
-        for i in 0...arraySize {
-            self.enumerateChildNodes(withName: "\(baseNameNode)\(i)", using: ({
-                (node, error) in
-                node.position.x -=  CGFloat(speed)
-                if node.position.x < -((self.scene?.size.width)!) {
-                    node.position.x += (self.scene?.size.width)! * 3
-                }
-            }))
-        }
-    }
-    
     func createDownArrow() {
         downArrow = SKSpriteNode(imageNamed: "down-arrow")
         downArrow.size = CGSize(width: 120, height: 120)
@@ -193,16 +144,6 @@ extension GameSceneController {
         scoreLabel.zPosition = 3
         scoreLabel.fontSize = 48
         addChild(scoreLabel)
-    }
-    
-    func addMoveUpAction() {
-        let moveUp = SKAction.moveBy(x: 0, y: 1, duration: 0.1)
-        moveUpAction = SKAction.repeatForever(moveUp)
-    }
-    
-    func addMoveDownAction() {
-        let moveDown = SKAction.moveBy(x: 0, y: -1, duration: 0.1)
-        moveDownAction = SKAction.repeatForever(moveDown)
     }
     
     func createInvisibleTopWall() {
@@ -258,5 +199,79 @@ extension GameSceneController {
         currentTrash.position = CGPoint(x: player.frame.minX, y: player.position.y)
         currentTrash.zPosition = 2
         addChild(currentTrash)
+    }
+    
+    func addRunAction() {
+        guard let runAction = runAction else { return }
+        player.run(runAction)
+    }
+    
+    func createBeachNodes() {
+        for i in 0...2 {
+            let imageName = "beach\(i)"
+            let beachBackground = addIndividualSprite(texture: imageName, size: CGSize(width: 1366, height: 594), zPosition: 1, ancorPoint: CGPoint(x: 1, y: 0))
+            beachBackground.position = CGPoint(x: beachBackground.size.width * CGFloat(i), y: -size.height / 2 + beachBackground.frame.size.height / 4)
+            addChild(beachBackground)
+            beachBackgroundArray.append(imageName)
+            beachBackgroundNodesArrays.append(beachBackground)
+        }
+    }
+    
+    func createCityNodes() {
+        for i in 0...2 {
+            let imageName = "city\(i)"
+            let cityBackground = addIndividualSprite(texture: imageName, size: CGSize(width: 1366, height: 433), zPosition: 1, ancorPoint: CGPoint(x: 1, y: 0.5))
+            cityBackground.position = CGPoint(x: cityBackground.size.width * CGFloat(i), y: beachBackgroundNodesArrays[i].frame.maxY + cityBackground.frame.height / 2)
+            addChild(cityBackground)
+            cityBackgroundArray.append(imageName)
+        }
+    }
+    
+    public func addIndividualSprite(texture: String, size: CGSize, zPosition: Double, ancorPoint: CGPoint) -> SKSpriteNode {
+        let node = SKSpriteNode()
+        node.texture = SKTexture(imageNamed: texture)
+        node.position = position
+        node.size = size
+        node.zPosition = zPosition
+        node.anchorPoint = ancorPoint
+        node.name = texture
+        return node
+    }
+    
+    func addEnumerateNodes(arrayNodeName: [String], speed: Int, baseNameNode: String, arraySize: Int) {
+        for i in 0...arraySize {
+            self.enumerateChildNodes(withName: "\(baseNameNode)\(i)", using: ({
+                (node, error) in
+                node.position.x -=  CGFloat(speed)
+                if node.position.x < -((self.scene?.size.width)!) {
+                    node.position.x += (self.scene?.size.width)! * 3
+                }
+            }))
+        }
+    }
+    
+    func addMoveUpAction() {
+        let moveUp = SKAction.moveBy(x: 0, y: 1, duration: 0.1)
+        moveUpAction = SKAction.repeatForever(moveUp)
+    }
+    
+    func addMoveDownAction() {
+        let moveDown = SKAction.moveBy(x: 0, y: -1, duration: 0.1)
+        moveDownAction = SKAction.repeatForever(moveDown)
+    }
+    
+    func changeTrashTexture(textureName: String) {
+        currentTrash.texture = SKTexture(imageNamed: textureName)
+    }
+    
+    func changeAllTrashAlpha() {
+        greenTrash.alpha = 1
+        yellowTrash.alpha = 1
+        blueTrash.alpha = 1
+        redTrash.alpha = 1
+    }
+    
+    func changeCurrentTrashAlphe(trashNode: SKNode) {
+        trashNode.alpha = 0.5
     }
 }

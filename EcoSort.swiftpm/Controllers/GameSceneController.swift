@@ -122,21 +122,6 @@ class GameSceneController: SKScene {
             }
         }
     }
-    
-    func changeTrashTexture(textureName: String) {
-        currentTrash.texture = SKTexture(imageNamed: textureName)
-    }
-    
-    func changeAllTrashAlpha() {
-        greenTrash.alpha = 1
-        yellowTrash.alpha = 1
-        blueTrash.alpha = 1
-        redTrash.alpha = 1
-    }
-    
-    func changeCurrentTrashAlphe(trashNode: SKNode) {
-        trashNode.alpha = 0.5
-    }
 
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         for _ in touches {
