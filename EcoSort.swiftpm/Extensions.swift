@@ -102,7 +102,7 @@ extension GameSceneController {
         player = SKSpriteNode(imageNamed: "player-stop01")
         player.size = CGSize(width: 80, height: 160)
         player.position = CGPoint(x: -500, y: 0)
-        player.zPosition = 2
+        player.zPosition = 3
         addChild(player)
     }
     
@@ -248,6 +248,15 @@ extension GameSceneController {
         redTrash.size = CGSize(width: 120, height: 150)
         redTrash.position = CGPoint(x: 0, y: -420)
         redTrash.zPosition = 2
+        redTrash.alpha = 0.5
         addChild(redTrash)
+    }
+    
+    func createCurrentTrashCarried() {
+        currentTrash = SKSpriteNode(imageNamed: "recycle-red")
+        currentTrash.size = CGSize(width: 60, height: 75)
+        currentTrash.position = CGPoint(x: player.frame.minX, y: player.position.y)
+        currentTrash.zPosition = 2
+        addChild(currentTrash)
     }
 }

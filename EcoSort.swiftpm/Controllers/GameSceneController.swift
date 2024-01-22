@@ -58,9 +58,12 @@ class GameSceneController: SKScene {
         createGreenTrash()
         createBlueTrash()
         createRedTrash()
+        createCurrentTrashCarried()
     }
 
     override func update(_ currentTime: TimeInterval) {
+        currentTrash.position = CGPoint(x: player.frame.minX, y: player.position.y)
+
         if isMovingUp && player.frame.minY < topWall.position.y {
             value += 5.0
         }
@@ -85,19 +88,27 @@ class GameSceneController: SKScene {
             }
             
             if greenTrash.frame.contains(location) {
-                print("Verde")
+                changeAllTrashAlpha()
+                changeTrashTexture(textureName: "recycle-green")
+                changeCurrentTrashAlphe(trashNode: greenTrash)
             }
             
             if yellowTrash.frame.contains(location) {
-                print("Amarelo")
+                changeAllTrashAlpha()
+                changeTrashTexture(textureName: "recycle-yellow")
+                changeCurrentTrashAlphe(trashNode: yellowTrash)
             }
             
             if blueTrash.frame.contains(location) {
-                print("Azul")
+                changeAllTrashAlpha()
+                changeTrashTexture(textureName: "recycle-blue")
+                changeCurrentTrashAlphe(trashNode: blueTrash)
             }
             
             if redTrash.frame.contains(location) {
-                print("Vermelho")
+                changeAllTrashAlpha()
+                changeTrashTexture(textureName: "recycle-red")
+                changeCurrentTrashAlphe(trashNode: redTrash)
             }
             
             if upArrow.frame.contains(location) && player.frame.minY < topWall.position.y {
@@ -110,6 +121,21 @@ class GameSceneController: SKScene {
                 player.run(moveDownAction, withKey: "moveDown")
             }
         }
+    }
+    
+    func changeTrashTexture(textureName: String) {
+        currentTrash.texture = SKTexture(imageNamed: textureName)
+    }
+    
+    func changeAllTrashAlpha() {
+        greenTrash.alpha = 1
+        yellowTrash.alpha = 1
+        blueTrash.alpha = 1
+        redTrash.alpha = 1
+    }
+    
+    func changeCurrentTrashAlphe(trashNode: SKNode) {
+        trashNode.alpha = 0.5
     }
 
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
