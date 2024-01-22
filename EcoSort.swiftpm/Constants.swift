@@ -13,18 +13,28 @@ class Constants {
     static let shared = Constants()
     
     private var menuSpeed = 1
-    private var baseGameSpeed = 5
-    private var gameScore = 10
+    private var baseGameSpeed = 5.0
+    private var gameScore = 0
+    private var playerMoveSpeed = 5.0
+    private var screenMaxX = UIScreen.main.bounds.maxX
     
     func getMenuSpeed() -> Int {
         return menuSpeed
     }
     
-    func getBaseGameSpeed() -> Int {
+    func getBaseGameSpeed() -> Double {
         return baseGameSpeed
     }
     
     func getGameScore() -> Int {
         return gameScore
+    }
+    
+    func getPlayerMoveSpeed() -> Double {
+        return playerMoveSpeed
+    }
+    
+    func getScreenMaxX() -> CGFloat {
+        return screenMaxX
     }
 }

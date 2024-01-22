@@ -8,7 +8,7 @@
 import Foundation
 import SpriteKit
 
-// MARK: Extension with setup for all sprites in HomeSceneController
+// MARK: HomeSceneController extension for setup nodes
 extension HomeSceneController {
     func createBackground() {
         background = SKSpriteNode(color: .black, size: CGSize(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height))
@@ -40,7 +40,7 @@ extension HomeSceneController {
         logo.zPosition = 3
         addChild(logo)
     }
-    
+        
     func addLogoAnimation() {
         var walkAnimation = SKAction.animate(with: lg, timePerFrame: 1)
         let infiniteWalkAnimation = SKAction.repeatForever(walkAnimation)
@@ -97,12 +97,13 @@ extension HomeSceneController {
     }
 }
 
+// MARK: GameSceneController with Node Creations
 extension GameSceneController {
     func createPlayerNode() {
         player = SKSpriteNode(imageNamed: "player-stop01")
         player.size = CGSize(width: 80, height: 160)
         player.position = CGPoint(x: -500, y: 0)
-        player.zPosition = 3
+        player.zPosition = 4
         addChild(player)
     }
     
@@ -194,60 +195,48 @@ extension GameSceneController {
     }
     
     func createCurrentTrashCarried() {
-        currentTrash = SKSpriteNode(imageNamed: "recycle-red")
-        currentTrash.size = CGSize(width: 60, height: 75)
+        currentTrash = SKSpriteNode(imageNamed: "rec-red01")
+        currentTrash.size = CGSize(width: 120, height: 120)
         currentTrash.position = CGPoint(x: player.frame.minX, y: player.position.y)
-        currentTrash.zPosition = 2
+        currentTrash.zPosition = 3
         addChild(currentTrash)
+    }
+    
+    func createNewspaper() {
+        newspaper = SKSpriteNode(imageNamed: "newspaper")
+        newspaper.size = CGSize(width: 100, height: 50)
+        newspaper.zPosition = 2
+        newspaper.position = CGPoint(x: screenMaxX, y: generateRandomYPositionForNodes())
+        addChild(newspaper)
+    }
+    
+    func createVine() {
+        wine = SKSpriteNode(imageNamed: "vine")
+        wine.size = CGSize(width: 100, height: 50)
+        wine.zPosition = 2
+        wine.position = CGPoint(x: screenMaxX, y: generateRandomYPositionForNodes())
+        addChild(wine)
+    }
+    
+    func createBottle() {
+        bottle = SKSpriteNode(imageNamed: "water-bottle")
+        bottle.size = CGSize(width: 80, height: 36)
+        bottle.zPosition = 2
+        bottle.position = CGPoint(x: screenMaxX, y: generateRandomYPositionForNodes())
+        addChild(bottle)
+    }
+    
+    func createMP3() {
+        mp3 = SKSpriteNode(imageNamed: "mp3")
+        mp3.size = CGSize(width: 40, height: 60)
+        mp3.zPosition = 2
+        mp3.position = CGPoint(x: screenMaxX, y: generateRandomYPositionForNodes())
+        addChild(mp3)
     }
     
     func addRunAction() {
         guard let runAction = runAction else { return }
         player.run(runAction)
-    }
-    
-    func createBeachNodes() {
-        for i in 0...2 {
-            let imageName = "beach\(i)"
-            let beachBackground = addIndividualSprite(texture: imageName, size: CGSize(width: 1366, height: 594), zPosition: 1, ancorPoint: CGPoint(x: 1, y: 0))
-            beachBackground.position = CGPoint(x: beachBackground.size.width * CGFloat(i), y: -size.height / 2 + beachBackground.frame.size.height / 4)
-            addChild(beachBackground)
-            beachBackgroundArray.append(imageName)
-            beachBackgroundNodesArrays.append(beachBackground)
-        }
-    }
-    
-    func createCityNodes() {
-        for i in 0...2 {
-            let imageName = "city\(i)"
-            let cityBackground = addIndividualSprite(texture: imageName, size: CGSize(width: 1366, height: 433), zPosition: 1, ancorPoint: CGPoint(x: 1, y: 0.5))
-            cityBackground.position = CGPoint(x: cityBackground.size.width * CGFloat(i), y: beachBackgroundNodesArrays[i].frame.maxY + cityBackground.frame.height / 2)
-            addChild(cityBackground)
-            cityBackgroundArray.append(imageName)
-        }
-    }
-    
-    public func addIndividualSprite(texture: String, size: CGSize, zPosition: Double, ancorPoint: CGPoint) -> SKSpriteNode {
-        let node = SKSpriteNode()
-        node.texture = SKTexture(imageNamed: texture)
-        node.position = position
-        node.size = size
-        node.zPosition = zPosition
-        node.anchorPoint = ancorPoint
-        node.name = texture
-        return node
-    }
-    
-    func addEnumerateNodes(arrayNodeName: [String], speed: Int, baseNameNode: String, arraySize: Int) {
-        for i in 0...arraySize {
-            self.enumerateChildNodes(withName: "\(baseNameNode)\(i)", using: ({
-                (node, error) in
-                node.position.x -=  CGFloat(speed)
-                if node.position.x < -((self.scene?.size.width)!) {
-                    node.position.x += (self.scene?.size.width)! * 3
-                }
-            }))
-        }
     }
     
     func addMoveUpAction() {
@@ -258,6 +247,53 @@ extension GameSceneController {
     func addMoveDownAction() {
         let moveDown = SKAction.moveBy(x: 0, y: -1, duration: 0.1)
         moveDownAction = SKAction.repeatForever(moveDown)
+    }
+    
+    func createBeachNodes() {
+        for i in 0...2 {
+            let imageName = "beach\(i)"
+            let beachBackground = addIndividualSprite(texture: imageName, size: CGSize(width: 1366, height: 594), zPosition: 1, anchorPoint: CGPoint(x: 1, y: 0))
+            beachBackground.position = CGPoint(x: beachBackground.size.width * CGFloat(i), y: -size.height / 2 + beachBackground.frame.size.height / 4)
+            addChild(beachBackground)
+            beachBackgroundArray.append(imageName)
+            beachBackgroundNodesArrays.append(beachBackground)
+        }
+    }
+    
+    func createCityNodes() {
+        for i in 0...2 {
+            let imageName = "city\(i)"
+            let cityBackground = addIndividualSprite(texture: imageName, size: CGSize(width: 1366, height: 433), zPosition: 1, anchorPoint: CGPoint(x: 1, y: 0.5))
+            cityBackground.position = CGPoint(x: cityBackground.size.width * CGFloat(i), y: beachBackgroundNodesArrays[i].frame.maxY + cityBackground.frame.height / 2)
+            addChild(cityBackground)
+            cityBackgroundArray.append(imageName)
+        }
+    }
+}
+
+// MARK: GameSceneController with Other functions
+extension GameSceneController {
+    public func addIndividualSprite(texture: String, size: CGSize, zPosition: Double, anchorPoint: CGPoint) -> SKSpriteNode {
+        let node = SKSpriteNode()
+        node.texture = SKTexture(imageNamed: texture)
+        node.position = position
+        node.size = size
+        node.zPosition = zPosition
+        node.anchorPoint = anchorPoint
+        node.name = texture
+        return node
+    }
+ 
+    func addEnumerateNodes(arrayNodeName: [String], speed: Double, baseNameNode: String, arraySize: Int) {
+        for i in 0...arraySize {
+            self.enumerateChildNodes(withName: "\(baseNameNode)\(i)", using: ({
+                (node, error) in
+                node.position.x -=  CGFloat(speed)
+                if node.position.x < -((self.scene?.size.width)!) {
+                    node.position.x += (self.scene?.size.width)! * 3
+                }
+            }))
+        }
     }
     
     func changeTrashTexture(textureName: String) {
@@ -271,7 +307,120 @@ extension GameSceneController {
         redTrash.alpha = 1
     }
     
-    func changeCurrentTrashAlphe(trashNode: SKNode) {
+    func changeCurrentTrashAlpha(trashNode: SKNode) {
         trashNode.alpha = 0.5
     }
+    
+    func updateCurrentTrashPosition() {
+        currentTrash.position = CGPoint(x: player.frame.minX, y: player.position.y + 20)
+    }
+    
+    func updatePlayerPosition() {
+        player.position = CGPoint(x: player.position.x, y: value)
+    }
+    
+    func setupItensMove() {
+        moveNewspaper = SKAction.moveBy(x: 0, y: 1, duration: 0.1)
+        moveWine = SKAction.moveBy(x: 0, y: 1, duration: 0.1)
+        moveBottle = SKAction.moveBy(x: 0, y: 1, duration: 0.1)
+        moveMP3 = SKAction.moveBy(x: 0, y: 1, duration: 0.1)
+    }
+    
+    func setUpdateConditionsForNodes(node: SKNode) {
+        switch (node) {
+        case newspaper:
+            if node.position.x > frame.minX {
+                isMovingScreenLimit = true
+                node.run(moveNewspaper, withKey: "moveNewspaper")
+            } else {
+                node.removeAction(forKey: "moveNewspaper")
+                resetNewspaper()
+            }
+        case wine:
+            if node.position.x > frame.minX {
+                isMovingScreenLimit = true
+                node.run(moveWine, withKey: "moveWine")
+            } else {
+                node.removeAction(forKey: "moveWine")
+                resetWine()
+            }
+        case bottle:
+            if node.position.x > frame.minX {
+                isMovingScreenLimit = true
+                node.run(moveBottle, withKey: "moveBottle")
+            } else {
+                node.removeAction(forKey: "moveBottle")
+                resetBottle()
+            }
+        case mp3:
+            if node.position.x > frame.minX {
+                isMovingScreenLimit = true
+                node.run(moveMP3, withKey: "moveMP3")
+            } else {
+                node.removeAction(forKey: "moveMP3")
+                resetMP3()
+            }
+        default:
+            print("Error")
+        }
+    }
+    
+    func resetNewspaper() {
+        isMovingScreenLimit = false
+        newspaperMoveValue = 0
+        newspaper.position = CGPoint(x: screenMaxX, y: generateRandomYPositionForNodes())
+        isMovingScreenLimit = true
+        blueOn = false
+    }
+    
+    func resetWine() {
+        isMovingScreenLimit = false
+        wineMoveValue = 0
+        wine.position = CGPoint(x: screenMaxX, y: generateRandomYPositionForNodes())
+        isMovingScreenLimit = true
+        greenOn = false
+    }
+    
+    func resetBottle() {
+        isMovingScreenLimit = false
+        botleMoveValue = 0
+        bottle.position = CGPoint(x: screenMaxX, y: generateRandomYPositionForNodes())
+        isMovingScreenLimit = true
+        redOn = false
+    }
+    
+    func resetMP3() {
+        isMovingScreenLimit = false
+        mp3MoveValue = 0
+        mp3.position = CGPoint(x: screenMaxX, y: generateRandomYPositionForNodes())
+        isMovingScreenLimit = true
+        yellowOn = false
+    }
+    
+    func updateNodesPosition(node: SKNode) {
+        switch (node) {
+            case newspaper:
+                newspaper.position = CGPoint(x: newspaperMoveValue + 1800 + screenMaxX, y: newspaper.position.y)
+            case wine:
+                wine.position = CGPoint(x: wineMoveValue + 1200 + screenMaxX, y: wine.position.y)
+            case bottle:
+                bottle.position = CGPoint(x: botleMoveValue + 600 + screenMaxX, y: bottle.position.y)
+            case mp3:
+                mp3.position = CGPoint(x: mp3MoveValue + screenMaxX, y: mp3.position.y)
+            default:
+                print("Error")
+        }
+    }
+    
+    func removeMoveUpAction() {
+        isMovingUp = false
+        player.removeAction(forKey: "moveUp")
+    }
+    
+    func removeMoveDownAction() {
+        isMovingDown = false
+        player.removeAction(forKey: "moveDown")
+    }
 }
+
+
