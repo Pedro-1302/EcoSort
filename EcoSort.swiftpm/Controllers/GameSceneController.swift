@@ -23,6 +23,7 @@ class GameSceneController: SKScene {
     var yellowTrash = SKSpriteNode()
     var blueTrash = SKSpriteNode()
     var redTrash = SKSpriteNode()
+    var currentTrash = SKSpriteNode()
     
     var runAction = SKAction(named: "Run")
     var moveUpAction, moveDownAction: SKAction!
@@ -39,7 +40,6 @@ class GameSceneController: SKScene {
     
     var value = 0.0
     
-    
     override func sceneDidLoad() {
         createScoreNode()
         createScoreLabel()
@@ -54,8 +54,12 @@ class GameSceneController: SKScene {
         addMoveDownAction()
         createInvisibleTopWall()
         createInvisibleBottomWall()
+        createYellowTrash()
+        createGreenTrash()
+        createBlueTrash()
+        createRedTrash()
     }
-    
+
     override func update(_ currentTime: TimeInterval) {
         if isMovingUp && player.frame.minY < topWall.position.y {
             value += 5.0
@@ -79,6 +83,23 @@ class GameSceneController: SKScene {
             if infoButton.frame.contains(location) {
                 print("teste som teste")
             }
+            
+            if greenTrash.frame.contains(location) {
+                print("Verde")
+            }
+            
+            if yellowTrash.frame.contains(location) {
+                print("Amarelo")
+            }
+            
+            if blueTrash.frame.contains(location) {
+                print("Azul")
+            }
+            
+            if redTrash.frame.contains(location) {
+                print("Vermelho")
+            }
+            
             if upArrow.frame.contains(location) && player.frame.minY < topWall.position.y {
                 isMovingUp = true
                 player.run(moveUpAction, withKey: "moveUp")

@@ -207,7 +207,7 @@ extension GameSceneController {
     
     func createInvisibleTopWall() {
         topWall = SKSpriteNode(color: .clear, size: CGSize(width: size.height + 40, height: 2))
-        topWall.position = CGPoint(x: 0, y: 80)
+        topWall.position = CGPoint(x: 0, y: 70)
         topWall.zPosition = 3
         addChild(topWall)
     }
@@ -217,5 +217,37 @@ extension GameSceneController {
         bottomWall.position = CGPoint(x: 0, y: -260)
         bottomWall.zPosition = 3
         addChild(bottomWall)
+    }
+    
+    func createYellowTrash() {
+        yellowTrash = SKSpriteNode(imageNamed: "recycle-yellow")
+        yellowTrash.size = CGSize(width: 120, height: 150)
+        yellowTrash.position = CGPoint(x: 400, y: -420)
+        yellowTrash.zPosition = 2
+        addChild(yellowTrash)
+    }
+    
+    func createGreenTrash() {
+        greenTrash = SKSpriteNode(imageNamed: "recycle-green")
+        greenTrash.size = CGSize(width: 120, height: 150)
+        greenTrash.position = CGPoint(x: 600, y: -420)
+        greenTrash.zPosition = 2
+        addChild(greenTrash)
+    }
+    
+    func createBlueTrash() {
+        blueTrash = SKSpriteNode(imageNamed: "recycle-blue")
+        blueTrash.size = CGSize(width: 120, height: 150)
+        blueTrash.position = CGPoint(x: 200, y: -420)
+        blueTrash.zPosition = 2
+        addChild(blueTrash)
+    }
+    
+    func createRedTrash() {
+        redTrash = SKSpriteNode(imageNamed: "recycle-red")
+        redTrash.size = CGSize(width: 120, height: 150)
+        redTrash.position = CGPoint(x: 0, y: -420)
+        redTrash.zPosition = 2
+        addChild(redTrash)
     }
 }
