@@ -116,9 +116,7 @@ class GameSceneController: SKScene {
     
     override func update(_ currentTime: TimeInterval) {
         texturaAtual = currentTrashText
-        
-        print(String(texturaAtual))
-        
+                
         updateCurrentTrashPosition()
         updatePlayerPosition()
         
@@ -149,29 +147,24 @@ class GameSceneController: SKScene {
         if player.frame.intersects(newspaper.frame) && currentTrashText == "rec-blue01" {
             resetNewspaper()
             addTrashAnimation()
-            removeAnimateTrashAction()
             updateUI()
         }
         
         if player.frame.intersects(wine.frame) && currentTrashText == "rec-green01" {
             resetWine()
             addTrashAnimation()
-            removeAnimateTrashAction()
             updateUI()
         }
         
         if player.frame.intersects(bottle.frame) && currentTrashText == "rec-red01" {
             resetBottle()
             addTrashAnimation()
-            removeAnimateTrashAction()
-
             updateUI()
         }
         
         if player.frame.intersects(mp3.frame) && currentTrashText == "rec-yellow01" {
             resetMP3()
             addTrashAnimation()
-            removeAnimateTrashAction()
             updateUI()
         }
         
@@ -191,11 +184,6 @@ class GameSceneController: SKScene {
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        let redTrashTextureName = "rec-red01"
-        let blueTrashTextureName = "rec-blue01"
-        let greenTrashTextureName = "rec-green01"
-        let yellowTrashTextureName = "rec-yellow01"
-
         for touch in touches {
             let location = touch.location(in: self)
             
@@ -204,29 +192,33 @@ class GameSceneController: SKScene {
             }
             
             if greenTrash.frame.contains(location) {
-                changeTrashTexture(textureName: greenTrashTextureName)
-                currentTrashText = greenTrashTextureName
+                self.currentTrash.removeAction(forKey: "animateTexture")
+                changeTrashTexture(textureName: "rec-green01")
+                currentTrashText = "rec-green01"
                 changeAllTrashAlpha()
                 changeCurrentTrashAlpha(trashNode: greenTrash)
             }
             
             if yellowTrash.frame.contains(location) {
-                changeTrashTexture(textureName: yellowTrashTextureName)
-                currentTrashText = yellowTrashTextureName
+                self.currentTrash.removeAction(forKey: "animateTexture")
+                changeTrashTexture(textureName: "rec-yellow01")
+                currentTrashText = "rec-yellow01"
                 changeAllTrashAlpha()
                 changeCurrentTrashAlpha(trashNode: yellowTrash)
             }
             
             if blueTrash.frame.contains(location) {
-                changeTrashTexture(textureName: blueTrashTextureName)
-                currentTrashText = blueTrashTextureName
+                self.currentTrash.removeAction(forKey: "animateTexture")
+                changeTrashTexture(textureName: "rec-blue01")
+                currentTrashText = "rec-blue01"
                 changeAllTrashAlpha()
                 changeCurrentTrashAlpha(trashNode: blueTrash)
             }
             
             if redTrash.frame.contains(location) {
-                changeTrashTexture(textureName: redTrashTextureName)
-                currentTrashText = redTrashTextureName
+                self.currentTrash.removeAction(forKey: "animateTexture")
+                changeTrashTexture(textureName: "rec-red01")
+                currentTrashText = "rec-red01"
                 changeAllTrashAlpha()
                 changeCurrentTrashAlpha(trashNode: redTrash)
             }

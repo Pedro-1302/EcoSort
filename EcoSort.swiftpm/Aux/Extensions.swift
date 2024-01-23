@@ -136,12 +136,13 @@ extension GameSceneController {
         scoreNode.size = CGSize(width: 323, height: 78)
         scoreNode.position = CGPoint(x: 480, y: 440)
         scoreNode.zPosition = 2
+        scoreNode.anchorPoint = CGPoint(x: 0.5, y: 0.5)
         addChild(scoreNode)
     }
     
     func createScoreLabel() {
         scoreLabel = SKLabelNode(fontNamed: "PressStart2P-Regular")
-        scoreLabel.position = CGPoint(x: scoreNode.frame.midX, y: scoreNode.position.y - scoreLabel.frame.height / 2 - 10)
+        scoreLabel.position = CGPoint(x: scoreNode.frame.midX, y: scoreNode.frame.midY - 16)
         scoreLabel.zPosition = 3
         scoreLabel.fontSize = 30
         scoreLabel.text = "Score = \(score)"
@@ -422,32 +423,22 @@ extension GameSceneController {
     func addTrashAnimation() {
         switch (currentTrashText) {
         case "rec-blue01":
-            let trashAnimationAct = SKAction.animate(with: blueTrashArray, timePerFrame: 0.18)
-            runAnimateTrashAction(action: trashAnimationAct)
+            let trashAnimationAct = SKAction.animate(with: blueTrashArray, timePerFrame: 0.13)
+            currentTrash.run(trashAnimationAct, withKey: "animateTexture")
         case "rec-red01":
-            let trashAnimationAct = SKAction.animate(with: redTrashArray, timePerFrame: 0.18)
-            runAnimateTrashAction(action: trashAnimationAct)
+            let trashAnimationAct = SKAction.animate(with: redTrashArray, timePerFrame: 0.13)
+            currentTrash.run(trashAnimationAct, withKey: "animateTexture")
         case "rec-yellow01":
-            let trashAnimationAct = SKAction.animate(with: yellowTrashArray, timePerFrame: 0.18)
-            runAnimateTrashAction(action: trashAnimationAct)
+            let trashAnimationAct = SKAction.animate(with: yellowTrashArray, timePerFrame: 0.13)
+            currentTrash.run(trashAnimationAct, withKey: "animateTexture")
         case "rec-green01":
-            let trashAnimationAct = SKAction.animate(with: greenTrashArray, timePerFrame: 0.18)
-            runAnimateTrashAction(action: trashAnimationAct)
+            let trashAnimationAct = SKAction.animate(with: greenTrashArray, timePerFrame: 0.13)
+            currentTrash.run(trashAnimationAct, withKey: "animateTexture")
         default:
             print("Error")
         }
     }
-    
-    func removeAnimateTrashAction() {
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.18) {
-            self.currentTrash.removeAction(forKey: "animateTexture")
-        }
-    }
-    
-    func runAnimateTrashAction(action: SKAction) {
-        currentTrash.run(action, withKey: "animateTexture")
-    }
-    
+
     func generateRandomYPositionForNodes() -> CGFloat {
         var sortedYPosition: CGFloat
         
@@ -465,6 +456,5 @@ extension GameSceneController {
         changeTrashTexture(textureName: texturaAtual)
     }
 }
-
 
 
