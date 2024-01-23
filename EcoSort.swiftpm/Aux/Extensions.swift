@@ -140,10 +140,11 @@ extension GameSceneController {
     }
     
     func createScoreLabel() {
-        scoreLabel = SKLabelNode(text: "SCORE = \(score)")
-        scoreLabel.position = CGPoint(x: scoreNode.frame.midX, y: scoreNode.position.y - scoreLabel.frame.height / 2 - 6)
+        scoreLabel = SKLabelNode(fontNamed: "PressStart2P-Regular")
+        scoreLabel.position = CGPoint(x: scoreNode.frame.midX, y: scoreNode.position.y - scoreLabel.frame.height / 2 - 10)
         scoreLabel.zPosition = 3
-        scoreLabel.fontSize = 48
+        scoreLabel.fontSize = 30
+        scoreLabel.text = "Score = \(score)"
         addChild(scoreLabel)
     }
     
@@ -370,7 +371,6 @@ extension GameSceneController {
         newspaperMoveValue = 0
         newspaper.position = CGPoint(x: screenMaxX, y: generateRandomYPositionForNodes())
         isMovingScreenLimit = true
-        blueOn = false
     }
     
     func resetWine() {
@@ -378,7 +378,6 @@ extension GameSceneController {
         wineMoveValue = 0
         wine.position = CGPoint(x: screenMaxX, y: generateRandomYPositionForNodes())
         isMovingScreenLimit = true
-        greenOn = false
     }
     
     func resetBottle() {
@@ -386,7 +385,6 @@ extension GameSceneController {
         botleMoveValue = 0
         bottle.position = CGPoint(x: screenMaxX, y: generateRandomYPositionForNodes())
         isMovingScreenLimit = true
-        redOn = false
     }
     
     func resetMP3() {
@@ -394,7 +392,6 @@ extension GameSceneController {
         mp3MoveValue = 0
         mp3.position = CGPoint(x: screenMaxX, y: generateRandomYPositionForNodes())
         isMovingScreenLimit = true
-        yellowOn = false
     }
     
     func updateNodesPosition(node: SKNode) {
@@ -421,6 +418,53 @@ extension GameSceneController {
         isMovingDown = false
         player.removeAction(forKey: "moveDown")
     }
+    
+    func addTrashAnimation() {
+        switch (currentTrashText) {
+        case "rec-blue01":
+            let trashAnimationAct = SKAction.animate(with: blueTrashArray, timePerFrame: 0.18)
+            runAnimateTrashAction(action: trashAnimationAct)
+        case "rec-red01":
+            let trashAnimationAct = SKAction.animate(with: redTrashArray, timePerFrame: 0.18)
+            runAnimateTrashAction(action: trashAnimationAct)
+        case "rec-yellow01":
+            let trashAnimationAct = SKAction.animate(with: yellowTrashArray, timePerFrame: 0.18)
+            runAnimateTrashAction(action: trashAnimationAct)
+        case "rec-green01":
+            let trashAnimationAct = SKAction.animate(with: greenTrashArray, timePerFrame: 0.18)
+            runAnimateTrashAction(action: trashAnimationAct)
+        default:
+            print("Error")
+        }
+    }
+    
+    func removeAnimateTrashAction() {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.18) {
+            self.currentTrash.removeAction(forKey: "animateTexture")
+        }
+    }
+    
+    func runAnimateTrashAction(action: SKAction) {
+        currentTrash.run(action, withKey: "animateTexture")
+    }
+    
+    func generateRandomYPositionForNodes() -> CGFloat {
+        var sortedYPosition: CGFloat
+        
+        repeat {
+            sortedYPosition = CGFloat.random(in: bottomWall.position.y...topWall.position.y)
+        } while usedYPositions.contains(sortedYPosition)
+        
+        usedYPositions.insert(sortedYPosition)
+        return sortedYPosition
+    }
+    
+    func updateUI() {
+        score += 1
+        scoreLabel.text = "Score: \(score)"
+        changeTrashTexture(textureName: texturaAtual)
+    }
 }
+
 
 

@@ -8,13 +8,6 @@
 import Foundation
 import SpriteKit
 
-enum TrashType {
-    case green
-    case yellow
-    case red
-    case blue
-}
-
 class GameSceneController: SKScene {
     var player = SKSpriteNode()
     var scoreNode = SKSpriteNode()
@@ -43,13 +36,33 @@ class GameSceneController: SKScene {
     var beachBackgroundNodesArrays = [SKSpriteNode]()
     var garbageItems = [SKNode]()
     
-    var greenTrashArray = [SKTexture(imageNamed: "rec-green01"), SKTexture(imageNamed: "rec-green02"), SKTexture(imageNamed: "rec-green03"), SKTexture(imageNamed: "rec-green02"), SKTexture(imageNamed: "rec-green01")]
+    var greenTrashArray = [
+        SKTexture(imageNamed: "rec-green01"),
+        SKTexture(imageNamed: "rec-green02"),
+        SKTexture(imageNamed: "rec-green03"),
+        SKTexture(imageNamed: "rec-green02"),
+        SKTexture(imageNamed: "rec-green01")]
     
-    var yellowTrashArray = [SKTexture(imageNamed: "rec-yellow01"), SKTexture(imageNamed: "rec-yellow02"), SKTexture(imageNamed: "rec-yellow03"), SKTexture(imageNamed: "rec-yellow02"), SKTexture(imageNamed: "rec-yellow01")]
+    var yellowTrashArray = [
+        SKTexture(imageNamed: "rec-yellow01"),
+        SKTexture(imageNamed: "rec-yellow02"),
+        SKTexture(imageNamed: "rec-yellow03"),
+        SKTexture(imageNamed: "rec-yellow02"),
+        SKTexture(imageNamed: "rec-yellow01")]
     
-    var blueTrashArray = [SKTexture(imageNamed: "rec-blue01"), SKTexture(imageNamed: "rec-blue02"), SKTexture(imageNamed: "rec-blue03"), SKTexture(imageNamed: "rec-blue02"), SKTexture(imageNamed: "rec-blue01")]
+    var blueTrashArray = [
+        SKTexture(imageNamed: "rec-blue01"),
+        SKTexture(imageNamed: "rec-blue02"),
+        SKTexture(imageNamed: "rec-blue03"),
+        SKTexture(imageNamed: "rec-blue02"),
+        SKTexture(imageNamed: "rec-blue01")]
     
-    var redTrashArray = [SKTexture(imageNamed: "rec-red01"), SKTexture(imageNamed: "rec-red02"), SKTexture(imageNamed: "rec-red03"), SKTexture(imageNamed: "rec-red02"), SKTexture(imageNamed: "rec-red01")]
+    var redTrashArray = [
+        SKTexture(imageNamed: "rec-red01"),
+        SKTexture(imageNamed: "rec-red02"),
+        SKTexture(imageNamed: "rec-red03"),
+        SKTexture(imageNamed: "rec-red02"),
+        SKTexture(imageNamed: "rec-red01")]
     
     var score = Constants.shared.getGameScore()
     var mapScrollSpeed = Constants.shared.getBaseGameSpeed()
@@ -60,10 +73,6 @@ class GameSceneController: SKScene {
     var isMovingDown = false
     var isMovingScreenLimit = false
     var isItemCollected = false
-    var greenOn = false
-    var redOn = false
-    var yellowOn = false
-    var blueOn = false
     
     var value = 0.0
     var newspaperMoveValue = 0.0
@@ -71,10 +80,13 @@ class GameSceneController: SKScene {
     var botleMoveValue = 0.0
     var mp3MoveValue = 0.0
     var currentTrashText = ""
+    var texturaAtual = ""
     
     var usedYPositions = Set<CGFloat>()
     
     override func sceneDidLoad() {
+        Constants.shared.setupCustomFont()
+        
         createScoreNode()
         createScoreLabel()
         createInfoButton()
@@ -99,58 +111,14 @@ class GameSceneController: SKScene {
         createBottle()
         createMP3()
         
-        currentTrashText = "red"
-    }
-    
-    func addTrashAnimation(trashType: TrashType) {
-        switch (trashType) {
-        case .blue:
-            let walkAnimation = SKAction.animate(with: blueTrashArray, timePerFrame: 0.18)
-            currentTrash.run(walkAnimation)
-        case .red:
-            let walkAnimation = SKAction.animate(with: redTrashArray, timePerFrame: 0.18)
-            currentTrash.run(walkAnimation)
-        case .yellow:
-            let walkAnimation = SKAction.animate(with: yellowTrashArray, timePerFrame: 0.18)
-            currentTrash.run(walkAnimation)
-        case .green:
-            let walkAnimation = SKAction.animate(with: greenTrashArray, timePerFrame: 0.18)
-            currentTrash.run(walkAnimation)
-        default:
-            print("Error")
-        }
-    }
-    
-    func addGreenTrashAnimation() {
-        let walkAnimation = SKAction.animate(with: greenTrashArray, timePerFrame: 0.18)
-        
-        currentTrash.run(walkAnimation)
-    }
-    
-    func addBlueTrashAnimation() {
-        let walkAnimation = SKAction.animate(with: blueTrashArray, timePerFrame: 0.18)
-        
-        currentTrash.run(walkAnimation)
-    }
-    
-    func addYellowTrashAnimation() {
-        let walkAnimation = SKAction.animate(with: yellowTrashArray, timePerFrame: 0.18)
-        
-        currentTrash.run(walkAnimation)
-    }
-    
-    func generateRandomYPositionForNodes() -> CGFloat {
-        var sortedYPosition: CGFloat
-        
-        repeat {
-            sortedYPosition = CGFloat.random(in: bottomWall.position.y...topWall.position.y)
-        } while usedYPositions.contains(sortedYPosition)
-        
-        usedYPositions.insert(sortedYPosition)
-        return sortedYPosition
+        currentTrashText = "rec-red01"
     }
     
     override func update(_ currentTime: TimeInterval) {
+        texturaAtual = currentTrashText
+        
+        print(String(texturaAtual))
+        
         updateCurrentTrashPosition()
         updatePlayerPosition()
         
@@ -177,37 +145,34 @@ class GameSceneController: SKScene {
         if isMovingScreenLimit && mp3.position.x > frame.minX {
             mp3MoveValue -= mapScrollSpeed
         }
-        
-        if player.frame.intersects(newspaper.frame) && currentTrashText == "blue" && !blueOn {
-            incrementScore()
-            addTrashAnimation(trashType: .blue)
-            updateUI()
+                
+        if player.frame.intersects(newspaper.frame) && currentTrashText == "rec-blue01" {
             resetNewspaper()
-            blueOn = true
+            addTrashAnimation()
+            removeAnimateTrashAction()
+            updateUI()
         }
         
-        if player.frame.intersects(wine.frame) && currentTrashText == "green" && !greenOn {
-            incrementScore()
-            addTrashAnimation(trashType: .green)
-            updateUI()
+        if player.frame.intersects(wine.frame) && currentTrashText == "rec-green01" {
             resetWine()
-            greenOn = true
+            addTrashAnimation()
+            removeAnimateTrashAction()
+            updateUI()
         }
         
-        if player.frame.intersects(bottle.frame) && currentTrashText == "red" && !redOn {
-            incrementScore()
-            addTrashAnimation(trashType: .red)
-            updateUI()
+        if player.frame.intersects(bottle.frame) && currentTrashText == "rec-red01" {
             resetBottle()
-            redOn = true
+            addTrashAnimation()
+            removeAnimateTrashAction()
+
+            updateUI()
         }
         
-        if player.frame.intersects(mp3.frame) && currentTrashText == "yellow" && !yellowOn {
-            incrementScore()
-            addTrashAnimation(trashType: .yellow)
-            updateUI()
+        if player.frame.intersects(mp3.frame) && currentTrashText == "rec-yellow01" {
             resetMP3()
-            yellowOn = true
+            addTrashAnimation()
+            removeAnimateTrashAction()
+            updateUI()
         }
         
         setUpdateConditionsForNodes(node: newspaper)
@@ -225,15 +190,12 @@ class GameSceneController: SKScene {
         addEnumerateNodes(arrayNodeName: cityBackgroundArray, speed: mapScrollSpeed, baseNameNode: "city", arraySize: cityBackgroundArray.count - 1)
     }
     
-    func updateUI() {
-        scoreLabel.text = "Score: \(score)"
-    }
-    
-    func incrementScore() {
-        score += 1
-    }
-    
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        let redTrashTextureName = "rec-red01"
+        let blueTrashTextureName = "rec-blue01"
+        let greenTrashTextureName = "rec-green01"
+        let yellowTrashTextureName = "rec-yellow01"
+
         for touch in touches {
             let location = touch.location(in: self)
             
@@ -242,31 +204,31 @@ class GameSceneController: SKScene {
             }
             
             if greenTrash.frame.contains(location) {
+                changeTrashTexture(textureName: greenTrashTextureName)
+                currentTrashText = greenTrashTextureName
                 changeAllTrashAlpha()
-                changeTrashTexture(textureName: "rec-green01")
                 changeCurrentTrashAlpha(trashNode: greenTrash)
-                currentTrashText = "green"
             }
             
             if yellowTrash.frame.contains(location) {
+                changeTrashTexture(textureName: yellowTrashTextureName)
+                currentTrashText = yellowTrashTextureName
                 changeAllTrashAlpha()
-                changeTrashTexture(textureName: "rec-yellow01")
                 changeCurrentTrashAlpha(trashNode: yellowTrash)
-                currentTrashText = "yellow"
             }
             
             if blueTrash.frame.contains(location) {
+                changeTrashTexture(textureName: blueTrashTextureName)
+                currentTrashText = blueTrashTextureName
                 changeAllTrashAlpha()
-                changeTrashTexture(textureName: "rec-blue01")
                 changeCurrentTrashAlpha(trashNode: blueTrash)
-                currentTrashText = "blue"
             }
             
             if redTrash.frame.contains(location) {
+                changeTrashTexture(textureName: redTrashTextureName)
+                currentTrashText = redTrashTextureName
                 changeAllTrashAlpha()
-                changeTrashTexture(textureName: "rec-red01")
                 changeCurrentTrashAlpha(trashNode: redTrash)
-                currentTrashText = "red"
             }
             
             if upArrow.frame.contains(location) && player.frame.minY < topWall.position.y {
