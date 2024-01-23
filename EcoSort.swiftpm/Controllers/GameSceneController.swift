@@ -180,7 +180,7 @@ class GameSceneController: SKScene {
         
         if player.frame.intersects(newspaper.frame) && currentTrashText == "blue" && !blueOn {
             incrementScore()
-//            addTrashAnimation(trashType: .blue)
+            addTrashAnimation(trashType: .blue)
             updateUI()
             resetNewspaper()
             blueOn = true
@@ -188,7 +188,7 @@ class GameSceneController: SKScene {
         
         if player.frame.intersects(wine.frame) && currentTrashText == "green" && !greenOn {
             incrementScore()
-//            addTrashAnimation(trashType: .green)
+            addTrashAnimation(trashType: .green)
             updateUI()
             resetWine()
             greenOn = true
@@ -196,7 +196,7 @@ class GameSceneController: SKScene {
         
         if player.frame.intersects(bottle.frame) && currentTrashText == "red" && !redOn {
             incrementScore()
-//            addTrashAnimation(trashType: .red)
+            addTrashAnimation(trashType: .red)
             updateUI()
             resetBottle()
             redOn = true
@@ -204,7 +204,7 @@ class GameSceneController: SKScene {
         
         if player.frame.intersects(mp3.frame) && currentTrashText == "yellow" && !yellowOn {
             incrementScore()
-//            addTrashAnimation(trashType: .yellow)
+            addTrashAnimation(trashType: .yellow)
             updateUI()
             resetMP3()
             yellowOn = true

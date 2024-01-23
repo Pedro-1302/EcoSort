@@ -27,7 +27,8 @@ let package = Package(
             ],
             supportedInterfaceOrientations: [
                 .landscapeRight
-            ]
+            ],
+            appCategory: .games
         )
     ],
     targets: [
