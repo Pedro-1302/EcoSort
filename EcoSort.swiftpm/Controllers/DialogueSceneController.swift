@@ -90,13 +90,6 @@ class DialogueSceneController: SKScene {
 
         player.position = CGPoint(x: playerMoveValue - screenMaxX, y: player.position.y)
     }
-    
-    func resetCan() {
-        isMovingCan = false 
-        canMoveValue = 0 
-        can.position = CGPoint(x: screenMaxX, y: 0)
-        isMovingCan = true
-    }
 
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         for touch in touches {
