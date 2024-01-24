@@ -21,7 +21,7 @@ class HomeSceneController: SKScene {
     var cityBackgroundArray = [String]()
     var beachBackgroundNodesArrays = [SKSpriteNode]()
     
-    var mapScrollSpeed = Constants.shared.getSpeed()
+    var mapScrollSpeed = Constants.shared.getMenuSpeed() 
     
     var lg = [SKTexture(imageNamed: "logo0"), SKTexture(imageNamed: "logo1"), SKTexture(imageNamed: "logo2"), SKTexture(imageNamed: "logo3")]
     
