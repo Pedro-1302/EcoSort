@@ -458,8 +458,8 @@ extension DialogueSceneController {
     }
     
     func createDialogueBox() {
-        currentDialogueBox.texture = dialoguesBoxes[0]
-        currentDialogueBox.position = CGPoint(x: 80, y: -260)
+        currentDialogueBox = SKSpriteNode(imageNamed: "dialogue01")
+        currentDialogueBox.position = CGPoint(x: 80, y: -240)
         currentDialogueBox.size = CGSize(width: 864, height: 216)
         currentDialogueBox.zPosition = 2
         currentDialogueBox.anchorPoint = CGPoint(x: 0.5, y: 0.5)
@@ -469,7 +469,7 @@ extension DialogueSceneController {
     func createUpArrow() {
         upArrow = SKSpriteNode(imageNamed: "up-arrow")
         upArrow.size = CGSize(width: 120, height: 120)
-        upArrow.position = CGPoint(x: currentDialogueBox.frame.minX - 100, y: -200)
+        upArrow.position = CGPoint(x: currentDialogueBox.frame.minX - 100, y: -180)
         upArrow.zPosition = 2
         addChild(upArrow)
     }
@@ -477,8 +477,29 @@ extension DialogueSceneController {
     func createDownArrow() {
         downArrow = SKSpriteNode(imageNamed: "down-arrow")
         downArrow.size = CGSize(width: 120, height: 120)
-        downArrow.position = CGPoint(x: currentDialogueBox.frame.minX - 100, y: -320)
+        downArrow.position = CGPoint(x: currentDialogueBox.frame.minX - 100, y: -300)
         downArrow.zPosition = 2
         addChild(downArrow)
+    }
+    
+    func createPlayButton() {
+        playButton = SKSpriteNode(imageNamed: "letsplay-button")
+        playButton.size = CGSize(width: 332, height: 86)
+        playButton.position = CGPoint(x: 0, y: currentDialogueBox.frame.minY - 80)
+        playButton.zPosition = 2
+        playButton.alpha = 0
+        addChild(playButton)
+    }
+    
+    func changeDialogueBoxTexture(spriteValue: Int) {
+        currentDialogueBox.texture = dialoguesBoxes[spriteValue]
+    }
+    
+    func updatePlayButtonVisibility() {
+        if counter == 5 {
+            playButton.alpha = 1
+        } else {
+            playButton.alpha = 0
+        }
     }
 }

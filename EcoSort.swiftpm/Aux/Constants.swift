@@ -17,6 +17,7 @@ class Constants {
     private var gameScore = 0
     private var playerMoveSpeed = 5.0
     private var screenMaxX = UIScreen.main.bounds.maxX
+    private var screenMinX = UIScreen.main.bounds.minX
     private let fontURL = Bundle.module.url(forResource: "PressStart2P-Regular", withExtension: "ttf")!
 
     func getMenuSpeed() -> Int {
@@ -37,6 +38,10 @@ class Constants {
     
     func getScreenMaxX() -> CGFloat {
         return screenMaxX
+    }
+    
+    func getScreenMinX() -> CGFloat {
+        return screenMinX
     }
     
     func setupCustomFont() {
