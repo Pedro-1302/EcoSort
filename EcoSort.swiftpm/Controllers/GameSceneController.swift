@@ -5,14 +5,12 @@
 //  Created by Pedro Franco on 18/01/24.
 //
 
-import Foundation
 import SpriteKit
 
 class GameSceneController: SKScene {
     var player = SKSpriteNode()
     var scoreNode = SKSpriteNode()
     var scoreLabel = SKLabelNode()
-    var infoButton = SKSpriteNode()
     var upArrow = SKSpriteNode()
     var downArrow = SKSpriteNode()
     var topWall = SKSpriteNode()
@@ -89,7 +87,6 @@ class GameSceneController: SKScene {
         
         createScoreNode()
         createScoreLabel()
-        createInfoButton()
         createUpArrow()
         createDownArrow()
         createPlayerNode()
@@ -186,11 +183,7 @@ class GameSceneController: SKScene {
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         for touch in touches {
             let location = touch.location(in: self)
-            
-            if infoButton.frame.contains(location) {
-                print("teste som teste")
-            }
-            
+
             if greenTrash.frame.contains(location) {
                 self.currentTrash.removeAction(forKey: "animateTexture")
                 changeTrashTexture(textureName: "rec-green01")

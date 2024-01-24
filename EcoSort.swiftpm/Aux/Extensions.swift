@@ -123,14 +123,6 @@ extension GameSceneController {
         addChild(upArrow)
     }
     
-    func createInfoButton() {
-        infoButton = SKSpriteNode(imageNamed: "info-button")
-        infoButton.size = CGSize(width: 70, height: 70)
-        infoButton.position = CGPoint(x: -600, y: 440)
-        infoButton.zPosition = 2
-        addChild(infoButton)
-    }
-    
     func createScoreNode() {
         scoreNode = SKSpriteNode(imageNamed: "score-box")
         scoreNode.size = CGSize(width: 323, height: 78)
@@ -164,32 +156,32 @@ extension GameSceneController {
     }
     
     func createYellowTrash() {
-        yellowTrash = SKSpriteNode(imageNamed: "recycle-yellow")
-        yellowTrash.size = CGSize(width: 120, height: 150)
+        yellowTrash = SKSpriteNode(imageNamed: "recycle-yellow-wlabel")
+        yellowTrash.size = CGSize(width: 120, height: 170)
         yellowTrash.position = CGPoint(x: 400, y: -420)
         yellowTrash.zPosition = 2
         addChild(yellowTrash)
     }
     
     func createGreenTrash() {
-        greenTrash = SKSpriteNode(imageNamed: "recycle-green")
-        greenTrash.size = CGSize(width: 120, height: 150)
+        greenTrash = SKSpriteNode(imageNamed: "recycle-green-wlabel")
+        greenTrash.size = CGSize(width: 120, height: 170)
         greenTrash.position = CGPoint(x: 600, y: -420)
         greenTrash.zPosition = 2
         addChild(greenTrash)
     }
     
     func createBlueTrash() {
-        blueTrash = SKSpriteNode(imageNamed: "recycle-blue")
-        blueTrash.size = CGSize(width: 120, height: 150)
+        blueTrash = SKSpriteNode(imageNamed: "recycle-blue-wlabel")
+        blueTrash.size = CGSize(width: 120, height: 170)
         blueTrash.position = CGPoint(x: 200, y: -420)
         blueTrash.zPosition = 2
         addChild(blueTrash)
     }
     
     func createRedTrash() {
-        redTrash = SKSpriteNode(imageNamed: "recycle-red")
-        redTrash.size = CGSize(width: 120, height: 150)
+        redTrash = SKSpriteNode(imageNamed: "recycle-red-wlabel")
+        redTrash.size = CGSize(width: 120, height: 170)
         redTrash.position = CGPoint(x: 0, y: -420)
         redTrash.zPosition = 2
         redTrash.alpha = 0.5
