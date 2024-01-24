@@ -9,4 +9,7 @@ import SpriteKit
 
 class DialogueSceneController: SKScene {
     
+    override func sceneDidLoad() {
+        
+    }
 }
