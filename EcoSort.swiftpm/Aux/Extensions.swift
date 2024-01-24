@@ -449,4 +449,36 @@ extension GameSceneController {
     }
 }
 
-
+extension DialogueSceneController {
+    func createDialogueSceneBackground() {
+        dialogueSceneBackground = SKSpriteNode(imageNamed: "dialogue-screen")
+        dialogueSceneBackground.position = CGPoint(x: 0, y: 0)
+        dialogueSceneBackground.size = CGSize(width: 1366, height: 1024)
+        addChild(dialogueSceneBackground)
+    }
+    
+    func createDialogueBox() {
+        currentDialogueBox.texture = dialoguesBoxes[0]
+        currentDialogueBox.position = CGPoint(x: 80, y: -260)
+        currentDialogueBox.size = CGSize(width: 864, height: 216)
+        currentDialogueBox.zPosition = 2
+        currentDialogueBox.anchorPoint = CGPoint(x: 0.5, y: 0.5)
+        addChild(currentDialogueBox)
+    }
+    
+    func createUpArrow() {
+        upArrow = SKSpriteNode(imageNamed: "up-arrow")
+        upArrow.size = CGSize(width: 120, height: 120)
+        upArrow.position = CGPoint(x: currentDialogueBox.frame.minX - 100, y: -200)
+        upArrow.zPosition = 2
+        addChild(upArrow)
+    }
+    
+    func createDownArrow() {
+        downArrow = SKSpriteNode(imageNamed: "down-arrow")
+        downArrow.size = CGSize(width: 120, height: 120)
+        downArrow.position = CGPoint(x: currentDialogueBox.frame.minX - 100, y: -320)
+        downArrow.zPosition = 2
+        addChild(downArrow)
+    }
+}
