@@ -25,11 +25,11 @@ class GameSceneController: SKScene {
     var newspaper = SKSpriteNode()
     var wine = SKSpriteNode()
     var bottle = SKSpriteNode()
-    var mp3 = SKSpriteNode()
+    var metalCan = SKSpriteNode()
     
     var runAction = SKAction(named: "Run")
     
-    var moveUpAction, moveDownAction, moveNewspaper, moveWine, moveBottle, moveMP3: SKAction!
+    var moveUpAction, moveDownAction, moveNewspaper, moveWine, moveBottle, moveMetalCan: SKAction!
     
     var beachBackgroundArray = [String]()
     var cityBackgroundArray = [String]()
@@ -78,7 +78,7 @@ class GameSceneController: SKScene {
     var newspaperMoveValue = 0.0
     var wineMoveValue = 0.0
     var botleMoveValue = 0.0
-    var mp3MoveValue = 0.0
+    var metalCanMoveValue = 0.0
     var currentTrashText = ""
     var texturaAtual = ""
     
@@ -109,7 +109,7 @@ class GameSceneController: SKScene {
         createNewspaper()
         createVine()
         createBottle()
-        createMP3()
+        createMetalCan()
         
         currentTrashText = "rec-red01"
     }
@@ -140,8 +140,8 @@ class GameSceneController: SKScene {
             botleMoveValue -= mapScrollSpeed
         }
         
-        if isMovingScreenLimit && mp3.position.x > frame.minX {
-            mp3MoveValue -= mapScrollSpeed
+        if isMovingScreenLimit && metalCan.position.x > frame.minX {
+            metalCanMoveValue -= mapScrollSpeed
         }
                 
         if player.frame.intersects(newspaper.frame) && currentTrashText == "rec-blue01" {
@@ -162,8 +162,8 @@ class GameSceneController: SKScene {
             updateUI()
         }
         
-        if player.frame.intersects(mp3.frame) && currentTrashText == "rec-yellow01" {
-            resetMP3()
+        if player.frame.intersects(metalCan.frame) && currentTrashText == "rec-yellow01" {
+            resetMetalCan()
             addTrashAnimation()
             updateUI()
         }
@@ -171,12 +171,12 @@ class GameSceneController: SKScene {
         setUpdateConditionsForNodes(node: newspaper)
         setUpdateConditionsForNodes(node: wine)
         setUpdateConditionsForNodes(node: bottle)
-        setUpdateConditionsForNodes(node: mp3)
+        setUpdateConditionsForNodes(node: metalCan)
         
         updateNodesPosition(node: newspaper)
         updateNodesPosition(node: wine)
         updateNodesPosition(node: bottle)
-        updateNodesPosition(node: mp3)
+        updateNodesPosition(node: metalCan)
         
         addEnumerateNodes(arrayNodeName: beachBackgroundArray, speed: mapScrollSpeed, baseNameNode: "beach", arraySize: beachBackgroundArray.count - 1)
         

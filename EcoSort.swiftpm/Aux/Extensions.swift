@@ -228,12 +228,12 @@ extension GameSceneController {
         addChild(bottle)
     }
     
-    func createMP3() {
-        mp3 = SKSpriteNode(imageNamed: "mp3")
-        mp3.size = CGSize(width: 40, height: 60)
-        mp3.zPosition = 2
-        mp3.position = CGPoint(x: screenMaxX, y: generateRandomYPositionForNodes())
-        addChild(mp3)
+    func createMetalCan() {
+        metalCan = SKSpriteNode(imageNamed: "metal-can")
+        metalCan.size = CGSize(width: 70, height: 70)
+        metalCan.zPosition = 2
+        metalCan.position = CGPoint(x: screenMaxX, y: generateRandomYPositionForNodes())
+        addChild(metalCan)
     }
     
     func addRunAction() {
@@ -325,7 +325,7 @@ extension GameSceneController {
         moveNewspaper = SKAction.moveBy(x: 0, y: 1, duration: 0.1)
         moveWine = SKAction.moveBy(x: 0, y: 1, duration: 0.1)
         moveBottle = SKAction.moveBy(x: 0, y: 1, duration: 0.1)
-        moveMP3 = SKAction.moveBy(x: 0, y: 1, duration: 0.1)
+        moveMetalCan = SKAction.moveBy(x: 0, y: 1, duration: 0.1)
     }
     
     func setUpdateConditionsForNodes(node: SKNode) {
@@ -354,13 +354,13 @@ extension GameSceneController {
                 node.removeAction(forKey: "moveBottle")
                 resetBottle()
             }
-        case mp3:
+        case metalCan:
             if node.position.x > frame.minX {
                 isMovingScreenLimit = true
-                node.run(moveMP3, withKey: "moveMP3")
+                node.run(moveMetalCan, withKey: "moveCan")
             } else {
-                node.removeAction(forKey: "moveMP3")
-                resetMP3()
+                node.removeAction(forKey: "moveCan")
+                resetMetalCan()
             }
         default:
             print("Error")
@@ -388,10 +388,10 @@ extension GameSceneController {
         isMovingScreenLimit = true
     }
     
-    func resetMP3() {
+    func resetMetalCan() {
         isMovingScreenLimit = false
-        mp3MoveValue = 0
-        mp3.position = CGPoint(x: screenMaxX, y: generateRandomYPositionForNodes())
+        metalCanMoveValue = 0
+        metalCan.position = CGPoint(x: screenMaxX, y: generateRandomYPositionForNodes())
         isMovingScreenLimit = true
     }
     
@@ -403,8 +403,8 @@ extension GameSceneController {
                 wine.position = CGPoint(x: wineMoveValue + 1200 + screenMaxX, y: wine.position.y)
             case bottle:
                 bottle.position = CGPoint(x: botleMoveValue + 600 + screenMaxX, y: bottle.position.y)
-            case mp3:
-                mp3.position = CGPoint(x: mp3MoveValue + screenMaxX, y: mp3.position.y)
+            case metalCan:
+                metalCan.position = CGPoint(x: metalCanMoveValue + screenMaxX, y: metalCan.position.y)
             default:
                 print("Error")
         }
