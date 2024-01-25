@@ -416,7 +416,17 @@ extension GameSceneController {
         switch (currentTrashText) {
         case "rec-blue01":
             let trashAnimationAct = SKAction.animate(with: blueTrashTextures, timePerFrame: 0.13)
+
             currentTrash.run(trashAnimationAct, withKey: "animateTexture")
+
+            let delayAction = SKAction.wait(forDuration: Double(blueTrashTextures.count) * 0.13)
+
+            let removeAction = SKAction.run {
+                self.currentTrash.removeAction(forKey: "animateTexture")
+            }
+
+            currentTrash.run(SKAction.sequence([delayAction, removeAction]))
+
         case "rec-red01":
             let trashAnimationAct = SKAction.animate(with: redTrashTextures, timePerFrame: 0.13)
             currentTrash.run(trashAnimationAct, withKey: "animateTexture")

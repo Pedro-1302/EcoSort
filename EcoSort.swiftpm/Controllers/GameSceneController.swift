@@ -89,7 +89,7 @@ class GameSceneController: SKScene {
     
     override func update(_ currentTime: TimeInterval) {
         currentTexture = currentTrashText
-                
+        
         updateCurrentTrashPosition()
         updatePlayerPosition()
         
@@ -116,7 +116,7 @@ class GameSceneController: SKScene {
         if isMovingScreenLimit && metalCan.position.x > frame.minX {
             metalCanMoveValue -= mapScrollSpeed
         }
-                
+        
         if player.frame.intersects(newspaper.frame) && currentTrashText == "rec-blue01" {
             resetNewspaper()
             addTrashAnimation()
@@ -159,7 +159,7 @@ class GameSceneController: SKScene {
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         for touch in touches {
             let location = touch.location(in: self)
-
+            
             if greenTrash.frame.contains(location) {
                 self.currentTrash.removeAction(forKey: "animateTexture")
                 changeTrashTexture(textureName: "rec-green01")
