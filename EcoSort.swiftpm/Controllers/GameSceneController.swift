@@ -34,38 +34,14 @@ class GameSceneController: SKScene {
     var beachBackgroundNodesArrays = [SKSpriteNode]()
     var garbageItems = [SKNode]()
     
-    var greenTrashArray = [
-        SKTexture(imageNamed: "rec-green01"),
-        SKTexture(imageNamed: "rec-green02"),
-        SKTexture(imageNamed: "rec-green03"),
-        SKTexture(imageNamed: "rec-green02"),
-        SKTexture(imageNamed: "rec-green01")]
-    
-    var yellowTrashArray = [
-        SKTexture(imageNamed: "rec-yellow01"),
-        SKTexture(imageNamed: "rec-yellow02"),
-        SKTexture(imageNamed: "rec-yellow03"),
-        SKTexture(imageNamed: "rec-yellow02"),
-        SKTexture(imageNamed: "rec-yellow01")]
-    
-    var blueTrashArray = [
-        SKTexture(imageNamed: "rec-blue01"),
-        SKTexture(imageNamed: "rec-blue02"),
-        SKTexture(imageNamed: "rec-blue03"),
-        SKTexture(imageNamed: "rec-blue02"),
-        SKTexture(imageNamed: "rec-blue01")]
-    
-    var redTrashArray = [
-        SKTexture(imageNamed: "rec-red01"),
-        SKTexture(imageNamed: "rec-red02"),
-        SKTexture(imageNamed: "rec-red03"),
-        SKTexture(imageNamed: "rec-red02"),
-        SKTexture(imageNamed: "rec-red01")]
-    
     var score = Constants.shared.getGameScore()
     var mapScrollSpeed = Constants.shared.getBaseGameSpeed()
     var playerMoveSpeed = Constants.shared.getPlayerMoveSpeed()
     var screenMaxX = Constants.shared.getScreenMaxX()
+    var blueTrashTextures = Constants.shared.getBlueTrashArray()
+    var redTrashTextures = Constants.shared.getRedTrashArray()
+    var yellowTrashTextures = Constants.shared.getYellowTrashArray()
+    var greenTrashTextures = Constants.shared.getGreenTrashArray()
     
     var isMovingUp = false
     var isMovingDown = false
@@ -78,7 +54,7 @@ class GameSceneController: SKScene {
     var botleMoveValue = 0.0
     var metalCanMoveValue = 0.0
     var currentTrashText = ""
-    var texturaAtual = ""
+    var currentTexture = ""
     
     var usedYPositions = Set<CGFloat>()
     
@@ -112,7 +88,7 @@ class GameSceneController: SKScene {
     }
     
     override func update(_ currentTime: TimeInterval) {
-        texturaAtual = currentTrashText
+        currentTexture = currentTrashText
                 
         updateCurrentTrashPosition()
         updatePlayerPosition()
