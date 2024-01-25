@@ -40,11 +40,11 @@ extension HomeSceneController {
         logo.zPosition = 3
         addChild(logo)
     }
-        
+    
     func addLogoAnimation() {
-        let walkAnimation = SKAction.animate(with: lg, timePerFrame: 1)
-        let infiniteWalkAnimation = SKAction.repeatForever(walkAnimation)
-        logo.run(infiniteWalkAnimation)
+        let logoAnimation = SKAction.animate(with: lg, timePerFrame: 1)
+        let infiniteLogoAnimation = SKAction.repeatForever(logoAnimation)
+        logo.run(infiniteLogoAnimation)
     }
     
     func addRotateAction() {
@@ -108,7 +108,7 @@ extension GameSceneController {
     }
     
     func createDownArrow() {
-        downArrow = SKSpriteNode(imageNamed: "down-arrow")
+        downArrow = SKSpriteNode(imageNamed: "arrow-down")
         downArrow.size = CGSize(width: 120, height: 120)
         downArrow.position = CGPoint(x: -600, y: -440)
         downArrow.zPosition = 2
@@ -116,7 +116,7 @@ extension GameSceneController {
     }
     
     func createUpArrow() {
-        upArrow = SKSpriteNode(imageNamed: "up-arrow")
+        upArrow = SKSpriteNode(imageNamed: "arrow-up")
         upArrow.size = CGSize(width: 120, height: 120)
         upArrow.position = CGPoint(x: -600, y: -320)
         upArrow.zPosition = 2
@@ -277,7 +277,7 @@ extension GameSceneController {
         node.name = texture
         return node
     }
- 
+    
     func addEnumerateNodes(arrayNodeName: [String], speed: Double, baseNameNode: String, arraySize: Int) {
         for i in 0...arraySize {
             self.enumerateChildNodes(withName: "\(baseNameNode)\(i)", using: ({
@@ -389,16 +389,16 @@ extension GameSceneController {
     
     func updateNodesPosition(node: SKNode) {
         switch (node) {
-            case newspaper:
-                newspaper.position = CGPoint(x: newspaperMoveValue + 1800 + screenMaxX, y: newspaper.position.y)
-            case wine:
-                wine.position = CGPoint(x: wineMoveValue + 1200 + screenMaxX, y: wine.position.y)
-            case bottle:
-                bottle.position = CGPoint(x: botleMoveValue + 600 + screenMaxX, y: bottle.position.y)
-            case metalCan:
-                metalCan.position = CGPoint(x: metalCanMoveValue + screenMaxX, y: metalCan.position.y)
-            default:
-                print("Error")
+        case newspaper:
+            newspaper.position = CGPoint(x: newspaperMoveValue + 1800 + screenMaxX, y: newspaper.position.y)
+        case wine:
+            wine.position = CGPoint(x: wineMoveValue + 1200 + screenMaxX, y: wine.position.y)
+        case bottle:
+            bottle.position = CGPoint(x: botleMoveValue + 600 + screenMaxX, y: bottle.position.y)
+        case metalCan:
+            metalCan.position = CGPoint(x: metalCanMoveValue + screenMaxX, y: metalCan.position.y)
+        default:
+            print("Error")
         }
     }
     
@@ -415,22 +415,22 @@ extension GameSceneController {
     func addTrashAnimation() {
         switch (currentTrashText) {
         case "rec-blue01":
-            let trashAnimationAct = SKAction.animate(with: blueTrashArray, timePerFrame: 0.13)
+            let trashAnimationAct = SKAction.animate(with: blueTrashTextures, timePerFrame: 0.13)
             currentTrash.run(trashAnimationAct, withKey: "animateTexture")
         case "rec-red01":
-            let trashAnimationAct = SKAction.animate(with: redTrashArray, timePerFrame: 0.13)
+            let trashAnimationAct = SKAction.animate(with: redTrashTextures, timePerFrame: 0.13)
             currentTrash.run(trashAnimationAct, withKey: "animateTexture")
         case "rec-yellow01":
-            let trashAnimationAct = SKAction.animate(with: yellowTrashArray, timePerFrame: 0.13)
+            let trashAnimationAct = SKAction.animate(with: yellowTrashTextures, timePerFrame: 0.13)
             currentTrash.run(trashAnimationAct, withKey: "animateTexture")
         case "rec-green01":
-            let trashAnimationAct = SKAction.animate(with: greenTrashArray, timePerFrame: 0.13)
+            let trashAnimationAct = SKAction.animate(with: greenTrashTextures, timePerFrame: 0.13)
             currentTrash.run(trashAnimationAct, withKey: "animateTexture")
         default:
             print("Error")
         }
     }
-
+    
     func generateRandomYPositionForNodes() -> CGFloat {
         var sortedYPosition: CGFloat
         
@@ -445,7 +445,7 @@ extension GameSceneController {
     func updateUI() {
         score += 1
         scoreLabel.text = "Score: \(score)"
-        changeTrashTexture(textureName: texturaAtual)
+        changeTrashTexture(textureName: currentTexture)
     }
 }
 
@@ -458,28 +458,29 @@ extension DialogueSceneController {
     }
     
     func createDialogueBox() {
-        currentDialogueBox = SKSpriteNode(imageNamed: "dialogue01")
-        currentDialogueBox.position = CGPoint(x: 80, y: -240)
-        currentDialogueBox.size = CGSize(width: 864, height: 216)
+        currentDialogueBox = SKSpriteNode(imageNamed: "dialogue-box01")
+        currentDialogueBox.position = CGPoint(x: 140, y: -240)
+        currentDialogueBox.size = CGSize(width: 634, height: 216)
         currentDialogueBox.zPosition = 2
         currentDialogueBox.anchorPoint = CGPoint(x: 0.5, y: 0.5)
         addChild(currentDialogueBox)
     }
     
-    func createUpArrow() {
-        upArrow = SKSpriteNode(imageNamed: "up-arrow")
-        upArrow.size = CGSize(width: 120, height: 120)
-        upArrow.position = CGPoint(x: currentDialogueBox.frame.minX - 100, y: -180)
-        upArrow.zPosition = 2
-        addChild(upArrow)
+    func createLeftArrow() {
+        leftArrow = SKSpriteNode(imageNamed: "arrow-left")
+        leftArrow.size = CGSize(width: 120, height: 120)
+        leftArrow.position = CGPoint(x: emmaBox.frame.minX - 80, y: currentDialogueBox.position.y)
+        leftArrow.zPosition = 2
+        leftArrow.alpha = 0.5
+        addChild(leftArrow)
     }
     
-    func createDownArrow() {
-        downArrow = SKSpriteNode(imageNamed: "down-arrow")
-        downArrow.size = CGSize(width: 120, height: 120)
-        downArrow.position = CGPoint(x: currentDialogueBox.frame.minX - 100, y: -300)
-        downArrow.zPosition = 2
-        addChild(downArrow)
+    func createRightArrow() {
+        rightArrow = SKSpriteNode(imageNamed: "arrow-right")
+        rightArrow.size = CGSize(width: 120, height: 120)
+        rightArrow.position = CGPoint(x: currentDialogueBox.frame.maxX + 80, y: currentDialogueBox.position.y)
+        rightArrow.zPosition = 2
+        addChild(rightArrow)
     }
     
     func createPlayButton() {
@@ -491,8 +492,61 @@ extension DialogueSceneController {
         addChild(playButton)
     }
     
+    func setupActions() {
+        moveBottle = SKAction.moveBy(x: 0, y: 1, duration: 0.1)
+        movePlayer = SKAction.move(to: CGPoint(x: 0, y: player.position.y), duration: 5.0)
+    }
+    
+    func createBottle() {
+        bottle = SKSpriteNode(imageNamed: "water-bottle")
+        bottle.size = CGSize(width: 80, height: 36)
+        bottle.position = CGPoint(x: screenMaxX, y: 0)
+        bottle.position = CGPoint(x: screenMinX, y: 0)
+        bottle.zPosition = 3
+        addChild(bottle)
+    }
+    
+    func createPlayer() {
+        player = SKSpriteNode(imageNamed: "right-player-stop01")
+        player.size = CGSize(width: 80, height: 160)
+        bottle.position = CGPoint(x: screenMinX, y: 0)
+        player.zPosition = 4
+        addChild(player)
+    }
+    
+    func createTrashCarried() {
+        trashCarried = SKSpriteNode(imageNamed: "rec-red01")
+        trashCarried.size = CGSize(width: 120, height: 120)
+        trashCarried.position = CGPoint(x: player.position.x, y: player.position.y + 20)
+        trashCarried.zPosition = 3
+        addChild(trashCarried)
+    }
+    
+    func createEmmaBox() {
+        emmaBox = SKSpriteNode(imageNamed: "emma-box")
+        emmaBox.size = CGSize(width: 229, height: 216)
+        emmaBox.position = CGPoint(x: currentDialogueBox.frame.minX - emmaBox.frame.width / 2, y: currentDialogueBox.position.y)
+        emmaBox.zPosition = 2
+        emmaBox.anchorPoint = CGPoint(x: 0.5, y: 0.5)
+        addChild(emmaBox)
+    }
+    
+    func createElderlyWoman() {
+        elderlyWoman = SKSpriteNode(imageNamed: "elderly-woman01")
+        elderlyWoman.position = CGPoint(x: emmaBox.frame.midX, y: emmaBox.frame.midY)
+        elderlyWoman.size = CGSize(width: 136, height: 130)
+        elderlyWoman.zPosition = 3
+        addChild(elderlyWoman)
+    }
+    
+    func runElderlyWomanAction() {
+        let elderlyWomanAnimation = SKAction.animate(with: elderlyWomanTextures, timePerFrame: 0.3)
+        let infiniteElderlyWomanAnimation = SKAction.repeatForever(elderlyWomanAnimation)
+        elderlyWoman.run(infiniteElderlyWomanAnimation)
+    }
+    
     func changeDialogueBoxTexture(spriteValue: Int) {
-        currentDialogueBox.texture = dialoguesBoxes[spriteValue]
+        currentDialogueBox.texture = dialogueBoxes[spriteValue]
     }
     
     func updatePlayButtonVisibility() {
@@ -500,6 +554,20 @@ extension DialogueSceneController {
             playButton.alpha = 1
         } else {
             playButton.alpha = 0
+        }
+    }
+    
+    func updateArrowsVisibility() {
+        if counter == 0 {
+            leftArrow.alpha = 0.5
+        } else {
+            leftArrow.alpha = 1
+        }
+        
+        if counter == 5 {
+            rightArrow.alpha = 0.5
+        } else {
+            rightArrow.alpha = 1
         }
     }
 }
