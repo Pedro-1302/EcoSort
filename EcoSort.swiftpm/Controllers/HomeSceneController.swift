@@ -21,10 +21,19 @@ class HomeSceneController: SKScene {
     var beachBackgroundNodesArrays = [SKSpriteNode]()
     
     var mapScrollSpeed = Constants.shared.getMenuSpeed() 
+    var screenMaxX = Constants.shared.getScreenMaxX()
+    var screenMinX = Constants.shared.getScreenMinX()
+    var screenMinY = Constants.shared.getScreenMinY()
+    var screenMaxY = Constants.shared.getScreenMaxY()
+    var screenHeight = Constants.shared.getScreenHeight()
+    var screenWidth = Constants.shared.getScreenWidth()
     
     var lg = [SKTexture(imageNamed: "logo0"), SKTexture(imageNamed: "logo1"), SKTexture(imageNamed: "logo2"), SKTexture(imageNamed: "logo3")]
     
     override func sceneDidLoad() {
+        self.anchorPoint = CGPoint(x: 0.5, y: 0.5)
+        self.size = CGSize(width: screenWidth, height: screenHeight)
+
         createBackground()
         createRecycleSymbol()
         addRotateAction()

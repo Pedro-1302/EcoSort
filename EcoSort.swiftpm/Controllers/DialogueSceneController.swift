@@ -13,16 +13,20 @@ class DialogueSceneController: SKScene {
     var emmaBox = SKSpriteNode()
     var leftArrow = SKSpriteNode()
     var rightArrow = SKSpriteNode()
-    var playButton = SKSpriteNode()
+    var continueButton = SKSpriteNode()
     var bottle = SKSpriteNode()
     var player = SKSpriteNode()
     var trashCarried = SKSpriteNode()
     var elderlyWoman = SKSpriteNode()
-    
-    var screenMaxX = Constants.shared.getScreenMaxX()
-    var screenMinX = Constants.shared.getScreenMinX()
+
     var elderlyWomanTextures = Constants.shared.getElderlyWomanTextures()
     var dialogueBoxes = Constants.shared.getDialogueBoxes()
+    var screenMaxX = Constants.shared.getScreenMaxX()
+    var screenMinX = Constants.shared.getScreenMinX()
+    var screenMinY = Constants.shared.getScreenMinY()
+    var screenMaxY = Constants.shared.getScreenMaxY()
+    var screenHeight = Constants.shared.getScreenHeight()
+    var screenWidth = Constants.shared.getScreenWidth()
     
     var moveBottle, movePlayer: SKAction!
     
@@ -35,9 +39,12 @@ class DialogueSceneController: SKScene {
     var playerMoveValue = 0.0
 
     override func sceneDidLoad() {
+        self.anchorPoint = CGPoint(x: 0.5, y: 0.5)
+        self.size = CGSize(width: screenWidth, height: screenHeight)
+
         createDialogueSceneBackground()
         createDialogueBox()
-        createPlayButton()
+        createContinueButton()
         createEmmaBox()
         createElderlyWoman()
         runElderlyWomanAction()
@@ -130,7 +137,7 @@ class DialogueSceneController: SKScene {
                 }
             }
             
-            if playButton.contains(location) && playButton.alpha == 1 {
+            if continueButton.contains(location) && continueButton.alpha == 1 {
                 let transition = SKTransition.fade(withDuration: 1)
                 let scene = SKScene(fileNamed: "GameScene")
                 self.view!.presentScene(scene!, transition: transition)

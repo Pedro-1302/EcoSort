@@ -8,9 +8,11 @@
 import Foundation
 import SpriteKit
 
-class Constants {
+struct Constants {
     // Singleton variable to share Constants
     static let shared = Constants()
+    
+    private init(){}
     
     private var menuSpeed = 1
     private var baseGameSpeed = 5.0
@@ -18,6 +20,10 @@ class Constants {
     private var playerMoveSpeed = 5.0
     private var screenMaxX = UIScreen.main.bounds.maxX
     private var screenMinX = UIScreen.main.bounds.minX
+    private var screenMaxY = UIScreen.main.bounds.maxY
+    private var screenMinY = UIScreen.main.bounds.minY
+    private var screenHeight = UIScreen.main.bounds.height
+    private var screenWidht = UIScreen.main.bounds.width
     private let fontURL = Bundle.module.url(forResource: "PressStart2P-Regular", withExtension: "ttf")!
 
     private var dialoguesBoxes =  [
@@ -89,6 +95,14 @@ class Constants {
         return screenMinX
     }
     
+    func getScreenMaxY() -> CGFloat {
+        return screenMaxY
+    }
+    
+    func getScreenMinY() -> CGFloat {
+        return screenMinY
+    }
+    
     func setupCustomFont() {
         CTFontManagerRegisterFontsForURL(fontURL as CFURL, CTFontManagerScope.process, nil)
     }
@@ -115,5 +129,13 @@ class Constants {
     
     func getBlueTrashArray() -> [SKTexture] {
         return blueTrashArray
+    }
+    
+    func getScreenHeight() -> CGFloat {
+        return screenHeight
+    }
+    
+    func getScreenWidth() -> CGFloat {
+        return screenWidht
     }
 }

@@ -31,13 +31,18 @@ class GameSceneController: SKScene {
     
     var beachBackgroundArray = [String]()
     var cityBackgroundArray = [String]()
-    var beachBackgroundNodesArrays = [SKSpriteNode]()
+    var beachBackgroundNodesArray = [SKSpriteNode]()
     var garbageItems = [SKNode]()
     
     var score = Constants.shared.getGameScore()
     var mapScrollSpeed = Constants.shared.getBaseGameSpeed()
     var playerMoveSpeed = Constants.shared.getPlayerMoveSpeed()
     var screenMaxX = Constants.shared.getScreenMaxX()
+    var screenMinX = Constants.shared.getScreenMinX()
+    var screenMinY = Constants.shared.getScreenMinY()
+    var screenMaxY = Constants.shared.getScreenMaxY()
+    var screenHeight = Constants.shared.getScreenHeight()
+    var screenWidth = Constants.shared.getScreenWidth()
     var blueTrashTextures = Constants.shared.getBlueTrashArray()
     var redTrashTextures = Constants.shared.getRedTrashArray()
     var yellowTrashTextures = Constants.shared.getYellowTrashArray()
@@ -59,12 +64,14 @@ class GameSceneController: SKScene {
     var usedYPositions = Set<CGFloat>()
     
     override func sceneDidLoad() {
+
+        self.anchorPoint = CGPoint(x: 0.5, y: 0.5)
+        self.size = CGSize(width: screenWidth, height: screenHeight)
+
         Constants.shared.setupCustomFont()
-        
-        createScoreNode()
-        createScoreLabel()
-        createUpArrow()
+
         createDownArrow()
+        createUpArrow()
         createPlayerNode()
         addRunAction()
         createBeachNodes()
@@ -73,10 +80,12 @@ class GameSceneController: SKScene {
         addMoveDownAction()
         createInvisibleTopWall()
         createInvisibleBottomWall()
-        createYellowTrash()
         createGreenTrash()
+        createYellowTrash()
         createBlueTrash()
         createRedTrash()
+        createScoreNode()
+        createScoreLabel()
         createCurrentTrashCarried()
         setupItensMove()
         createNewspaper()

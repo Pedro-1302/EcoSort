@@ -11,7 +11,7 @@ import SpriteKit
 // MARK: HomeSceneController extension for setup nodes
 extension HomeSceneController {
     func createBackground() {
-        background = SKSpriteNode(color: .black, size: CGSize(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height))
+        background = SKSpriteNode(color: .black, size: CGSize(width: screenWidth, height: screenHeight))
         background.alpha = 0.4
         background.zPosition = 2
         addChild(background)
@@ -27,8 +27,8 @@ extension HomeSceneController {
     
     func createPlayButton() {
         playButton = SKSpriteNode(imageNamed: "play-button")
-        playButton.size = CGSize(width: 250, height: 110)
-        playButton.position = CGPoint(x: 0, y: -400)
+        playButton.size = CGSize(width: screenWidth * 0.18, height: screenHeight * 0.12)
+        playButton.position = CGPoint(x: 0, y: (-(screenHeight / 2) + (playButton.size.height / 2)) + screenHeight * 0.1)
         playButton.zPosition = 3
         addChild(playButton)
     }
@@ -55,8 +55,8 @@ extension HomeSceneController {
     func createBeachNodes() {
         for i in 0...2 {
             let imageName = "beach\(i)"
-            let beachBackground = addIndividualSprite(texture: imageName, size: CGSize(width: 1366, height: 594), zPosition: 1, ancorPoint: CGPoint(x: 1, y: 0))
-            beachBackground.position = CGPoint(x: beachBackground.size.width * CGFloat(i), y: -size.height / 2 + beachBackground.frame.size.height / 4)
+            let beachBackground = addIndividualSprite(texture: imageName, size: CGSize(width: screenWidth, height: screenHeight * 0.58), zPosition: 1, anchorPoint: CGPoint(x: 1, y: 0.5))
+            beachBackground.position = CGPoint(x: beachBackground.size.width * CGFloat(i), y: -(screenHeight / 2) + beachBackground.frame.height / 2)
             addChild(beachBackground)
             beachBackgroundArray.append(imageName)
             beachBackgroundNodesArrays.append(beachBackground)
@@ -66,20 +66,20 @@ extension HomeSceneController {
     func createCityNodes() {
         for i in 0...2 {
             let imageName = "city\(i)"
-            let cityBackground = addIndividualSprite(texture: imageName, size: CGSize(width: 1366, height: 433), zPosition: 1, ancorPoint: CGPoint(x: 1, y: 0.5))
-            cityBackground.position = CGPoint(x: cityBackground.size.width * CGFloat(i), y: beachBackgroundNodesArrays[i].frame.maxY + cityBackground.frame.height / 2)
+            let cityBackground = addIndividualSprite(texture: imageName, size: CGSize(width: screenWidth, height: screenHeight * 0.43), zPosition: 1, anchorPoint: CGPoint(x: 1, y: 0.5))
+            cityBackground.position = CGPoint(x: cityBackground.size.width * CGFloat(i), y: screenHeight / 2 - cityBackground.frame.height / 2)
             addChild(cityBackground)
             cityBackgroundArray.append(imageName)
         }
     }
     
-    public func addIndividualSprite(texture: String, size: CGSize, zPosition: Double, ancorPoint: CGPoint) -> SKSpriteNode {
+    public func addIndividualSprite(texture: String, size: CGSize, zPosition: Double, anchorPoint: CGPoint) -> SKSpriteNode {
         let node = SKSpriteNode()
         node.texture = SKTexture(imageNamed: texture)
         node.position = position
         node.size = size
         node.zPosition = zPosition
-        node.anchorPoint = ancorPoint
+        node.anchorPoint = anchorPoint
         node.name = texture
         return node
     }
@@ -109,24 +109,24 @@ extension GameSceneController {
     
     func createDownArrow() {
         downArrow = SKSpriteNode(imageNamed: "arrow-down")
-        downArrow.size = CGSize(width: 120, height: 120)
-        downArrow.position = CGPoint(x: -600, y: -440)
+        downArrow.size = CGSize(width: screenWidth * 0.088, height: screenHeight * 0.12)
+        downArrow.position = CGPoint(x: -(screenWidth / 2) + (downArrow.frame.width / 2) + screenWidth * 0.06, y: -(screenHeight / 2) + (downArrow.frame.height / 2) + screenHeight * 0.029)
         downArrow.zPosition = 2
         addChild(downArrow)
     }
     
     func createUpArrow() {
         upArrow = SKSpriteNode(imageNamed: "arrow-up")
-        upArrow.size = CGSize(width: 120, height: 120)
-        upArrow.position = CGPoint(x: -600, y: -320)
+        upArrow.size = CGSize(width: screenWidth * 0.088, height: screenHeight * 0.12)
+        upArrow.position = CGPoint(x: -(screenWidth / 2) + (upArrow.frame.width / 2) + screenWidth * 0.06, y: downArrow.frame.maxY + upArrow.frame.height / 2 + screenHeight * 0.008)
         upArrow.zPosition = 2
         addChild(upArrow)
     }
     
     func createScoreNode() {
         scoreNode = SKSpriteNode(imageNamed: "score-box")
-        scoreNode.size = CGSize(width: 323, height: 78)
-        scoreNode.position = CGPoint(x: 480, y: 440)
+        scoreNode.size = CGSize(width: screenWidth * 0.24, height: screenHeight * 0.08)
+        scoreNode.position = CGPoint(x: screenWidth / 2 - (scoreNode.frame.width / 2) - screenWidth * 0.023, y: screenHeight / 2 - (scoreNode.frame.height / 2) - screenHeight * 0.034)
         scoreNode.zPosition = 2
         scoreNode.anchorPoint = CGPoint(x: 0.5, y: 0.5)
         addChild(scoreNode)
@@ -136,53 +136,53 @@ extension GameSceneController {
         scoreLabel = SKLabelNode(fontNamed: "PressStart2P-Regular")
         scoreLabel.position = CGPoint(x: scoreNode.frame.midX, y: scoreNode.frame.midY - 16)
         scoreLabel.zPosition = 3
-        scoreLabel.fontSize = 30
+        scoreLabel.fontSize = 28
         scoreLabel.text = "Score = \(score)"
         addChild(scoreLabel)
     }
     
     func createInvisibleTopWall() {
         topWall = SKSpriteNode(color: .clear, size: CGSize(width: size.height + 40, height: 2))
-        topWall.position = CGPoint(x: 0, y: 70)
+        topWall.position = CGPoint(x: 0, y: beachBackgroundNodesArray[0].frame.maxY - 10)
         topWall.zPosition = 3
         addChild(topWall)
     }
     
     func createInvisibleBottomWall() {
         bottomWall = SKSpriteNode(color: .clear, size: CGSize(width: size.height + 40, height: 2))
-        bottomWall.position = CGPoint(x: 0, y: -260)
+        bottomWall.position = CGPoint(x: 0, y: beachBackgroundNodesArray[0].frame.midY - 10)
         bottomWall.zPosition = 3
         addChild(bottomWall)
     }
     
-    func createYellowTrash() {
-        yellowTrash = SKSpriteNode(imageNamed: "recycle-yellow-wlabel")
-        yellowTrash.size = CGSize(width: 120, height: 170)
-        yellowTrash.position = CGPoint(x: 400, y: -420)
-        yellowTrash.zPosition = 2
-        addChild(yellowTrash)
-    }
-    
     func createGreenTrash() {
         greenTrash = SKSpriteNode(imageNamed: "recycle-green-wlabel")
-        greenTrash.size = CGSize(width: 120, height: 170)
-        greenTrash.position = CGPoint(x: 600, y: -420)
+        greenTrash.size = CGSize(width: screenWidth * 0.09, height: screenHeight * 0.18)
+        greenTrash.position = CGPoint(x: screenWidth / 2 - (upArrow.frame.width / 2) - screenWidth * 0.06, y: -(screenHeight / 2) + (greenTrash.frame.height / 2) + screenHeight * 0.05)
         greenTrash.zPosition = 2
         addChild(greenTrash)
     }
     
+    func createYellowTrash() {
+        yellowTrash = SKSpriteNode(imageNamed: "recycle-yellow-wlabel")
+        yellowTrash.size = greenTrash.size
+        yellowTrash.position = CGPoint(x: greenTrash.frame.minX - yellowTrash.frame.width / 2 - screenWidth * 0.047, y: greenTrash.position.y)
+        yellowTrash.zPosition = 2
+        addChild(yellowTrash)
+    }
+    
     func createBlueTrash() {
         blueTrash = SKSpriteNode(imageNamed: "recycle-blue-wlabel")
-        blueTrash.size = CGSize(width: 120, height: 170)
-        blueTrash.position = CGPoint(x: 200, y: -420)
+        blueTrash.size = yellowTrash.size
+        blueTrash.position = CGPoint(x: yellowTrash.frame.minX - blueTrash.frame.width / 2 - screenWidth * 0.047, y: yellowTrash.position.y)
         blueTrash.zPosition = 2
         addChild(blueTrash)
     }
     
     func createRedTrash() {
         redTrash = SKSpriteNode(imageNamed: "recycle-red-wlabel")
-        redTrash.size = CGSize(width: 120, height: 170)
-        redTrash.position = CGPoint(x: 0, y: -420)
+        redTrash.size = blueTrash.size
+        redTrash.position = CGPoint(x: blueTrash.frame.minX - redTrash.frame.width / 2 - screenWidth * 0.047, y: blueTrash.position.y)
         redTrash.zPosition = 2
         redTrash.alpha = 0.5
         addChild(redTrash)
@@ -246,19 +246,19 @@ extension GameSceneController {
     func createBeachNodes() {
         for i in 0...2 {
             let imageName = "beach\(i)"
-            let beachBackground = addIndividualSprite(texture: imageName, size: CGSize(width: 1366, height: 594), zPosition: 1, anchorPoint: CGPoint(x: 1, y: 0))
-            beachBackground.position = CGPoint(x: beachBackground.size.width * CGFloat(i), y: -size.height / 2 + beachBackground.frame.size.height / 4)
+            let beachBackground = addIndividualSprite(texture: imageName, size: CGSize(width: screenWidth, height: screenHeight * 0.58), zPosition: 1, anchorPoint: CGPoint(x: 1, y: 0.5))
+            beachBackground.position = CGPoint(x: beachBackground.size.width * CGFloat(i), y: -(screenHeight / 2) + beachBackground.frame.height / 2)
             addChild(beachBackground)
             beachBackgroundArray.append(imageName)
-            beachBackgroundNodesArrays.append(beachBackground)
+            beachBackgroundNodesArray.append(beachBackground)
         }
     }
     
     func createCityNodes() {
         for i in 0...2 {
             let imageName = "city\(i)"
-            let cityBackground = addIndividualSprite(texture: imageName, size: CGSize(width: 1366, height: 433), zPosition: 1, anchorPoint: CGPoint(x: 1, y: 0.5))
-            cityBackground.position = CGPoint(x: cityBackground.size.width * CGFloat(i), y: beachBackgroundNodesArrays[i].frame.maxY + cityBackground.frame.height / 2)
+            let cityBackground = addIndividualSprite(texture: imageName, size: CGSize(width: screenWidth, height: screenHeight * 0.43), zPosition: 1, anchorPoint: CGPoint(x: 1, y: 0.5))
+            cityBackground.position = CGPoint(x: cityBackground.size.width * CGFloat(i), y: screenHeight / 2 - cityBackground.frame.height / 2)
             addChild(cityBackground)
             cityBackgroundArray.append(imageName)
         }
@@ -416,17 +416,17 @@ extension GameSceneController {
         switch (currentTrashText) {
         case "rec-blue01":
             let trashAnimationAct = SKAction.animate(with: blueTrashTextures, timePerFrame: 0.13)
-
+            
             currentTrash.run(trashAnimationAct, withKey: "animateTexture")
-
+            
             let delayAction = SKAction.wait(forDuration: Double(blueTrashTextures.count) * 0.13)
-
+            
             let removeAction = SKAction.run {
                 self.currentTrash.removeAction(forKey: "animateTexture")
             }
-
+            
             currentTrash.run(SKAction.sequence([delayAction, removeAction]))
-
+            
         case "rec-red01":
             let trashAnimationAct = SKAction.animate(with: redTrashTextures, timePerFrame: 0.13)
             currentTrash.run(trashAnimationAct, withKey: "animateTexture")
@@ -462,15 +462,15 @@ extension GameSceneController {
 extension DialogueSceneController {
     func createDialogueSceneBackground() {
         dialogueSceneBackground = SKSpriteNode(imageNamed: "dialogue-screen")
+        dialogueSceneBackground.size = CGSize(width: screenWidth, height: screenHeight)
         dialogueSceneBackground.position = CGPoint(x: 0, y: 0)
-        dialogueSceneBackground.size = CGSize(width: 1366, height: 1024)
         addChild(dialogueSceneBackground)
     }
     
     func createDialogueBox() {
         currentDialogueBox = SKSpriteNode(imageNamed: "dialogue-box01")
-        currentDialogueBox.position = CGPoint(x: 140, y: -240)
-        currentDialogueBox.size = CGSize(width: 634, height: 216)
+        currentDialogueBox.size = CGSize(width: screenWidth * 0.46, height: screenHeight * 0.21)
+        currentDialogueBox.position = CGPoint(x: screenWidth / 2 - currentDialogueBox.frame.width / 2 - screenWidth * 0.18, y: -240)
         currentDialogueBox.zPosition = 2
         currentDialogueBox.anchorPoint = CGPoint(x: 0.5, y: 0.5)
         addChild(currentDialogueBox)
@@ -479,7 +479,7 @@ extension DialogueSceneController {
     func createLeftArrow() {
         leftArrow = SKSpriteNode(imageNamed: "arrow-left")
         leftArrow.size = CGSize(width: 120, height: 120)
-        leftArrow.position = CGPoint(x: emmaBox.frame.minX - 80, y: currentDialogueBox.position.y)
+        leftArrow.position = CGPoint(x: -(screenWidth / 2) + (leftArrow.frame.width / 2) + (screenWidth * 0.05), y: currentDialogueBox.position.y)
         leftArrow.zPosition = 2
         leftArrow.alpha = 0.5
         addChild(leftArrow)
@@ -488,18 +488,19 @@ extension DialogueSceneController {
     func createRightArrow() {
         rightArrow = SKSpriteNode(imageNamed: "arrow-right")
         rightArrow.size = CGSize(width: 120, height: 120)
-        rightArrow.position = CGPoint(x: currentDialogueBox.frame.maxX + 80, y: currentDialogueBox.position.y)
+        rightArrow.position = CGPoint(x: screenWidth / 2 - (rightArrow.frame.width / 2)  - (screenWidth * 0.05), y: currentDialogueBox.position.y)
+        
         rightArrow.zPosition = 2
         addChild(rightArrow)
     }
     
-    func createPlayButton() {
-        playButton = SKSpriteNode(imageNamed: "letsplay-button")
-        playButton.size = CGSize(width: 332, height: 86)
-        playButton.position = CGPoint(x: 0, y: currentDialogueBox.frame.minY - 80)
-        playButton.zPosition = 2
-        playButton.alpha = 0
-        addChild(playButton)
+    func createContinueButton() {
+        continueButton = SKSpriteNode(imageNamed: "letsplay-button")
+        continueButton.size = CGSize(width: screenWidth * 0.23, height: screenHeight * 0.08)
+        continueButton.position = CGPoint(x: 0, y: currentDialogueBox.frame.minY - continueButton.frame.height / 2 - (screenHeight * 0.02))
+        continueButton.zPosition = 2
+        continueButton.alpha = 0
+        addChild(continueButton)
     }
     
     func setupActions() {
@@ -534,7 +535,7 @@ extension DialogueSceneController {
     
     func createEmmaBox() {
         emmaBox = SKSpriteNode(imageNamed: "emma-box")
-        emmaBox.size = CGSize(width: 229, height: 216)
+        emmaBox.size = CGSize(width: screenWidth * 0.17, height: screenHeight * 0.21)
         emmaBox.position = CGPoint(x: currentDialogueBox.frame.minX - emmaBox.frame.width / 2, y: currentDialogueBox.position.y)
         emmaBox.zPosition = 2
         emmaBox.anchorPoint = CGPoint(x: 0.5, y: 0.5)
@@ -561,9 +562,9 @@ extension DialogueSceneController {
     
     func updatePlayButtonVisibility() {
         if counter == 5 {
-            playButton.alpha = 1
+            continueButton.alpha = 1
         } else {
-            playButton.alpha = 0
+            continueButton.alpha = 0
         }
     }
     
