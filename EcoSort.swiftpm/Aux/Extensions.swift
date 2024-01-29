@@ -101,8 +101,8 @@ extension HomeSceneController {
 extension GameSceneController {
     func createPlayerNode() {
         player = SKSpriteNode(imageNamed: "player-stop01")
-        player.size = CGSize(width: 80, height: 160)
-        player.position = CGPoint(x: -500, y: 0)
+        player.size = CGSize(width: screenWidth * 0.059, height: screenHeight * 0.16)
+        player.position = CGPoint(x: -(screenWidth / 2) + player.frame.width / 2 + screenWidth * 0.19, y: 0)
         player.zPosition = 4
         addChild(player)
     }
@@ -126,7 +126,7 @@ extension GameSceneController {
     func createScoreNode() {
         scoreNode = SKSpriteNode(imageNamed: "score-box")
         scoreNode.size = CGSize(width: screenWidth * 0.24, height: screenHeight * 0.08)
-        scoreNode.position = CGPoint(x: screenWidth / 2 - (scoreNode.frame.width / 2) - screenWidth * 0.023, y: screenHeight / 2 - (scoreNode.frame.height / 2) - screenHeight * 0.034)
+        scoreNode.position = CGPoint(x: screenWidth / 2 - (scoreNode.frame.width / 2) - screenWidth * 0.023, y: screenHeight / 2 - (scoreNode.frame.height / 2) - screenHeight * 0.032)
         scoreNode.zPosition = 2
         scoreNode.anchorPoint = CGPoint(x: 0.5, y: 0.5)
         addChild(scoreNode)
@@ -136,7 +136,7 @@ extension GameSceneController {
         scoreLabel = SKLabelNode(fontNamed: "PressStart2P-Regular")
         scoreLabel.position = CGPoint(x: scoreNode.frame.midX, y: scoreNode.frame.midY - 16)
         scoreLabel.zPosition = 3
-        scoreLabel.fontSize = 28
+        scoreLabel.fontSize = 26
         scoreLabel.text = "Score = \(score)"
         addChild(scoreLabel)
     }
@@ -292,6 +292,7 @@ extension GameSceneController {
     
     func changeTrashTexture(textureName: String) {
         currentTrash.texture = SKTexture(imageNamed: textureName)
+        currentTrashText = textureName
     }
     
     func changeAllTrashAlpha() {
@@ -307,6 +308,7 @@ extension GameSceneController {
     
     func updateCurrentTrashPosition() {
         currentTrash.position = CGPoint(x: player.frame.minX, y: player.position.y + 20)
+        currentTexture = currentTrashText
     }
     
     func updatePlayerPosition() {
@@ -425,17 +427,59 @@ extension GameSceneController {
                 self.currentTrash.removeAction(forKey: "animateTexture")
             }
             
-            currentTrash.run(SKAction.sequence([delayAction, removeAction]))
+            let back = SKAction.run {
+                self.back = true
+            }
             
+            currentTrash.run(SKAction.sequence([delayAction, removeAction, back]))
         case "rec-red01":
             let trashAnimationAct = SKAction.animate(with: redTrashTextures, timePerFrame: 0.13)
+            
             currentTrash.run(trashAnimationAct, withKey: "animateTexture")
+            
+            let delayAction = SKAction.wait(forDuration: Double(redTrashTextures.count) * 0.13)
+            
+            let removeAction = SKAction.run {
+                self.currentTrash.removeAction(forKey: "animateTexture")
+            }
+            
+            let back = SKAction.run {
+                self.back = true
+            }
+            
+            currentTrash.run(SKAction.sequence([delayAction, removeAction, back]))        
         case "rec-yellow01":
             let trashAnimationAct = SKAction.animate(with: yellowTrashTextures, timePerFrame: 0.13)
+            
             currentTrash.run(trashAnimationAct, withKey: "animateTexture")
+            
+            let delayAction = SKAction.wait(forDuration: Double(yellowTrashTextures.count) * 0.13)
+            
+            let removeAction = SKAction.run {
+                self.currentTrash.removeAction(forKey: "animateTexture")
+            }
+            
+            let back = SKAction.run {
+                self.back = true
+            }
+            
+            currentTrash.run(SKAction.sequence([delayAction, removeAction, back]))        
         case "rec-green01":
             let trashAnimationAct = SKAction.animate(with: greenTrashTextures, timePerFrame: 0.13)
+            
             currentTrash.run(trashAnimationAct, withKey: "animateTexture")
+            
+            let delayAction = SKAction.wait(forDuration: Double(greenTrashTextures.count) * 0.13)
+            
+            let removeAction = SKAction.run {
+                self.currentTrash.removeAction(forKey: "animateTexture")
+            }
+            
+            let back = SKAction.run {
+                self.back = true
+            }
+            
+            currentTrash.run(SKAction.sequence([delayAction, removeAction, back]))
         default:
             print("Error")
         }
@@ -470,7 +514,7 @@ extension DialogueSceneController {
     func createDialogueBox() {
         currentDialogueBox = SKSpriteNode(imageNamed: "dialogue-box01")
         currentDialogueBox.size = CGSize(width: screenWidth * 0.46, height: screenHeight * 0.21)
-        currentDialogueBox.position = CGPoint(x: screenWidth / 2 - currentDialogueBox.frame.width / 2 - screenWidth * 0.18, y: -240)
+        currentDialogueBox.position = CGPoint(x: screenWidth / 2 - currentDialogueBox.frame.width / 2 - screenWidth * 0.18, y: -(screenHeight / 2) + currentDialogueBox.size.height / 2 + screenHeight * 0.13)
         currentDialogueBox.zPosition = 2
         currentDialogueBox.anchorPoint = CGPoint(x: 0.5, y: 0.5)
         addChild(currentDialogueBox)
@@ -528,7 +572,7 @@ extension DialogueSceneController {
     func createTrashCarried() {
         trashCarried = SKSpriteNode(imageNamed: "rec-red01")
         trashCarried.size = CGSize(width: 120, height: 120)
-        trashCarried.position = CGPoint(x: player.position.x, y: player.position.y + 20)
+        trashCarried.position = CGPoint(x: -1000, y: player.position.y + 20)
         trashCarried.zPosition = 3
         addChild(trashCarried)
     }

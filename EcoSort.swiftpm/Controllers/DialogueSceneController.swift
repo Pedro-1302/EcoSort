@@ -88,8 +88,6 @@ class DialogueSceneController: SKScene {
         }
     }
     
-    
-    
     func updatePlayerPosition() {
         player.position = CGPoint(x: playerMoveValue - screenMaxX, y: player.position.y)
     }
@@ -139,8 +137,8 @@ class DialogueSceneController: SKScene {
             
             if continueButton.contains(location) && continueButton.alpha == 1 {
                 let transition = SKTransition.fade(withDuration: 1)
-                let scene = SKScene(fileNamed: "GameScene")
-                self.view!.presentScene(scene!, transition: transition)
+                let scene = GameSceneController(size: self.size)
+                self.view?.presentScene(scene, transition: transition)
             }
             
             updateArrowsVisibility()

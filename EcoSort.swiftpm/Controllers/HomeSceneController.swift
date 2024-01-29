@@ -56,8 +56,8 @@ class HomeSceneController: SKScene {
             
             if playButton.frame.contains(location) {
                 let transition = SKTransition.fade(withDuration: 1)
-                let scene = SKScene(fileNamed: "DialogueScene")
-                self.view!.presentScene(scene!, transition: transition)
+                 let scene = DialogueSceneController(size: self.size)
+                 self.view?.presentScene(scene, transition: transition)
             }
         }
     }

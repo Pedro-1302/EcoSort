@@ -17,7 +17,7 @@ struct Constants {
     private var menuSpeed = 1
     private var baseGameSpeed = 5.0
     private var gameScore = 0
-    private var playerMoveSpeed = 5.0
+    private var playerMoveSpeed = 3.0
     private var screenMaxX = UIScreen.main.bounds.maxX
     private var screenMinX = UIScreen.main.bounds.minX
     private var screenMaxY = UIScreen.main.bounds.maxY

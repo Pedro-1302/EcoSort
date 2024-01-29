@@ -52,6 +52,7 @@ class GameSceneController: SKScene {
     var isMovingDown = false
     var isMovingScreenLimit = false
     var isItemCollected = false
+    var back = false
     
     var value = 0.0
     var newspaperMoveValue = 0.0
@@ -63,13 +64,15 @@ class GameSceneController: SKScene {
     
     var usedYPositions = Set<CGFloat>()
     
+    var multiTouchList: [UITouch: SKSpriteNode] = [:]
+        
     override func sceneDidLoad() {
-
+        
         self.anchorPoint = CGPoint(x: 0.5, y: 0.5)
         self.size = CGSize(width: screenWidth, height: screenHeight)
-
+        
         Constants.shared.setupCustomFont()
-
+        
         createDownArrow()
         createUpArrow()
         createPlayerNode()
@@ -94,11 +97,11 @@ class GameSceneController: SKScene {
         createMetalCan()
         
         currentTrashText = "rec-red01"
+        
+        view?.isMultipleTouchEnabled = true
     }
     
     override func update(_ currentTime: TimeInterval) {
-        currentTexture = currentTrashText
-        
         updateCurrentTrashPosition()
         updatePlayerPosition()
         
@@ -126,25 +129,29 @@ class GameSceneController: SKScene {
             metalCanMoveValue -= mapScrollSpeed
         }
         
-        if player.frame.intersects(newspaper.frame) && currentTrashText == "rec-blue01" {
+        if player.frame.intersects(newspaper.frame) && currentTrashText == "rec-blue01" && back {
+            back = false
             resetNewspaper()
             addTrashAnimation()
             updateUI()
         }
         
-        if player.frame.intersects(wine.frame) && currentTrashText == "rec-green01" {
+        if player.frame.intersects(wine.frame) && currentTrashText == "rec-green01" && back {
+            back = false
             resetWine()
             addTrashAnimation()
             updateUI()
         }
         
-        if player.frame.intersects(bottle.frame) && currentTrashText == "rec-red01" {
+        if player.frame.intersects(bottle.frame) && currentTrashText == "rec-red01" && back {
+            back = false
             resetBottle()
             addTrashAnimation()
             updateUI()
         }
         
-        if player.frame.intersects(metalCan.frame) && currentTrashText == "rec-yellow01" {
+        if player.frame.intersects(metalCan.frame) && currentTrashText == "rec-yellow01" && back {
+            back = false
             resetMetalCan()
             addTrashAnimation()
             updateUI()
@@ -169,38 +176,6 @@ class GameSceneController: SKScene {
         for touch in touches {
             let location = touch.location(in: self)
             
-            if greenTrash.frame.contains(location) {
-                self.currentTrash.removeAction(forKey: "animateTexture")
-                changeTrashTexture(textureName: "rec-green01")
-                currentTrashText = "rec-green01"
-                changeAllTrashAlpha()
-                changeCurrentTrashAlpha(trashNode: greenTrash)
-            }
-            
-            if yellowTrash.frame.contains(location) {
-                self.currentTrash.removeAction(forKey: "animateTexture")
-                changeTrashTexture(textureName: "rec-yellow01")
-                currentTrashText = "rec-yellow01"
-                changeAllTrashAlpha()
-                changeCurrentTrashAlpha(trashNode: yellowTrash)
-            }
-            
-            if blueTrash.frame.contains(location) {
-                self.currentTrash.removeAction(forKey: "animateTexture")
-                changeTrashTexture(textureName: "rec-blue01")
-                currentTrashText = "rec-blue01"
-                changeAllTrashAlpha()
-                changeCurrentTrashAlpha(trashNode: blueTrash)
-            }
-            
-            if redTrash.frame.contains(location) {
-                self.currentTrash.removeAction(forKey: "animateTexture")
-                changeTrashTexture(textureName: "rec-red01")
-                currentTrashText = "rec-red01"
-                changeAllTrashAlpha()
-                changeCurrentTrashAlpha(trashNode: redTrash)
-            }
-            
             if upArrow.frame.contains(location) && player.frame.minY < topWall.position.y {
                 isMovingUp = true
                 player.run(moveUpAction, withKey: "moveUp")
@@ -210,14 +185,72 @@ class GameSceneController: SKScene {
                 isMovingDown = true
                 player.run(moveDownAction, withKey: "moveDown")
             }
+            
+            if greenTrash.frame.contains(location) {
+                removeAnimationTexture()
+                changeTrashTexture(textureName: "rec-green01")
+                changeAllTrashAlpha()
+                changeCurrentTrashAlpha(trashNode: greenTrash)
+                back = true
+            }
+            
+            if yellowTrash.frame.contains(location) {
+                removeAnimationTexture()
+                changeTrashTexture(textureName: "rec-yellow01")
+                changeAllTrashAlpha()
+                changeCurrentTrashAlpha(trashNode: yellowTrash)
+                back = true
+            }
+            
+            if blueTrash.frame.contains(location) {
+                removeAnimationTexture()
+                changeTrashTexture(textureName: "rec-blue01")
+                changeAllTrashAlpha()
+                changeCurrentTrashAlpha(trashNode: blueTrash)
+                back = true
+            }
+            
+            if redTrash.frame.contains(location) {
+                removeAnimationTexture()
+                changeTrashTexture(textureName: "rec-red01")
+                changeAllTrashAlpha()
+                changeCurrentTrashAlpha(trashNode: redTrash)
+                back = true
+            }
+        }
+    }
+    
+    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
+        for touch in touches {
+            let location = touch.location(in: self)
+            
+            if !upArrow.frame.contains(location) && !downArrow.frame.contains(location) {
+                removeMoveUpAction()
+                removeMoveDownAction()
+            }
+            
+            if upArrow.frame.contains(location) && player.frame.minY < topWall.position.y {
+                isMovingUp = true
+                player.run(moveUpAction, withKey: "moveUp")
+                removeMoveDownAction()
+            }
+            
+            if downArrow.frame.contains(location) && player.frame.minY > bottomWall.position.y {
+                isMovingDown = true
+                player.run(moveDownAction, withKey: "moveDown")
+                removeMoveUpAction()
+            }
         }
     }
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-        for _ in touches {
+        for touch in touches {
             removeMoveUpAction()
-            
             removeMoveDownAction()
         }
+    }
+
+    func removeAnimationTexture() {
+        self.currentTrash.removeAction(forKey: "animateTexture")
     }
 }
