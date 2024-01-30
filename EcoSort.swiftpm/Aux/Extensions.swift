@@ -426,12 +426,8 @@ extension GameSceneController {
             let removeAction = SKAction.run {
                 self.currentTrash.removeAction(forKey: "animateTexture")
             }
-            
-            let back = SKAction.run {
-                self.back = true
-            }
-            
-            currentTrash.run(SKAction.sequence([delayAction, removeAction, back]))
+
+            currentTrash.run(SKAction.sequence([delayAction, removeAction]))
         case "rec-red01":
             let trashAnimationAct = SKAction.animate(with: redTrashTextures, timePerFrame: 0.13)
             
@@ -443,11 +439,7 @@ extension GameSceneController {
                 self.currentTrash.removeAction(forKey: "animateTexture")
             }
             
-            let back = SKAction.run {
-                self.back = true
-            }
-            
-            currentTrash.run(SKAction.sequence([delayAction, removeAction, back]))        
+            currentTrash.run(SKAction.sequence([delayAction, removeAction]))
         case "rec-yellow01":
             let trashAnimationAct = SKAction.animate(with: yellowTrashTextures, timePerFrame: 0.13)
             
@@ -459,11 +451,7 @@ extension GameSceneController {
                 self.currentTrash.removeAction(forKey: "animateTexture")
             }
             
-            let back = SKAction.run {
-                self.back = true
-            }
-            
-            currentTrash.run(SKAction.sequence([delayAction, removeAction, back]))        
+            currentTrash.run(SKAction.sequence([delayAction, removeAction]))
         case "rec-green01":
             let trashAnimationAct = SKAction.animate(with: greenTrashTextures, timePerFrame: 0.13)
             
@@ -475,11 +463,7 @@ extension GameSceneController {
                 self.currentTrash.removeAction(forKey: "animateTexture")
             }
             
-            let back = SKAction.run {
-                self.back = true
-            }
-            
-            currentTrash.run(SKAction.sequence([delayAction, removeAction, back]))
+            currentTrash.run(SKAction.sequence([delayAction, removeAction]))
         default:
             print("Error")
         }
@@ -500,6 +484,10 @@ extension GameSceneController {
         score += 1
         scoreLabel.text = "Score: \(score)"
         changeTrashTexture(textureName: currentTexture)
+    }
+    
+    func removeAnimationTexture() {
+        self.currentTrash.removeAction(forKey: "animateTexture")
     }
 }
 

@@ -37,8 +37,8 @@ class DialogueSceneController: SKScene {
     var counter = 0
     var bottleMoveValue = 0.0
     var playerMoveValue = 0.0
-
-    override func sceneDidLoad() {
+    
+    override func didMove(to view: SKView) {
         self.anchorPoint = CGPoint(x: 0.5, y: 0.5)
         self.size = CGSize(width: screenWidth, height: screenHeight)
 

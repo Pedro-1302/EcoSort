@@ -30,7 +30,7 @@ class HomeSceneController: SKScene {
     
     var lg = [SKTexture(imageNamed: "logo0"), SKTexture(imageNamed: "logo1"), SKTexture(imageNamed: "logo2"), SKTexture(imageNamed: "logo3")]
     
-    override func sceneDidLoad() {
+    override func didMove(to view: SKView) {
         self.anchorPoint = CGPoint(x: 0.5, y: 0.5)
         self.size = CGSize(width: screenWidth, height: screenHeight)
 
