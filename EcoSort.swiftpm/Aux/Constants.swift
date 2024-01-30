@@ -5,25 +5,20 @@
 //  Created by Pedro Franco on 18/01/24.
 //
 
-import Foundation
 import SpriteKit
 
 struct Constants {
-    // Singleton variable to share Constants
-    static let shared = Constants()
-    
-    private init(){}
-    
     private var menuSpeed = 1
     private var baseGameSpeed = 5.0
-    private var gameScore = 0
     private var playerMoveSpeed = 3.0
+    
     private var screenMaxX = UIScreen.main.bounds.maxX
     private var screenMinX = UIScreen.main.bounds.minX
     private var screenMaxY = UIScreen.main.bounds.maxY
     private var screenMinY = UIScreen.main.bounds.minY
     private var screenHeight = UIScreen.main.bounds.height
     private var screenWidht = UIScreen.main.bounds.width
+    
     private let fontURL = Bundle.module.url(forResource: "PressStart2P-Regular", withExtension: "ttf")!
 
     private var dialoguesBoxes =  [
@@ -77,10 +72,6 @@ struct Constants {
     
     func getBaseGameSpeed() -> Double {
         return baseGameSpeed
-    }
-    
-    func getGameScore() -> Int {
-        return gameScore
     }
     
     func getPlayerMoveSpeed() -> Double {

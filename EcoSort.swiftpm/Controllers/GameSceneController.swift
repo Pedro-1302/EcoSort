@@ -34,19 +34,20 @@ class GameSceneController: SKScene {
     var beachBackgroundNodesArray = [SKSpriteNode]()
     var garbageItems = [SKNode]()
     
-    var score = Constants.shared.getGameScore()
-    var mapScrollSpeed = Constants.shared.getBaseGameSpeed()
-    var playerMoveSpeed = Constants.shared.getPlayerMoveSpeed()
-    var screenMaxX = Constants.shared.getScreenMaxX()
-    var screenMinX = Constants.shared.getScreenMinX()
-    var screenMinY = Constants.shared.getScreenMinY()
-    var screenMaxY = Constants.shared.getScreenMaxY()
-    var screenHeight = Constants.shared.getScreenHeight()
-    var screenWidth = Constants.shared.getScreenWidth()
-    var blueTrashTextures = Constants.shared.getBlueTrashArray()
-    var redTrashTextures = Constants.shared.getRedTrashArray()
-    var yellowTrashTextures = Constants.shared.getYellowTrashArray()
-    var greenTrashTextures = Constants.shared.getGreenTrashArray()
+    var constants = Constants()
+    
+    var mapScrollSpeed: CGFloat = 0.0
+    var playerMoveSpeed: CGFloat = 0.0
+    var screenMaxX: CGFloat = 0.0
+    var screenMinX: CGFloat = 0.0  
+    var screenMinY: CGFloat = 0.0  
+    var screenMaxY: CGFloat = 0.0  
+    var screenHeight: CGFloat = 0.0
+    var screenWidth: CGFloat = 0.0
+    var blueTrashTextures = [SKTexture]()
+    var redTrashTextures = [SKTexture]()
+    var yellowTrashTextures = [SKTexture]()
+    var greenTrashTextures = [SKTexture]()
     
     var isMovingUp = false
     var isMovingDown = false
@@ -61,16 +62,20 @@ class GameSceneController: SKScene {
     var currentTrashText = ""
     var currentTexture = ""
     
+    var score = GameScore.shared.getGameScore()
+    
     var usedYPositions = Set<CGFloat>()
         
     override func didMove(to view: SKView) {
+        initilizeConstants()
+        
         view.isMultipleTouchEnabled = true
         view.isExclusiveTouch = true
         
         self.anchorPoint = CGPoint(x: 0.5, y: 0.5)
         self.size = CGSize(width: screenWidth, height: screenHeight)
         
-        Constants.shared.setupCustomFont()
+        constants.setupCustomFont() 
         
         createDownArrow()
         createUpArrow()
@@ -97,6 +102,8 @@ class GameSceneController: SKScene {
         
         currentTrashText = "rec-red01"
     }
+    
+    
     
     override func update(_ currentTime: TimeInterval) {
         updateCurrentTrashPosition()

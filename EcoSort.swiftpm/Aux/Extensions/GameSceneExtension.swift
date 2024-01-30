@@ -400,5 +400,20 @@ extension GameSceneController {
     func removeAnimationTexture() {
         self.currentTrash.removeAction(forKey: "animateTexture")
     }
+    
+    func initilizeConstants() {
+        mapScrollSpeed = constants.getBaseGameSpeed()
+        playerMoveSpeed = constants.getPlayerMoveSpeed()
+        screenMaxX = constants.getScreenMaxX()
+        screenMinX = constants.getScreenMinX()
+        screenMinY = constants.getScreenMinY()
+        screenMaxY = constants.getScreenMaxY()
+        screenHeight = constants.getScreenHeight()
+        screenWidth = constants.getScreenWidth()
+        blueTrashTextures = constants.getBlueTrashArray()
+        redTrashTextures = constants.getRedTrashArray()
+        yellowTrashTextures = constants.getYellowTrashArray()
+        greenTrashTextures = constants.getGreenTrashArray()
+    }
 }
 

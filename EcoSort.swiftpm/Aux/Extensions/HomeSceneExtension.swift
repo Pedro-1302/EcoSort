@@ -94,4 +94,14 @@ extension HomeSceneController {
             }))
         }
     }
+    
+    func initializeConstants() {
+        mapScrollSpeed = constants.getMenuSpeed()
+        screenMaxX = constants.getScreenMaxX()
+        screenMinX = constants.getScreenMinX()
+        screenMaxY = constants.getScreenMaxY()
+        screenMinY = constants.getScreenMinY()
+        screenHeight = constants.getScreenHeight()
+        screenWidth = constants.getScreenWidth()
+    }
 }

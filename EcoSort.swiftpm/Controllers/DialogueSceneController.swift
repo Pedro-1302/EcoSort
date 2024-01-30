@@ -18,16 +18,18 @@ class DialogueSceneController: SKScene {
     var player = SKSpriteNode()
     var trashCarried = SKSpriteNode()
     var elderlyWoman = SKSpriteNode()
-
-    var elderlyWomanTextures = Constants.shared.getElderlyWomanTextures()
-    var dialogueBoxes = Constants.shared.getDialogueBoxes()
-    var screenMaxX = Constants.shared.getScreenMaxX()
-    var screenMinX = Constants.shared.getScreenMinX()
-    var screenMinY = Constants.shared.getScreenMinY()
-    var screenMaxY = Constants.shared.getScreenMaxY()
-    var screenHeight = Constants.shared.getScreenHeight()
-    var screenWidth = Constants.shared.getScreenWidth()
     
+    var constants = Constants()
+
+    var elderlyWomanTextures = [SKTexture]()
+    var dialogueBoxes = [SKTexture]()
+    var screenMaxX: CGFloat = 0.0
+    var screenMinX: CGFloat = 0.0
+    var screenMinY: CGFloat = 0.0
+    var screenMaxY: CGFloat = 0.0
+    var screenHeight: CGFloat = 0.0
+    var screenWidth: CGFloat = 0.0
+
     var moveBottle, movePlayer: SKAction!
     
     var isMovingBottle = false
@@ -39,6 +41,8 @@ class DialogueSceneController: SKScene {
     var playerMoveValue = 0.0
     
     override func didMove(to view: SKView) {
+        initializeConstants()
+        
         self.anchorPoint = CGPoint(x: 0.5, y: 0.5)
         self.size = CGSize(width: screenWidth, height: screenHeight)
 

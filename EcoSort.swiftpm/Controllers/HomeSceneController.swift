@@ -20,17 +20,21 @@ class HomeSceneController: SKScene {
     var cityBackgroundArray = [String]()
     var beachBackgroundNodesArrays = [SKSpriteNode]()
     
-    var mapScrollSpeed = Constants.shared.getMenuSpeed() 
-    var screenMaxX = Constants.shared.getScreenMaxX()
-    var screenMinX = Constants.shared.getScreenMinX()
-    var screenMinY = Constants.shared.getScreenMinY()
-    var screenMaxY = Constants.shared.getScreenMaxY()
-    var screenHeight = Constants.shared.getScreenHeight()
-    var screenWidth = Constants.shared.getScreenWidth()
+    var constants = Constants()
+    
+    var mapScrollSpeed = 0
+    var screenMaxX: CGFloat = 0.0
+    var screenMinX: CGFloat = 0.0
+    var screenMinY: CGFloat = 0.0
+    var screenMaxY: CGFloat = 0.0
+    var screenHeight: CGFloat = 0.0
+    var screenWidth: CGFloat = 0.0
     
     var lg = [SKTexture(imageNamed: "logo0"), SKTexture(imageNamed: "logo1"), SKTexture(imageNamed: "logo2"), SKTexture(imageNamed: "logo3")]
     
     override func didMove(to view: SKView) {
+        initializeConstants()
+        
         self.anchorPoint = CGPoint(x: 0.5, y: 0.5)
         self.size = CGSize(width: screenWidth, height: screenHeight)
 

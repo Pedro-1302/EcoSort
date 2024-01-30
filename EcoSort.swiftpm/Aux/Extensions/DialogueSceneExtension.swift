@@ -129,4 +129,15 @@ extension DialogueSceneController {
             rightArrow.alpha = 1
         }
     }
+    
+    func initializeConstants() {
+        elderlyWomanTextures = constants.getElderlyWomanTextures()
+        dialogueBoxes = constants.getDialogueBoxes()
+        screenMaxX = constants.getScreenMaxX()
+        screenMinX = constants.getScreenMinX()
+        screenMaxY = constants.getScreenMaxY()
+        screenMinY = constants.getScreenMinY()
+        screenHeight = constants.getScreenHeight()
+        screenWidth = constants.getScreenWidth()
+    }
 }
