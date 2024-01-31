@@ -96,7 +96,7 @@ class GameSceneController: SKScene {
         createCurrentTrashCarried()
         setupItensMove()
         createNewspaper()
-        createVine()
+        createWine()
         createBottle()
         createMetalCan()
         

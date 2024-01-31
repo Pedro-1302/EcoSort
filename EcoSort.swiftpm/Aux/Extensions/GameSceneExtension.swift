@@ -100,7 +100,7 @@ extension GameSceneController {
     
     func createCurrentTrashCarried() {
         currentTrash = SKSpriteNode(imageNamed: "rec-red01")
-        currentTrash.size = CGSize(width: 120, height: 120)
+        currentTrash.size = CGSize(width: screenWidth * 0.09, height: screenHeight * 0.12)
         currentTrash.position = CGPoint(x: player.frame.minX, y: player.position.y)
         currentTrash.zPosition = 3
         addChild(currentTrash)
@@ -108,15 +108,15 @@ extension GameSceneController {
     
     func createNewspaper() {
         newspaper = SKSpriteNode(imageNamed: "newspaper")
-        newspaper.size = CGSize(width: 100, height: 50)
+        newspaper.size = CGSize(width: screenWidth * 0.05, height: screenHeight * 0.03)
         newspaper.zPosition = 2
         newspaper.position = CGPoint(x: screenMaxX, y: generateRandomYPositionForNodes())
         addChild(newspaper)
     }
     
-    func createVine() {
-        wine = SKSpriteNode(imageNamed: "vine")
-        wine.size = CGSize(width: 100, height: 50)
+    func createWine() {
+        wine = SKSpriteNode(imageNamed: "wine")
+        wine.size = CGSize(width: screenWidth * 0.06, height: screenHeight * 0.04)
         wine.zPosition = 2
         wine.position = CGPoint(x: screenMaxX, y: generateRandomYPositionForNodes())
         addChild(wine)
@@ -124,7 +124,7 @@ extension GameSceneController {
     
     func createBottle() {
         bottle = SKSpriteNode(imageNamed: "water-bottle")
-        bottle.size = CGSize(width: 80, height: 36)
+        bottle.size = CGSize(width: screenWidth * 0.06, height: screenHeight * 0.04)
         bottle.zPosition = 2
         bottle.position = CGPoint(x: screenMaxX, y: generateRandomYPositionForNodes())
         addChild(bottle)
@@ -132,7 +132,7 @@ extension GameSceneController {
     
     func createMetalCan() {
         metalCan = SKSpriteNode(imageNamed: "metal-can")
-        metalCan.size = CGSize(width: 70, height: 70)
+        metalCan.size = CGSize(width: screenWidth * 0.04, height: screenHeight * 0.05)
         metalCan.zPosition = 2
         metalCan.position = CGPoint(x: screenMaxX, y: generateRandomYPositionForNodes())
         addChild(metalCan)
