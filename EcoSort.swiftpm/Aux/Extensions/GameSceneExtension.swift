@@ -1,6 +1,6 @@
 //
 //  GameSceneExtension.swift
-//  
+//
 //
 //  Created by Pedro Franco on 30/01/24.
 //
@@ -288,6 +288,30 @@ extension GameSceneController {
         }
     }
     
+    func generateRandomTexture(_ type: GarbageType) -> SKTexture {
+        var randomIndex = 0
+        var randomTexture = SKTexture()
+        switch (type) {
+        case .glass:
+            randomIndex = randomSource.nextInt(upperBound: glassTextures.count)
+            randomTexture = glassTextures[randomIndex]
+        case .metal:
+            randomIndex = randomSource.nextInt(upperBound: metalTextures.count)
+            randomTexture = metalTextures[randomIndex]
+        case .paper:
+            randomIndex = randomSource.nextInt(upperBound: paperTextures.count)
+            randomTexture = paperTextures[randomIndex]
+        case .plastic:
+            randomIndex = randomSource.nextInt(upperBound: plasticTextures.count)
+            randomTexture = plasticTextures[randomIndex]
+        }
+        return randomTexture
+    }
+    
+    func generateSize(texture: SKTexture) -> CGSize {
+        return CGSize(width: screenWidth * (texture.size().width / 1366), height: screenHeight * (texture.size().height / 1024))
+    }
+    
     func resetPaper() {
         isMovingScreenLimit = false
         paperMoveValue = 0
@@ -300,7 +324,9 @@ extension GameSceneController {
     }
     
     func sortNewPaperTexture() {
-        paperItem.texture = paperTextures.randomElement()
+        let texture = generateRandomTexture(.paper)
+        paperItem.size = generateSize(texture: texture)
+        paperItem.texture = texture
     }
     
     func resetGlass() {
@@ -314,7 +340,9 @@ extension GameSceneController {
     }
     
     func sortNewGlassTexture() {
-        glassItem.texture = glassTextures.randomElement()
+        let texture = generateRandomTexture(.glass)
+        glassItem.size = generateSize(texture: texture)
+        glassItem.texture = texture
     }
     
     func resetPlastic() {
@@ -328,13 +356,10 @@ extension GameSceneController {
         isMovingScreenLimit = true
     }
     
+    
     func sortNewPlasticTexture() {
-        let texture = plasticTextures.randomElement()
-        
-        guard let safeTexture = texture else { return }
-          
-        plasticItem.size = CGSize(width: screenWidth * (safeTexture.size().width / 1366), height: screenHeight * (safeTexture.size().height / 1024))
-        
+        let texture = generateRandomTexture(.plastic)
+        plasticItem.size = generateSize(texture: texture)
         plasticItem.texture = texture
     }
     
@@ -349,23 +374,28 @@ extension GameSceneController {
     }
     
     func sortNewMetalTexture() {
-        metalItem.texture = metalTextures.randomElement()
+        let texture = generateRandomTexture(.metal)
+        metalItem.size = generateSize(texture: texture)
+        metalItem.texture = texture
     }
     
     func updateNodesPosition(node: SKNode) {
+        let distanceBetweenItems: CGFloat = 50.0 // Ajuste o valor conforme necessário
+
         switch (node) {
         case paperItem:
             paperItem.position = CGPoint(x: paperMoveValue + 1750 + screenMaxX, y: paperItem.position.y)
         case glassItem:
-            glassItem.position = CGPoint(x: glassMoveValue + 1130 + screenMaxX, y: glassItem.position.y)
+            glassItem.position = CGPoint(x: glassMoveValue + 1130 + screenMaxX + distanceBetweenItems, y: glassItem.position.y)
         case plasticItem:
-            plasticItem.position = CGPoint(x: plasticMoveValue + 650 + screenMaxX, y: plasticItem.position.y)
+            plasticItem.position = CGPoint(x: plasticMoveValue + 650 + screenMaxX + 2 * distanceBetweenItems, y: plasticItem.position.y)
         case metalItem:
-            metalItem.position = CGPoint(x: metalMoveValue + screenMaxX + 30, y: metalItem.position.y)
+            metalItem.position = CGPoint(x: metalMoveValue + screenMaxX + 3 * distanceBetweenItems, y: metalItem.position.y)
         default:
             print("Error")
         }
     }
+
     
     func removeMoveUpAction() {
         isMovingUp = false
@@ -389,7 +419,7 @@ extension GameSceneController {
             let removeAction = SKAction.run {
                 self.currentTrash.removeAction(forKey: "animateTexture")
             }
-
+            
             currentTrash.run(SKAction.sequence([delayAction, removeAction]))
         case "rec-red01":
             let trashAnimationAct = SKAction.animate(with: redTrashTextures, timePerFrame: 0.13)
@@ -453,15 +483,21 @@ extension GameSceneController {
         self.currentTrash.removeAction(forKey: "animateTexture")
     }
     
-    func initilizeConstants() {
+    func initializeSpeed() {
         mapScrollSpeed = constants.getBaseGameSpeed()
         playerMoveSpeed = constants.getPlayerMoveSpeed()
+    }
+    
+    func setupScreenBounds() {
         screenMaxX = constants.getScreenMaxX()
         screenMinX = constants.getScreenMinX()
         screenMinY = constants.getScreenMinY()
         screenMaxY = constants.getScreenMaxY()
         screenHeight = constants.getScreenHeight()
         screenWidth = constants.getScreenWidth()
+    }
+    
+    func intiializeTrashes() {
         blueTrashTextures = constants.getBlueTrashArray()
         redTrashTextures = constants.getRedTrashArray()
         yellowTrashTextures = constants.getYellowTrashArray()
@@ -473,6 +509,13 @@ extension GameSceneController {
         item16xHeight = constants.getItem16xHeight()
         item32xWidth = constants.getItem32xWidth()
         item32xHeight = constants.getItem32xHeight()
+    }
+    
+    func initializeItemsTextures() {
+        paperTextures = constants.getPaperTextures()
+        glassTextures = constants.getGlassTextures()
+        plasticTextures = constants.getPlasticTextures()
+        metalTextures = constants.getMetalTextures()
     }
 }
 

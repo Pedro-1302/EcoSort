@@ -6,6 +6,14 @@
 //
 
 import SpriteKit
+import GameplayKit
+
+enum GarbageType {
+    case paper
+    case metal
+    case glass
+    case plastic 
+}
 
 class GameSceneController: SKScene {
     // Game Nodes
@@ -38,6 +46,7 @@ class GameSceneController: SKScene {
     var cityBackgroundArray = [String]()
     var beachBackgroundNodesArray = [SKSpriteNode]()
     var garbageItems = [SKNode]()
+    
     var paperTextures = [SKTexture]()
     var glassTextures = [SKTexture]()
     var plasticTextures = [SKTexture]()
@@ -83,36 +92,21 @@ class GameSceneController: SKScene {
     // Itens positions
     var usedYPositions = Set<CGFloat>()
     
+    let randomSource = GKRandomSource.sharedRandom()
+    
     override func didMove(to view: SKView) {
-        initilizeConstants()
+        initializeSpeed()
+        setupScreenBounds()
+        intiializeTrashes()
         initializeItemsSizes()
+        initializeItemsTextures()
         
         view.isMultipleTouchEnabled = true
         view.isExclusiveTouch = true
         
         self.anchorPoint = CGPoint(x: 0.5, y: 0.5)
         self.size = CGSize(width: screenWidth, height: screenHeight)
-        
-        paperTextures = [
-            SKTexture(imageNamed: "paper-plane"),
-            SKTexture(imageNamed: "newspaper")
-        ]
-        
-        glassTextures = [
-            SKTexture(imageNamed: "wine"),
-            SKTexture(imageNamed: "glass-bottle")
-        ]
-        
-        plasticTextures = [
-            SKTexture(imageNamed: "plastic-bag"),
-            SKTexture(imageNamed: "water-bottle")
-        ]
-        
-        metalTextures = [
-            SKTexture(imageNamed: "metal-can"),
-            SKTexture(imageNamed: "can-opened")
-        ]
-        
+                
         constants.setupCustomFont()
         
         // Create arrows to control the player movement
@@ -185,7 +179,7 @@ class GameSceneController: SKScene {
         }
         
         if isMovingScreenLimit && plasticItem.position.x > frame.minX {
-            plasticMoveValue -= mapScrollSpeed
+            plasticMoveValue -= mapScrollSpeed 
         }
         
         if isMovingScreenLimit && metalItem.position.x > frame.minX {

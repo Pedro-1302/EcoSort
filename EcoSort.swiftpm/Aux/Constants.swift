@@ -24,6 +24,26 @@ struct Constants {
     private var item32xWidth = 0.06
     private var item32xHeight = 0.04
     
+    private var paperTextures = [
+        SKTexture(imageNamed: "paper-plane"),
+        SKTexture(imageNamed: "newspaper")
+    ]
+    
+    private var glassTextures = [
+        SKTexture(imageNamed: "wine"),
+        SKTexture(imageNamed: "glass-bottle")
+    ]
+    
+    private var plasticTextures = [
+        SKTexture(imageNamed: "plastic-bag"),
+        SKTexture(imageNamed: "water-bottle")
+    ]
+    
+    private var metalTextures  = [
+        SKTexture(imageNamed: "metal-can"),
+        SKTexture(imageNamed: "can-opened")
+    ]
+    
     private let fontURL = Bundle.module.url(forResource: "PressStart2P-Regular", withExtension: "ttf")!
 
     private var dialoguesBoxes =  [
@@ -139,6 +159,22 @@ struct Constants {
     
     func getLogoTextures() -> [SKTexture] {
         return logoTextures
+    }
+    
+    func getPaperTextures() -> [SKTexture] {
+        return paperTextures
+    }
+    
+    func getGlassTextures() -> [SKTexture] {
+        return glassTextures
+    }
+    
+    func getPlasticTextures() -> [SKTexture] {
+        return plasticTextures
+    }
+    
+    func getMetalTextures() -> [SKTexture] {
+        return metalTextures
     }
     
     func getScreenHeight() -> CGFloat {
