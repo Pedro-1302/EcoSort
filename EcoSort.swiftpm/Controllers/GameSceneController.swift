@@ -33,7 +33,7 @@ class GameSceneController: SKScene {
     var glassItem = SKSpriteNode()
     var plasticItem = SKSpriteNode()
     var metalItem = SKSpriteNode()
-        
+    
     var bananaPeel = SKSpriteNode()
     var apple = SKSpriteNode()
     
@@ -106,7 +106,7 @@ class GameSceneController: SKScene {
         
         self.anchorPoint = CGPoint(x: 0.5, y: 0.5)
         self.size = CGSize(width: screenWidth, height: screenHeight)
-                
+        
         constants.setupCustomFont()
         
         // Create arrows to control the player movement
@@ -157,7 +157,7 @@ class GameSceneController: SKScene {
         
         currentTrashText = "rec-red01"
     }
-
+    
     override func update(_ currentTime: TimeInterval) {
         updateCurrentTrashPosition()
         updatePlayerPosition()

@@ -8,10 +8,12 @@
 import SpriteKit
 
 struct Constants {
+    // Speed
     private var menuSpeed = 1
     private var baseGameSpeed = 5.0
     private var playerMoveSpeed = 3.0
     
+    // Bounds
     private var screenMaxX = UIScreen.main.bounds.maxX
     private var screenMinX = UIScreen.main.bounds.minX
     private var screenMaxY = UIScreen.main.bounds.maxY
@@ -19,11 +21,13 @@ struct Constants {
     private var screenHeight = UIScreen.main.bounds.height
     private var screenWidht = UIScreen.main.bounds.width
     
+    // Items sizes
     private var item16xWidth = 0.04
     private var item16xHeight = 0.06
     private var item32xWidth = 0.06
     private var item32xHeight = 0.04
     
+    // Items textures
     private var paperTextures = [
         SKTexture(imageNamed: "paper-plane"),
         SKTexture(imageNamed: "newspaper")
@@ -44,8 +48,9 @@ struct Constants {
         SKTexture(imageNamed: "can-opened")
     ]
     
+    // Font
     private let fontURL = Bundle.module.url(forResource: "PressStart2P-Regular", withExtension: "ttf")!
-
+    
     private var dialoguesBoxes =  [
         SKTexture(imageNamed: "dialogue-box01"),
         SKTexture(imageNamed: "dialogue-box02"),
@@ -54,14 +59,14 @@ struct Constants {
         SKTexture(imageNamed: "dialogue-box05"),
         SKTexture(imageNamed: "dialogue-box06")
     ]
-
+    
     private var elderlyWomanTextures = [
         SKTexture(imageNamed: "elderly-woman01"),
         SKTexture(imageNamed: "elderly-woman02"),
         SKTexture(imageNamed: "elderly-woman01"),
         SKTexture(imageNamed: "elderly-woman03")
     ]
-
+    
     private var redTrashArray = [
         SKTexture(imageNamed: "rec-red01"),
         SKTexture(imageNamed: "rec-red02"),
@@ -69,7 +74,7 @@ struct Constants {
         SKTexture(imageNamed: "rec-red02"),
         SKTexture(imageNamed: "rec-red01")
     ]
- 
+    
     private var greenTrashArray = [
         SKTexture(imageNamed: "rec-green01"),
         SKTexture(imageNamed: "rec-green02"),
@@ -101,6 +106,7 @@ struct Constants {
         SKTexture(imageNamed: "logo0")
     ]
     
+    // Getters
     func getMenuSpeed() -> Int {
         return menuSpeed
     }

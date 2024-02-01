@@ -33,10 +33,10 @@ class HomeSceneController: SKScene {
     
     override func didMove(to view: SKView) {
         initializeConstants()
-
+        
         self.anchorPoint = CGPoint(x: 0.5, y: 0.5)
         self.size = CGSize(width: screenWidth, height: screenHeight)
-
+        
         createBackground()
         createRecycleSymbol()
         addRotateAction()
@@ -59,8 +59,8 @@ class HomeSceneController: SKScene {
             
             if playButton.frame.contains(location) {
                 let transition = SKTransition.fade(withDuration: 1)
-                 let scene = DialogueSceneController(size: self.size)
-                 self.view?.presentScene(scene, transition: transition)
+                let scene = DialogueSceneController(size: self.size)
+                self.view?.presentScene(scene, transition: transition)
             }
         }
     }

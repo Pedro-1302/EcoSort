@@ -67,34 +67,37 @@ extension GameSceneController {
     
     func createGreenTrash() {
         greenTrash = SKSpriteNode(imageNamed: "recycle-green-wlabel")
-        greenTrash.size = CGSize(width: screenWidth * 0.09, height: screenHeight * 0.18)
-        greenTrash.position = CGPoint(x: screenWidth / 2 - (upArrow.frame.width / 2) - screenWidth * 0.06, y: -(screenHeight / 2) + (greenTrash.frame.height / 2) + screenHeight * 0.05)
+        greenTrash.size = CGSize(width: screenWidth * 0.06, height: screenHeight * 0.12)
+        greenTrash.position = CGPoint(x: screenWidth / 2 - (upArrow.frame.width / 2) - screenWidth * 0.14, y: -(screenHeight / 2) + (greenTrash.frame.height / 2) + screenHeight * 0.02)
         greenTrash.zPosition = 2
+        greenTrash.alpha = 0.5
         addChild(greenTrash)
     }
     
     func createYellowTrash() {
         yellowTrash = SKSpriteNode(imageNamed: "recycle-yellow-wlabel")
         yellowTrash.size = greenTrash.size
-        yellowTrash.position = CGPoint(x: greenTrash.frame.minX - yellowTrash.frame.width / 2 - screenWidth * 0.047, y: greenTrash.position.y)
+        yellowTrash.position = CGPoint(x: greenTrash.position.x, y: greenTrash.frame.maxY + yellowTrash.frame.height / 2 + screenHeight * 0.03)
         yellowTrash.zPosition = 2
+        yellowTrash.alpha = 0.5
         addChild(yellowTrash)
     }
     
     func createBlueTrash() {
         blueTrash = SKSpriteNode(imageNamed: "recycle-blue-wlabel")
         blueTrash.size = yellowTrash.size
-        blueTrash.position = CGPoint(x: yellowTrash.frame.minX - blueTrash.frame.width / 2 - screenWidth * 0.047, y: yellowTrash.position.y)
+        blueTrash.position = CGPoint(x: yellowTrash.frame.minX - blueTrash.frame.width / 2 - screenWidth * 0.02, y: (yellowTrash.frame.minY + greenTrash.frame.maxY) / 2)
         blueTrash.zPosition = 2
+        blueTrash.alpha = 0.5
         addChild(blueTrash)
     }
     
     func createRedTrash() {
         redTrash = SKSpriteNode(imageNamed: "recycle-red-wlabel")
         redTrash.size = blueTrash.size
-        redTrash.position = CGPoint(x: blueTrash.frame.minX - redTrash.frame.width / 2 - screenWidth * 0.047, y: blueTrash.position.y)
+        redTrash.position = CGPoint(x: yellowTrash.frame.maxX + redTrash.frame.width / 2 + screenWidth * 0.02, y: (yellowTrash.frame.minY + greenTrash.frame.maxY) / 2)
         redTrash.zPosition = 2
-        redTrash.alpha = 0.5
+        redTrash.alpha = 1
         addChild(redTrash)
     }
     
@@ -223,14 +226,14 @@ extension GameSceneController {
     }
     
     func changeAllTrashAlpha() {
-        greenTrash.alpha = 1
-        yellowTrash.alpha = 1
-        blueTrash.alpha = 1
-        redTrash.alpha = 1
+        greenTrash.alpha = 0.5
+        yellowTrash.alpha = 0.5
+        blueTrash.alpha = 0.5
+        redTrash.alpha = 0.5
     }
     
     func changeCurrentTrashAlpha(trashNode: SKNode) {
-        trashNode.alpha = 0.5
+        trashNode.alpha = 1
     }
     
     func updateCurrentTrashPosition() {
@@ -381,7 +384,7 @@ extension GameSceneController {
     
     func updateNodesPosition(node: SKNode) {
         let distanceBetweenItems: CGFloat = 50.0 // Ajuste o valor conforme necessário
-
+        
         switch (node) {
         case paperItem:
             paperItem.position = CGPoint(x: paperMoveValue + 1750 + screenMaxX, y: paperItem.position.y)
@@ -395,7 +398,7 @@ extension GameSceneController {
             print("Error")
         }
     }
-
+    
     
     func removeMoveUpAction() {
         isMovingUp = false

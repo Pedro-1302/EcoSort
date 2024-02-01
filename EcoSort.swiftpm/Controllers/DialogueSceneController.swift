@@ -20,7 +20,7 @@ class DialogueSceneController: SKScene {
     var elderlyWoman = SKSpriteNode()
     
     var constants = Constants()
-
+    
     var elderlyWomanTextures = [SKTexture]()
     var dialogueBoxes = [SKTexture]()
     var screenMaxX: CGFloat = 0.0
@@ -29,7 +29,7 @@ class DialogueSceneController: SKScene {
     var screenMaxY: CGFloat = 0.0
     var screenHeight: CGFloat = 0.0
     var screenWidth: CGFloat = 0.0
-
+    
     var moveBottle, movePlayer: SKAction!
     
     var isMovingBottle = false
@@ -40,12 +40,14 @@ class DialogueSceneController: SKScene {
     var bottleMoveValue = 0.0
     var playerMoveValue = 0.0
     
+    var finalPosition: CGFloat = 0.0
+    
     override func didMove(to view: SKView) {
         initializeConstants()
         
         self.anchorPoint = CGPoint(x: 0.5, y: 0.5)
         self.size = CGSize(width: screenWidth, height: screenHeight)
-
+        
         createDialogueSceneBackground()
         createDialogueBox()
         createContinueButton()
@@ -54,6 +56,8 @@ class DialogueSceneController: SKScene {
         runElderlyWomanAction()
         createLeftArrow()
         createRightArrow()
+        
+        finalPosition = -(screenWidth / 2) + player.frame.width / 2 + screenWidth * 0.19
     }
     
     override func update(_ currentTime: TimeInterval) {
@@ -61,21 +65,21 @@ class DialogueSceneController: SKScene {
         
         if counter == 3 {
             initializeNodes()
-
-            if isMovingPlayer && player.position.x < -500 {
-                playerMoveValue += 5
+            
+            if isMovingPlayer && player.position.x < finalPosition {
+                playerMoveValue += 8
             }
             
-            if player.position.x < -500 {
+            if player.position.x < finalPosition {
                 isMovingPlayer = true
                 player.run(movePlayer, withKey: "movePlayer")
             } else {
                 player.removeAction(forKey: "movePlayer")
-                if isMovingBottle && bottle.position.x > -500 {
-                    bottleMoveValue -= 5
+                if isMovingBottle && bottle.position.x > finalPosition {
+                    bottleMoveValue -= 6
                 }
                 
-                if bottle.position.x > -500 {
+                if bottle.position.x > finalPosition {
                     isMovingBottle = true
                     bottle.run(moveBottle, withKey: "moveCan")
                 } else {
