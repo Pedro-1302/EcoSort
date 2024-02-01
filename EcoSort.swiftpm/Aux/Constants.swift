@@ -19,6 +19,11 @@ struct Constants {
     private var screenHeight = UIScreen.main.bounds.height
     private var screenWidht = UIScreen.main.bounds.width
     
+    private var item16xWidth = 0.04
+    private var item16xHeight = 0.06
+    private var item32xWidth = 0.06
+    private var item32xHeight = 0.04
+    
     private let fontURL = Bundle.module.url(forResource: "PressStart2P-Regular", withExtension: "ttf")!
 
     private var dialoguesBoxes =  [
@@ -33,8 +38,8 @@ struct Constants {
     private var elderlyWomanTextures = [
         SKTexture(imageNamed: "elderly-woman01"),
         SKTexture(imageNamed: "elderly-woman02"),
-        SKTexture(imageNamed: "elderly-woman03"),
-        SKTexture(imageNamed: "elderly-woman04")
+        SKTexture(imageNamed: "elderly-woman01"),
+        SKTexture(imageNamed: "elderly-woman03")
     ]
 
     private var redTrashArray = [
@@ -50,21 +55,31 @@ struct Constants {
         SKTexture(imageNamed: "rec-green02"),
         SKTexture(imageNamed: "rec-green03"),
         SKTexture(imageNamed: "rec-green02"),
-        SKTexture(imageNamed: "rec-green01")]
+        SKTexture(imageNamed: "rec-green01")
+    ]
     
     private var yellowTrashArray = [
         SKTexture(imageNamed: "rec-yellow01"),
         SKTexture(imageNamed: "rec-yellow02"),
         SKTexture(imageNamed: "rec-yellow03"),
         SKTexture(imageNamed: "rec-yellow02"),
-        SKTexture(imageNamed: "rec-yellow01")]
+        SKTexture(imageNamed: "rec-yellow01")
+    ]
     
     private var blueTrashArray = [
         SKTexture(imageNamed: "rec-blue01"),
         SKTexture(imageNamed: "rec-blue02"),
         SKTexture(imageNamed: "rec-blue03"),
         SKTexture(imageNamed: "rec-blue02"),
-        SKTexture(imageNamed: "rec-blue01")]
+        SKTexture(imageNamed: "rec-blue01")
+    ]
+    
+    private var logoTextures = [
+        SKTexture(imageNamed: "logo0"),
+        SKTexture(imageNamed: "logo1"),
+        SKTexture(imageNamed: "logo2"),
+        SKTexture(imageNamed: "logo0")
+    ]
     
     func getMenuSpeed() -> Int {
         return menuSpeed
@@ -122,11 +137,31 @@ struct Constants {
         return blueTrashArray
     }
     
+    func getLogoTextures() -> [SKTexture] {
+        return logoTextures
+    }
+    
     func getScreenHeight() -> CGFloat {
         return screenHeight
     }
     
     func getScreenWidth() -> CGFloat {
         return screenWidht
+    }
+    
+    func getItem16xWidth() -> CGFloat {
+        return item16xWidth
+    }
+    
+    func getItem16xHeight() -> CGFloat {
+        return item16xHeight
+    }
+    
+    func getItem32xWidth() -> CGFloat  {
+        return item32xWidth
+    }
+    
+    func getItem32xHeight() -> CGFloat  {
+        return item32xHeight
     }
 }

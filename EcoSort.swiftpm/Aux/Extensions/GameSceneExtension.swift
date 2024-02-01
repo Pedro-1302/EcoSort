@@ -108,7 +108,7 @@ extension GameSceneController {
     
     func createNewspaper() {
         newspaper = SKSpriteNode(imageNamed: "newspaper")
-        newspaper.size = CGSize(width: screenWidth * 0.06, height: screenHeight * 0.04)
+        newspaper.size = CGSize(width: screenWidth * item32xWidth, height: screenHeight * item32xHeight)
         newspaper.zPosition = 2
         newspaper.position = CGPoint(x: screenMaxX, y: generateRandomYPositionForNodes())
         addChild(newspaper)
@@ -116,7 +116,7 @@ extension GameSceneController {
     
     func createWine() {
         wine = SKSpriteNode(imageNamed: "wine")
-        wine.size = CGSize(width: screenWidth * 0.06, height: screenHeight * 0.04)
+        wine.size = CGSize(width: screenWidth * item32xWidth, height: screenHeight * item32xHeight)
         wine.zPosition = 2
         wine.position = CGPoint(x: screenMaxX, y: generateRandomYPositionForNodes())
         addChild(wine)
@@ -124,7 +124,7 @@ extension GameSceneController {
     
     func createBottle() {
         bottle = SKSpriteNode(imageNamed: "water-bottle")
-        bottle.size = CGSize(width: screenWidth * 0.06, height: screenHeight * 0.04)
+        bottle.size = CGSize(width: screenWidth * item32xWidth, height: screenHeight * item32xHeight)
         bottle.zPosition = 2
         bottle.position = CGPoint(x: screenMaxX, y: generateRandomYPositionForNodes())
         addChild(bottle)
@@ -132,11 +132,60 @@ extension GameSceneController {
     
     func createMetalCan() {
         metalCan = SKSpriteNode(imageNamed: "metal-can")
-        metalCan.size = CGSize(width: screenWidth * 0.04, height: screenHeight * 0.05)
+        metalCan.size = CGSize(width: screenWidth * item16xWidth, height: screenHeight * item16xHeight)
         metalCan.zPosition = 2
         metalCan.position = CGPoint(x: screenMaxX, y: generateRandomYPositionForNodes())
         addChild(metalCan)
     }
+    
+    func createPaperPlane() {
+        paperPlane = SKSpriteNode(imageNamed: "paper-plane")
+        paperPlane.size = CGSize(width: screenWidth * item32xWidth, height: screenHeight * item32xHeight)
+        paperPlane.zPosition = 2
+        paperPlane.position = CGPoint(x: screenMaxX, y: generateRandomYPositionForNodes())
+        addChild(paperPlane)
+    }
+    
+    func createGlassBottle() {
+        glassBottle = SKSpriteNode(imageNamed: "glass-bottle")
+        glassBottle.size = CGSize(width: screenWidth * item32xWidth, height: screenHeight * item32xHeight)
+        glassBottle.zPosition = 2
+        glassBottle.position = CGPoint(x: screenMaxX, y: generateRandomYPositionForNodes())
+        addChild(glassBottle)
+    }
+    
+    func createBananaPeel() {
+        bananaPeel = SKSpriteNode(imageNamed: "banana-peel")
+        bananaPeel.size = CGSize(width: screenWidth * item32xWidth, height: screenHeight * item32xHeight)
+        bananaPeel.zPosition = 2
+        bananaPeel.position = CGPoint(x: screenMaxX, y: generateRandomYPositionForNodes())
+        addChild(bananaPeel)
+    }
+    
+    func createApple() {
+        apple = SKSpriteNode(imageNamed: "apple")
+        apple.size = CGSize(width: screenWidth * item16xWidth, height: screenHeight * item16xHeight)
+        apple.zPosition = 2
+        apple.position = CGPoint(x: screenMaxX, y: generateRandomYPositionForNodes())
+        addChild(apple)
+    }
+    
+    func createOpenedCan() {
+        canOpened = SKSpriteNode(imageNamed: "can-opened")
+        canOpened.size = CGSize(width: screenWidth * item16xWidth, height: screenHeight * item16xHeight)
+        canOpened.zPosition = 2
+        canOpened.position = CGPoint(x: screenMaxX, y: generateRandomYPositionForNodes())
+        addChild(canOpened)
+    }
+    
+    func createPlasticBag() {
+        plasticBag = SKSpriteNode(imageNamed: "plastic-bag")
+        plasticBag.size = CGSize(width: screenWidth * item16xWidth, height: screenHeight * item16xHeight)
+        plasticBag.zPosition = 2
+        plasticBag.position = CGPoint(x: screenMaxX, y: generateRandomYPositionForNodes())
+        addChild(plasticBag)
+    }
+    
     
     func addRunAction() {
         guard let runAction = runAction else { return }
@@ -227,10 +276,10 @@ extension GameSceneController {
     }
     
     func setupItensMove() {
-        moveNewspaper = SKAction.moveBy(x: 0, y: 1, duration: 0.1)
-        moveWine = SKAction.moveBy(x: 0, y: 1, duration: 0.1)
-        moveBottle = SKAction.moveBy(x: 0, y: 1, duration: 0.1)
-        moveMetalCan = SKAction.moveBy(x: 0, y: 1, duration: 0.1)
+        movePaper = SKAction.moveBy(x: 0, y: 1, duration: 0.1)
+        moveGlasses = SKAction.moveBy(x: 0, y: 1, duration: 0.1)
+        movePlastic = SKAction.moveBy(x: 0, y: 1, duration: 0.1)
+        moveMetal = SKAction.moveBy(x: 0, y: 1, duration: 0.1)
     }
     
     func setUpdateConditionsForNodes(node: SKNode) {
@@ -238,78 +287,114 @@ extension GameSceneController {
         case newspaper:
             if node.position.x > frame.minX {
                 isMovingScreenLimit = true
-                node.run(moveNewspaper, withKey: "moveNewspaper")
+                node.run(movePaper, withKey: "movePaper")
             } else {
-                node.removeAction(forKey: "moveNewspaper")
-                resetNewspaper()
+                node.removeAction(forKey: "movePaper")
+                resetPaper()
             }
         case wine:
             if node.position.x > frame.minX {
                 isMovingScreenLimit = true
-                node.run(moveWine, withKey: "moveWine")
+                node.run(moveGlasses, withKey: "moveGlasses")
             } else {
-                node.removeAction(forKey: "moveWine")
-                resetWine()
+                node.removeAction(forKey: "moveGlasses")
+                resetGlass()
             }
         case bottle:
             if node.position.x > frame.minX {
                 isMovingScreenLimit = true
-                node.run(moveBottle, withKey: "moveBottle")
+                node.run(movePlastic, withKey: "movePlastic")
             } else {
-                node.removeAction(forKey: "moveBottle")
-                resetBottle()
+                node.removeAction(forKey: "movePlastic")
+                resetPlastic()
             }
         case metalCan:
             if node.position.x > frame.minX {
                 isMovingScreenLimit = true
-                node.run(moveMetalCan, withKey: "moveCan")
+                node.run(moveMetal, withKey: "moveMetal")
             } else {
-                node.removeAction(forKey: "moveCan")
-                resetMetalCan()
+                node.removeAction(forKey: "moveMetal")
+                resetMetal()
             }
         default:
             print("Error")
         }
     }
     
-    func resetNewspaper() {
+    func resetPaper() {
         isMovingScreenLimit = false
-        newspaperMoveValue = 0
+        paperMoveValue = 0
+        
+        sortNewPaperTexture()
+        
         newspaper.position = CGPoint(x: screenMaxX, y: generateRandomYPositionForNodes())
+        
         isMovingScreenLimit = true
     }
     
-    func resetWine() {
+    func sortNewPaperTexture() {
+        newspaper.texture = paperTextures.randomElement()
+    }
+    
+    func resetGlass() {
         isMovingScreenLimit = false
-        wineMoveValue = 0
+        glassMoveValue = 0
+        
+        sortNewGlassTexture()
+        
         wine.position = CGPoint(x: screenMaxX, y: generateRandomYPositionForNodes())
         isMovingScreenLimit = true
     }
     
-    func resetBottle() {
+    func sortNewGlassTexture() {
+        wine.texture = glassTextures.randomElement()
+    }
+    
+    func resetPlastic() {
         isMovingScreenLimit = false
-        botleMoveValue = 0
+        plasticMoveValue = 0
+        
+        sortNewPlasticTexture()
+        
         bottle.position = CGPoint(x: screenMaxX, y: generateRandomYPositionForNodes())
+        
         isMovingScreenLimit = true
     }
     
-    func resetMetalCan() {
+    func sortNewPlasticTexture() {
+        let texture = plasticTextures.randomElement()
+        
+        guard let safeTexture = texture else { return }
+          
+        bottle.size = CGSize(width: screenWidth * (safeTexture.size().width / 1366), height: screenHeight * (safeTexture.size().height / 1024))
+        
+        bottle.texture = texture
+    }
+    
+    func resetMetal() {
         isMovingScreenLimit = false
-        metalCanMoveValue = 0
+        metalMoveValue = 0
+        
+        sortNewMetalTexture()
+        
         metalCan.position = CGPoint(x: screenMaxX, y: generateRandomYPositionForNodes())
         isMovingScreenLimit = true
+    }
+    
+    func sortNewMetalTexture() {
+        metalCan.texture = metalTextures.randomElement()
     }
     
     func updateNodesPosition(node: SKNode) {
         switch (node) {
         case newspaper:
-            newspaper.position = CGPoint(x: newspaperMoveValue + 1800 + screenMaxX, y: newspaper.position.y)
+            newspaper.position = CGPoint(x: paperMoveValue + 1800 + screenMaxX, y: newspaper.position.y)
         case wine:
-            wine.position = CGPoint(x: wineMoveValue + 1200 + screenMaxX, y: wine.position.y)
+            wine.position = CGPoint(x: glassMoveValue + 1200 + screenMaxX, y: wine.position.y)
         case bottle:
-            bottle.position = CGPoint(x: botleMoveValue + 600 + screenMaxX, y: bottle.position.y)
+            bottle.position = CGPoint(x: plasticMoveValue + 600 + screenMaxX, y: bottle.position.y)
         case metalCan:
-            metalCan.position = CGPoint(x: metalCanMoveValue + screenMaxX, y: metalCan.position.y)
+            metalCan.position = CGPoint(x: metalMoveValue + screenMaxX, y: metalCan.position.y)
         default:
             print("Error")
         }
@@ -414,6 +499,13 @@ extension GameSceneController {
         redTrashTextures = constants.getRedTrashArray()
         yellowTrashTextures = constants.getYellowTrashArray()
         greenTrashTextures = constants.getGreenTrashArray()
+    }
+    
+    func initializeItemsSizes() {
+        item16xWidth = constants.getItem16xWidth()
+        item16xHeight = constants.getItem16xHeight()
+        item32xWidth = constants.getItem32xWidth()
+        item32xHeight = constants.getItem32xHeight()
     }
 }
 

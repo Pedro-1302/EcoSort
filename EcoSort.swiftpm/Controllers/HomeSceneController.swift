@@ -29,12 +29,11 @@ class HomeSceneController: SKScene {
     var screenMaxY: CGFloat = 0.0
     var screenHeight: CGFloat = 0.0
     var screenWidth: CGFloat = 0.0
-    
-    var lg = [SKTexture(imageNamed: "logo0"), SKTexture(imageNamed: "logo1"), SKTexture(imageNamed: "logo2"), SKTexture(imageNamed: "logo3")]
+    var logoTextures = [SKTexture]()
     
     override func didMove(to view: SKView) {
         initializeConstants()
-        
+
         self.anchorPoint = CGPoint(x: 0.5, y: 0.5)
         self.size = CGSize(width: screenWidth, height: screenHeight)
 

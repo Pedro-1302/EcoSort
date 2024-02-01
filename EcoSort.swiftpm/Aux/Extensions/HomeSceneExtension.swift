@@ -41,7 +41,7 @@ extension HomeSceneController {
     }
     
     func addLogoAnimation() {
-        let logoAnimation = SKAction.animate(with: lg, timePerFrame: 1)
+        let logoAnimation = SKAction.animate(with: logoTextures, timePerFrame: 1)
         let infiniteLogoAnimation = SKAction.repeatForever(logoAnimation)
         logo.run(infiniteLogoAnimation)
     }
@@ -103,5 +103,6 @@ extension HomeSceneController {
         screenMinY = constants.getScreenMinY()
         screenHeight = constants.getScreenHeight()
         screenWidth = constants.getScreenWidth()
+        logoTextures = constants.getLogoTextures()
     }
 }

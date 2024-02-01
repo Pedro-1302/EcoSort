@@ -8,6 +8,7 @@
 import SpriteKit
 
 class GameSceneController: SKScene {
+    // Game Nodes
     var player = SKSpriteNode()
     var scoreNode = SKSpriteNode()
     var scoreLabel = SKLabelNode()
@@ -20,24 +21,33 @@ class GameSceneController: SKScene {
     var blueTrash = SKSpriteNode()
     var redTrash = SKSpriteNode()
     var currentTrash = SKSpriteNode()
-    
     var newspaper = SKSpriteNode()
     var wine = SKSpriteNode()
     var bottle = SKSpriteNode()
     var metalCan = SKSpriteNode()
     var paperPlane = SKSpriteNode()
+    var glassBottle = SKSpriteNode()
+    var bananaPeel = SKSpriteNode()
+    var apple = SKSpriteNode()
+    var plasticBag = SKSpriteNode()
+    var canOpened = SKSpriteNode()
     
+    // Actions
     var runAction = SKAction(named: "Run")
+    var moveUpAction, moveDownAction, movePaper, moveGlasses, movePlastic, moveMetal: SKAction!
     
-    var moveUpAction, moveDownAction, moveNewspaper, moveWine, moveBottle, moveMetalCan: SKAction!
-    
+    // Arrays
     var beachBackgroundArray = [String]()
     var cityBackgroundArray = [String]()
     var beachBackgroundNodesArray = [SKSpriteNode]()
     var garbageItems = [SKNode]()
+    var paperTextures = [SKTexture]()
+    var glassTextures = [SKTexture]()
+    var plasticTextures = [SKTexture]()
+    var metalTextures = [SKTexture]()
     
+    // Constants
     var constants = Constants()
-    
     var mapScrollSpeed: CGFloat = 0.0
     var playerMoveSpeed: CGFloat = 0.0
     var screenMaxX: CGFloat = 0.0
@@ -50,26 +60,35 @@ class GameSceneController: SKScene {
     var redTrashTextures = [SKTexture]()
     var yellowTrashTextures = [SKTexture]()
     var greenTrashTextures = [SKTexture]()
+    var item16xWidth: CGFloat = 0.0
+    var item16xHeight: CGFloat = 0.0
+    var item32xWidth: CGFloat = 0.0
+    var item32xHeight: CGFloat = 0.0
     
+    // Game Controllers
     var isMovingUp = false
     var isMovingDown = false
     var isMovingScreenLimit = false
     var isItemCollected = false
     
+    // Game Aux
     var value = 0.0
-    var newspaperMoveValue = 0.0
-    var wineMoveValue = 0.0
-    var botleMoveValue = 0.0
-    var metalCanMoveValue = 0.0
+    var paperMoveValue = 0.0
+    var glassMoveValue = 0.0
+    var plasticMoveValue = 0.0
+    var metalMoveValue = 0.0
     var currentTrashText = ""
     var currentTexture = ""
     
+    // Game Score
     var score = GameScore.shared.getGameScore()
     
+    // Itens positions
     var usedYPositions = Set<CGFloat>()
-        
+    
     override func didMove(to view: SKView) {
         initilizeConstants()
+        initializeItemsSizes()
         
         view.isMultipleTouchEnabled = true
         view.isExclusiveTouch = true
@@ -77,35 +96,78 @@ class GameSceneController: SKScene {
         self.anchorPoint = CGPoint(x: 0.5, y: 0.5)
         self.size = CGSize(width: screenWidth, height: screenHeight)
         
+        paperTextures = [
+            SKTexture(imageNamed: "paper-plane"),
+            SKTexture(imageNamed: "newspaper")
+        ]
+        
+        glassTextures = [
+            SKTexture(imageNamed: "wine"),
+            SKTexture(imageNamed: "glass-bottle")
+        ]
+        
+        plasticTextures = [
+            SKTexture(imageNamed: "plastic-bag"),
+            SKTexture(imageNamed: "water-bottle")
+        ]
+        
+        metalTextures = [
+            SKTexture(imageNamed: "metal-can"),
+            SKTexture(imageNamed: "can-opened")
+        ]
+        
         constants.setupCustomFont() 
         
+        // Create arrows to control the player movement
         createDownArrow()
         createUpArrow()
+        
+        // Create player
         createPlayerNode()
+        
+        // Add player run action
         addRunAction()
+        
+        // Setup background
         createBeachNodes()
         createCityNodes()
+        
+        // Add actions to player move
         addMoveUpAction()
         addMoveDownAction()
+        
+        // Create invisible walls to player dont go away from the borders
         createInvisibleTopWall()
         createInvisibleBottomWall()
+        
+        // Create trashes
         createGreenTrash()
         createYellowTrash()
         createBlueTrash()
         createRedTrash()
+        
+        // Create Score node and Label
         createScoreNode()
         createScoreLabel()
+        
+        // Create Current trash carried by the player
         createCurrentTrashCarried()
+        
+        // Setup actions for items
         setupItensMove()
+        
+        // Create and Add items
         createNewspaper()
         createWine()
         createBottle()
         createMetalCan()
-        
-        paperPlane = SKSpriteNode(imageNamed: "paper-plane")
-        
-        
-        
+        createPaperPlane()
+        createGlassBottle()
+        createBananaPeel()
+        createApple()
+        createOpenedCan()
+        createPlasticBag()
+    
         currentTrashText = "rec-red01"
     }
     
@@ -124,41 +186,42 @@ class GameSceneController: SKScene {
         }
         
         if isMovingScreenLimit && newspaper.position.x > frame.minX {
-            newspaperMoveValue -= mapScrollSpeed
+            paperMoveValue -= mapScrollSpeed
         }
         
         if isMovingScreenLimit && wine.position.x > frame.minX {
-            wineMoveValue -= mapScrollSpeed
+            glassMoveValue -= mapScrollSpeed
         }
         
         if isMovingScreenLimit && bottle.position.x > frame.minX {
-            botleMoveValue -= mapScrollSpeed
+            plasticMoveValue -= mapScrollSpeed
         }
         
         if isMovingScreenLimit && metalCan.position.x > frame.minX {
-            metalCanMoveValue -= mapScrollSpeed
+            metalMoveValue -= mapScrollSpeed
         }
         
         if player.frame.intersects(newspaper.frame) && currentTrashText == "rec-blue01" {
-            resetNewspaper()
+            resetPaper()
             addTrashAnimation()
             updateUI()
         }
         
         if player.frame.intersects(wine.frame) && currentTrashText == "rec-green01" {
-            resetWine()
+            resetGlass()
             addTrashAnimation()
             updateUI()
         }
         
         if player.frame.intersects(bottle.frame) && currentTrashText == "rec-red01" {
-            resetBottle()
+            resetPlastic()
             addTrashAnimation()
             updateUI()
         }
         
         if player.frame.intersects(metalCan.frame) && currentTrashText == "rec-yellow01" {
-            resetMetalCan()
+                        
+            resetMetal()
             addTrashAnimation()
             updateUI()
         }
@@ -181,11 +244,8 @@ class GameSceneController: SKScene {
     
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        print("began \(touches.count)")
-        
         for touch in touches {
             let location = touch.location(in: self)
-            print(touch.tapCount)
             
             if upArrow.frame.contains(location) && player.frame.minY < topWall.position.y {
                 isMovingUp = true
@@ -257,5 +317,4 @@ class GameSceneController: SKScene {
         }
     }
 
-    
 }
