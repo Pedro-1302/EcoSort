@@ -102,7 +102,7 @@ class GameSceneController: SKScene {
         createBottle()
         createMetalCan()
         
-        paperPlane = SKSpriteNode("paper-plane")
+        paperPlane = SKSpriteNode(imageNamed: "paper-plane")
         
         
         
