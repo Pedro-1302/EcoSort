@@ -26,7 +26,7 @@ extension DialogueSceneController {
     
     func createLeftArrow() {
         leftArrow = SKSpriteNode(imageNamed: "arrow-left")
-        leftArrow.size = CGSize(width: 120, height: 120)
+        leftArrow.size = CGSize(width: screenWidth * 0.09, height: screenHeight * 0.12)
         leftArrow.position = CGPoint(x: -(screenWidth / 2) + (leftArrow.frame.width / 2) + (screenWidth * 0.05), y: currentDialogueBox.position.y)
         leftArrow.zPosition = 2
         leftArrow.alpha = 0.5
@@ -35,7 +35,7 @@ extension DialogueSceneController {
     
     func createRightArrow() {
         rightArrow = SKSpriteNode(imageNamed: "arrow-right")
-        rightArrow.size = CGSize(width: 120, height: 120)
+        rightArrow.size = CGSize(width: screenWidth * 0.09, height: screenHeight * 0.12)
         rightArrow.position = CGPoint(x: screenWidth / 2 - (rightArrow.frame.width / 2)  - (screenWidth * 0.05), y: currentDialogueBox.position.y)
         
         rightArrow.zPosition = 2
@@ -93,7 +93,7 @@ extension DialogueSceneController {
     func createElderlyWoman() {
         elderlyWoman = SKSpriteNode(imageNamed: "elderly-woman01")
         elderlyWoman.position = CGPoint(x: emmaBox.frame.midX, y: emmaBox.frame.midY)
-        elderlyWoman.size = CGSize(width: 136, height: 130)
+        elderlyWoman.size = CGSize(width: screenWidth * 0.10, height: screenHeight * 0.14)
         elderlyWoman.zPosition = 3
         addChild(elderlyWoman)
     }

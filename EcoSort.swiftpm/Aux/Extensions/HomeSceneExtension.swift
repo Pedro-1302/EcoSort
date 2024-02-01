@@ -18,8 +18,8 @@ extension HomeSceneController {
     
     func createRecycleSymbol() {
         recycleSymbol = SKSpriteNode(imageNamed: "recycle-symbol")
-        recycleSymbol.size = CGSize(width: 100, height: 100)
-        recycleSymbol.position = CGPoint(x: 200, y: 80)
+        recycleSymbol.size = CGSize(width: screenWidth * 0.08, height: screenHeight * 0.13)
+        recycleSymbol.position = CGPoint(x: logo.frame.midX + screenWidth * 0.12, y: logo.frame.minX + screenHeight * 0.16)
         recycleSymbol.zPosition = 3
         addChild(recycleSymbol)
     }
@@ -34,8 +34,8 @@ extension HomeSceneController {
     
     func createLogo() {
         logo = SKSpriteNode(imageNamed: "logo0")
-        logo.size = CGSize(width: 796, height: 235)
-        logo.position = CGPoint(x: 0, y: beachBackgroundNodesArrays[0].frame.maxY - 100)
+        logo.size = CGSize(width: screenWidth * 0.56, height: screenHeight * 0.23)
+        logo.position = CGPoint(x: 0, y: playButton.frame.maxY + (logo.size.height / 2) + screenHeight * 0.19)
         logo.zPosition = 3
         addChild(logo)
     }

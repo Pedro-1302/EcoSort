@@ -44,12 +44,27 @@ extension GameSceneController {
     
     func createScoreLabel() {
         scoreLabel = SKLabelNode(fontNamed: "PressStart2P-Regular")
-        scoreLabel.position = CGPoint(x: scoreNode.frame.midX, y: scoreNode.frame.midY - 16)
+        
+        let fontSizePercentage: CGFloat = 2
+        let fontSize = screenWidth * fontSizePercentage / 100.0
+        scoreLabel.fontSize = fontSize
+        scoreLabel.position = CGPoint(x: scoreNode.frame.midX, y: scoreNode.frame.midY - scoreNode.frame.height / 4)
         scoreLabel.zPosition = 3
-        scoreLabel.fontSize = 26
         scoreLabel.text = "Score = \(score)"
         addChild(scoreLabel)
     }
+//
+//    func createScoreLabel() {
+//        scoreLabel = SKLabelNode(fontNamed: "PressStart2P-Regular")
+//        scoreLabel.position = CGPoint(x: scoreNode.frame.midX, y: scoreNode.frame.midY - 16)
+//        scoreLabel.scene?.size = scoreNode.size
+//        scoreLabel.zPosition = 3
+//    
+//        scoreLabel.fontSize =  26
+//                  
+//        scoreLabel.text = "Score = \(score)"
+//        addChild(scoreLabel)
+//    }
     
     func createInvisibleTopWall() {
         topWall = SKSpriteNode(color: .clear, size: CGSize(width: size.height + 40, height: 2))
@@ -312,7 +327,7 @@ extension GameSceneController {
     }
     
     func generateSize(texture: SKTexture) -> CGSize {
-        return CGSize(width: screenWidth * (texture.size().width / 1366), height: screenHeight * (texture.size().height / 1024))
+        return CGSize(width: screenWidth * (texture.size().width / screenWidth), height: screenHeight * (texture.size().height / screenHeight))
     }
     
     func resetPaper() {
