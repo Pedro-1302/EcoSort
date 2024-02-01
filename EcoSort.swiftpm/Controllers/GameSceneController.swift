@@ -21,16 +21,13 @@ class GameSceneController: SKScene {
     var blueTrash = SKSpriteNode()
     var redTrash = SKSpriteNode()
     var currentTrash = SKSpriteNode()
-    var newspaper = SKSpriteNode()
-    var wine = SKSpriteNode()
-    var bottle = SKSpriteNode()
-    var metalCan = SKSpriteNode()
-    var paperPlane = SKSpriteNode()
-    var glassBottle = SKSpriteNode()
+    var paperItem = SKSpriteNode()
+    var glassItem = SKSpriteNode()
+    var plasticItem = SKSpriteNode()
+    var metalItem = SKSpriteNode()
+        
     var bananaPeel = SKSpriteNode()
     var apple = SKSpriteNode()
-    var plasticBag = SKSpriteNode()
-    var canOpened = SKSpriteNode()
     
     // Actions
     var runAction = SKAction(named: "Run")
@@ -51,9 +48,9 @@ class GameSceneController: SKScene {
     var mapScrollSpeed: CGFloat = 0.0
     var playerMoveSpeed: CGFloat = 0.0
     var screenMaxX: CGFloat = 0.0
-    var screenMinX: CGFloat = 0.0  
-    var screenMinY: CGFloat = 0.0  
-    var screenMaxY: CGFloat = 0.0  
+    var screenMinX: CGFloat = 0.0
+    var screenMinY: CGFloat = 0.0
+    var screenMaxY: CGFloat = 0.0
     var screenHeight: CGFloat = 0.0
     var screenWidth: CGFloat = 0.0
     var blueTrashTextures = [SKTexture]()
@@ -116,7 +113,7 @@ class GameSceneController: SKScene {
             SKTexture(imageNamed: "can-opened")
         ]
         
-        constants.setupCustomFont() 
+        constants.setupCustomFont()
         
         // Create arrows to control the player movement
         createDownArrow()
@@ -157,22 +154,16 @@ class GameSceneController: SKScene {
         setupItensMove()
         
         // Create and Add items
-        createNewspaper()
-        createWine()
-        createBottle()
-        createMetalCan()
-        createPaperPlane()
-        createGlassBottle()
+        createPaperItem()
+        createGlassItem()
+        createPlasticItem()
+        createMetalItem()
         createBananaPeel()
         createApple()
-        createOpenedCan()
-        createPlasticBag()
-    
+        
         currentTrashText = "rec-red01"
     }
-    
-    
-    
+
     override func update(_ currentTime: TimeInterval) {
         updateCurrentTrashPosition()
         updatePlayerPosition()
@@ -185,56 +176,55 @@ class GameSceneController: SKScene {
             value -= playerMoveSpeed
         }
         
-        if isMovingScreenLimit && newspaper.position.x > frame.minX {
+        if isMovingScreenLimit && paperItem.position.x > frame.minX {
             paperMoveValue -= mapScrollSpeed
         }
         
-        if isMovingScreenLimit && wine.position.x > frame.minX {
+        if isMovingScreenLimit && glassItem.position.x > frame.minX {
             glassMoveValue -= mapScrollSpeed
         }
         
-        if isMovingScreenLimit && bottle.position.x > frame.minX {
+        if isMovingScreenLimit && plasticItem.position.x > frame.minX {
             plasticMoveValue -= mapScrollSpeed
         }
         
-        if isMovingScreenLimit && metalCan.position.x > frame.minX {
+        if isMovingScreenLimit && metalItem.position.x > frame.minX {
             metalMoveValue -= mapScrollSpeed
         }
         
-        if player.frame.intersects(newspaper.frame) && currentTrashText == "rec-blue01" {
+        if player.frame.intersects(paperItem.frame) && currentTrashText == "rec-blue01" {
             resetPaper()
             addTrashAnimation()
             updateUI()
         }
         
-        if player.frame.intersects(wine.frame) && currentTrashText == "rec-green01" {
+        if player.frame.intersects(glassItem.frame) && currentTrashText == "rec-green01" {
             resetGlass()
             addTrashAnimation()
             updateUI()
         }
         
-        if player.frame.intersects(bottle.frame) && currentTrashText == "rec-red01" {
+        if player.frame.intersects(plasticItem.frame) && currentTrashText == "rec-red01" {
             resetPlastic()
             addTrashAnimation()
             updateUI()
         }
         
-        if player.frame.intersects(metalCan.frame) && currentTrashText == "rec-yellow01" {
-                        
+        if player.frame.intersects(metalItem.frame) && currentTrashText == "rec-yellow01" {
             resetMetal()
             addTrashAnimation()
             updateUI()
         }
         
-        setUpdateConditionsForNodes(node: newspaper)
-        setUpdateConditionsForNodes(node: wine)
-        setUpdateConditionsForNodes(node: bottle)
-        setUpdateConditionsForNodes(node: metalCan)
+        setUpdateConditionsForNodes(node: paperItem)
+        setUpdateConditionsForNodes(node: glassItem)
+        setUpdateConditionsForNodes(node: plasticItem)
+        setUpdateConditionsForNodes(node: metalItem)
         
-        updateNodesPosition(node: newspaper)
-        updateNodesPosition(node: wine)
-        updateNodesPosition(node: bottle)
-        updateNodesPosition(node: metalCan)
+        updateNodesPosition(node: paperItem)
+        updateNodesPosition(node: glassItem)
+        updateNodesPosition(node: plasticItem)
+        updateNodesPosition(node: metalItem)
         
         addEnumerateNodes(arrayNodeName: beachBackgroundArray, speed: mapScrollSpeed, baseNameNode: "beach", arraySize: beachBackgroundArray.count - 1)
         
@@ -316,5 +306,5 @@ class GameSceneController: SKScene {
             removeMoveDownAction()
         }
     }
-
+    
 }

@@ -66,9 +66,9 @@ extension DialogueSceneController {
     }
     
     func createPlayer() {
-        player = SKSpriteNode(imageNamed: "right-player-stop01")
+        player = SKSpriteNode(imageNamed: "player01")
         player.size = CGSize(width: 80, height: 160)
-        bottle.position = CGPoint(x: screenMinX, y: 0)
+        player.position = CGPoint(x: screenMinX, y: 0)
         player.zPosition = 4
         addChild(player)
     }
