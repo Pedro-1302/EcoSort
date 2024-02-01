@@ -108,7 +108,7 @@ extension GameSceneController {
     
     func createNewspaper() {
         newspaper = SKSpriteNode(imageNamed: "newspaper")
-        newspaper.size = CGSize(width: screenWidth * 0.05, height: screenHeight * 0.03)
+        newspaper.size = CGSize(width: screenWidth * 0.06, height: screenHeight * 0.04)
         newspaper.zPosition = 2
         newspaper.position = CGPoint(x: screenMaxX, y: generateRandomYPositionForNodes())
         addChild(newspaper)

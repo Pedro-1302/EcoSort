@@ -7,7 +7,6 @@ struct ContentView: View {
     var body: some View {
         SpriteView(scene: currentScene)
             .edgesIgnoringSafeArea(.all)
-            //.onTapGesture(count: <#T##Int#>, perform: <#T##() -> Void#>)
     }
 }
 

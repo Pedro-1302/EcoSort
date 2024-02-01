@@ -20,10 +20,12 @@ class GameSceneController: SKScene {
     var blueTrash = SKSpriteNode()
     var redTrash = SKSpriteNode()
     var currentTrash = SKSpriteNode()
+    
     var newspaper = SKSpriteNode()
     var wine = SKSpriteNode()
     var bottle = SKSpriteNode()
     var metalCan = SKSpriteNode()
+    var paperPlane = SKSpriteNode()
     
     var runAction = SKAction(named: "Run")
     
@@ -99,6 +101,10 @@ class GameSceneController: SKScene {
         createWine()
         createBottle()
         createMetalCan()
+        
+        paperPlane = SKSpriteNode("paper-plane")
+        
+        
         
         currentTrashText = "rec-red01"
     }
