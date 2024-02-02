@@ -256,9 +256,6 @@ extension GameSceneController {
     }
     
     func setUpdateConditionsForNodes(node: SKNode) {
-        
-        
-        
         switch (node) {
         case paperItem:
             if node.position.x > frame.minX {
@@ -318,7 +315,30 @@ extension GameSceneController {
     }
     
     func resetGame() {
-        self.removeFromParent()
+        self.player.removeAllActions()
+        self.currentTrash.removeAction(forKey: "animateTexture")
+        self.metalItem.removeAction(forKey: "moveMetal")
+        self.paperItem.removeAction(forKey: "movePaper")
+        self.glassItem.removeAction(forKey: "moveGlasses")
+        self.plasticItem.removeAction(forKey: "movePlastic")
+        self.isMovingUp = false
+        self.isMovingDown = false
+        self.isMovingScreenLimit = false
+        self.isItemCollected = false
+        self.value = 0.0
+        self.paperMoveValue = 0.0
+        self.glassMoveValue = 0.0
+        self.plasticMoveValue = 0.0
+        self.metalMoveValue = 0.0
+        self.currentTrashText = "rec-red01"
+        self.currentTexture = "rec-red01"
+        self.heartsGone = 0
+        self.score = 0
+        self.usedYPositions = Set<CGFloat>()
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
+            self.removeAllChildren()
+        }
     }
     
     func generateRandomTexture(_ type: GarbageType) -> SKTexture {
