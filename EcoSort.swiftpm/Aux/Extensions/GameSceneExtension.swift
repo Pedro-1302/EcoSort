@@ -337,7 +337,10 @@ extension GameSceneController {
         self.usedYPositions = Set<CGFloat>()
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
-            self.removeAllChildren()
+            let transition = SKTransition.fade(withDuration: 1)
+            let scene = DialogueSceneController(size: self.size)
+            scene.updateUI(text: "a")
+            self.view?.presentScene(scene, transition: transition)
         }
     }
     

@@ -7,7 +7,8 @@
 
 import SpriteKit
 
-class DialogueSceneController: SKScene {
+
+class DialogueSceneController: SKScene, ChangeUIProtocol {
     var dialogueSceneBackground = SKSpriteNode()
     var currentDialogueBox = SKSpriteNode()
     var emmaBox = SKSpriteNode()
@@ -18,9 +19,11 @@ class DialogueSceneController: SKScene {
     var player = SKSpriteNode()
     var trashCarried = SKSpriteNode()
     var elderlyWoman = SKSpriteNode()
-    
+        
     var constants = Constants()
     
+    var gameScene = GameSceneController()
+        
     var elderlyWomanTextures = [SKTexture]()
     var dialogueBoxes = [SKTexture]()
     var screenMaxX: CGFloat = 0.0
@@ -71,6 +74,14 @@ class DialogueSceneController: SKScene {
         createRightArrow()
                 
         finalPosition = -(screenWidth / 2) + player.frame.width / 2 + screenWidth * 0.19
+        
+        gameScene.changeUIDelegate = self
+    }
+    
+    func updateUI(text: String) {
+        print(text)
+        
+        // change ui to gameover
     }
     
     override func update(_ currentTime: TimeInterval) {
@@ -108,7 +119,7 @@ class DialogueSceneController: SKScene {
             denitializeNodes()
         }
     }
-    
+
     func updatePlayerPosition() {
         player.position = CGPoint(x: playerMoveValue - screenMaxX, y: player.position.y)
     }

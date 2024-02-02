@@ -15,6 +15,10 @@ enum GarbageType {
     case plastic 
 }
 
+protocol ChangeUIProtocol {
+    func updateUI(text: String)
+}
+
 class GameSceneController: SKScene {
     // Game Nodes
     var player = SKSpriteNode()
@@ -33,10 +37,12 @@ class GameSceneController: SKScene {
     var glassItem = SKSpriteNode()
     var plasticItem = SKSpriteNode()
     var metalItem = SKSpriteNode()
-    
+            
     var bananaPeel = SKSpriteNode()
     var apple = SKSpriteNode()
     
+    var changeUIDelegate: ChangeUIProtocol? 
+        
     // Actions
     var runAction = SKAction(named: "Run")
     var moveUpAction, moveDownAction, movePaper, moveGlasses, movePlastic, moveMetal: SKAction!
@@ -100,7 +106,7 @@ class GameSceneController: SKScene {
     var usedYPositions = Set<CGFloat>()
     
     let randomSource = GKRandomSource.sharedRandom()
-    
+        
     override func didMove(to view: SKView) {
         initializeSpeed()
         setupScreenBounds()
