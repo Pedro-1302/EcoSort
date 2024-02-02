@@ -46,11 +46,7 @@ class GameSceneController: SKScene {
     var cityBackgroundArray = [String]()
     var beachBackgroundNodesArray = [SKSpriteNode]()
     var garbageItems = [SKNode]()
-    
-    var paperTextures = [SKTexture]()
-    var glassTextures = [SKTexture]()
-    var plasticTextures = [SKTexture]()
-    var metalTextures = [SKTexture]()
+    var hearts = [SKSpriteNode]()
     
     // Constants
     var constants = Constants()
@@ -66,11 +62,20 @@ class GameSceneController: SKScene {
     var redTrashTextures = [SKTexture]()
     var yellowTrashTextures = [SKTexture]()
     var greenTrashTextures = [SKTexture]()
+    var heartTextures = [SKTexture]() 
+    var paperTextures = [SKTexture]()
+    var glassTextures = [SKTexture]()
+    var plasticTextures = [SKTexture]()
+    var metalTextures = [SKTexture]()
     var item16xWidth: CGFloat = 0.0
     var item16xHeight: CGFloat = 0.0
     var item32xWidth: CGFloat = 0.0
     var item32xHeight: CGFloat = 0.0
     
+    var heart0 = SKSpriteNode()
+    var heart1 = SKSpriteNode()
+    var heart2 = SKSpriteNode()
+
     // Game Controllers
     var isMovingUp = false
     var isMovingDown = false
@@ -86,6 +91,8 @@ class GameSceneController: SKScene {
     var currentTrashText = ""
     var currentTexture = ""
     
+    var heartsGone = 0
+    
     // Game Score
     var score = GameScore.shared.getGameScore()
     
@@ -100,6 +107,8 @@ class GameSceneController: SKScene {
         intiializeTrashes()
         initializeItemsSizes()
         initializeItemsTextures()
+        
+        heartTextures = constants.getHeartTextures()
         
         view.isMultipleTouchEnabled = true
         view.isExclusiveTouch = true
@@ -155,13 +164,35 @@ class GameSceneController: SKScene {
         createBananaPeel()
         createApple()
         
+        heart0 = SKSpriteNode(imageNamed: "heart0")
+        heart0.size = CGSize(width: screenWidth * 0.06, height: screenHeight * 0.08)
+        heart0.position = CGPoint(x: -(screenWidth / 2) + heart0.frame.width / 2 + screenWidth * 0.02, y: screenHeight / 2 - heart0.frame.height / 2 - screenHeight * 0.03)
+        heart0.zPosition = 2
+        addChild(heart0)
+        
+        heart1 = SKSpriteNode(imageNamed: "heart0")
+        heart1.size = CGSize(width: screenWidth * 0.06, height: screenHeight * 0.08)
+        heart1.position = CGPoint(x: heart0.frame.maxX + heart1.frame.width / 2 + screenWidth * 0.01, y: screenHeight / 2 - heart1.frame.height / 2 - screenHeight * 0.03)
+        heart1.zPosition = 2
+        addChild(heart1)
+        
+        heart2 = SKSpriteNode(imageNamed: "heart0")
+        heart2.size = CGSize(width: screenWidth * 0.06, height: screenHeight * 0.08)
+        heart2.position = CGPoint(x: heart1.frame.maxX + heart2.frame.width / 2 + screenWidth * 0.01, y: screenHeight / 2 - heart2.frame.height / 2 - screenHeight * 0.03)
+        heart2.zPosition = 2
+        addChild(heart2)
+        
+        hearts.append(heart0)
+        hearts.append(heart1)
+        hearts.append(heart2)
+        
         currentTrashText = "rec-red01"
     }
     
     override func update(_ currentTime: TimeInterval) {
         updateCurrentTrashPosition()
         updatePlayerPosition()
-        
+                
         if isMovingUp && player.frame.minY < topWall.position.y {
             value += playerMoveSpeed
         }
@@ -268,6 +299,22 @@ class GameSceneController: SKScene {
                 changeAllTrashAlpha()
                 changeCurrentTrashAlpha(trashNode: redTrash)
             }
+        }
+    }
+    
+    func runHeartBrokenAnimation(node: SKSpriteNode) {
+        if heartsGone < hearts.count  {
+            let heartBrokenAnimation = SKAction.animate(with: heartTextures, timePerFrame: 0.15)
+            node.run(heartBrokenAnimation, withKey: "heartAnimation")
+            let delayAction = SKAction.wait(forDuration: Double(heartTextures.count) * 0.15)
+            let fadeOutAction = SKAction.fadeAlpha(to: 0.0, duration: 0.2)
+            let removeAction = SKAction.run {
+                node.removeAction(forKey: "heartAnimation")
+                node.alpha = 0.0
+            }
+            node.run(SKAction.sequence([delayAction, fadeOutAction, removeAction]))
+            
+            heartsGone += 1
         }
     }
     

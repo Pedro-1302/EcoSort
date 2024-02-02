@@ -48,15 +48,28 @@ class DialogueSceneController: SKScene {
         self.anchorPoint = CGPoint(x: 0.5, y: 0.5)
         self.size = CGSize(width: screenWidth, height: screenHeight)
         
+        // Create scene background
         createDialogueSceneBackground()
+        
+        // Create dialogue box
         createDialogueBox()
+        
+        // Create continue button
         createContinueButton()
+        
+        // Create emma box
         createEmmaBox()
+        
+        // Create elderly woman sprite
         createElderlyWoman()
+        
+        // Run elderly woman animation
         runElderlyWomanAction()
+        
+        // Create arrows
         createLeftArrow()
         createRightArrow()
-        
+                
         finalPosition = -(screenWidth / 2) + player.frame.width / 2 + screenWidth * 0.19
     }
     

@@ -106,6 +106,13 @@ struct Constants {
         SKTexture(imageNamed: "logo0")
     ]
     
+    private var heartTextures = [
+        SKTexture(imageNamed: "heart0"),
+        SKTexture(imageNamed: "heart1"),
+        SKTexture(imageNamed: "heart2"),
+        SKTexture(imageNamed: "heart3")
+    ]
+    
     // Getters
     func getMenuSpeed() -> Int {
         return menuSpeed
@@ -181,6 +188,10 @@ struct Constants {
     
     func getMetalTextures() -> [SKTexture] {
         return metalTextures
+    }
+    
+    func getHeartTextures() -> [SKTexture] {
+        return heartTextures
     }
     
     func getScreenHeight() -> CGFloat {

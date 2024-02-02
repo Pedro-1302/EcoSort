@@ -35,7 +35,7 @@ extension GameSceneController {
     
     func createScoreNode() {
         scoreNode = SKSpriteNode(imageNamed: "score-box")
-        scoreNode.size = CGSize(width: screenWidth * 0.24, height: screenHeight * 0.08)
+        scoreNode.size = CGSize(width: screenWidth * 0.28, height: screenHeight * 0.088)
         scoreNode.position = CGPoint(x: screenWidth / 2 - (scoreNode.frame.width / 2) - screenWidth * 0.023, y: screenHeight / 2 - (scoreNode.frame.height / 2) - screenHeight * 0.032)
         scoreNode.zPosition = 2
         scoreNode.anchorPoint = CGPoint(x: 0.5, y: 0.5)
@@ -47,25 +47,13 @@ extension GameSceneController {
         
         let fontSizePercentage: CGFloat = 2
         let fontSize = screenWidth * fontSizePercentage / 100.0
-        scoreLabel.fontSize = fontSize
         scoreLabel.position = CGPoint(x: scoreNode.frame.midX, y: scoreNode.frame.midY - scoreNode.frame.height / 4)
         scoreLabel.zPosition = 3
-        scoreLabel.text = "Score = \(score)"
+        scoreLabel.fontSize = fontSize
+        scoreLabel.text = "Score: \(score)/30"
         addChild(scoreLabel)
     }
-//
-//    func createScoreLabel() {
-//        scoreLabel = SKLabelNode(fontNamed: "PressStart2P-Regular")
-//        scoreLabel.position = CGPoint(x: scoreNode.frame.midX, y: scoreNode.frame.midY - 16)
-//        scoreLabel.scene?.size = scoreNode.size
-//        scoreLabel.zPosition = 3
-//    
-//        scoreLabel.fontSize =  26
-//                  
-//        scoreLabel.text = "Score = \(score)"
-//        addChild(scoreLabel)
-//    }
-    
+
     func createInvisibleTopWall() {
         topWall = SKSpriteNode(color: .clear, size: CGSize(width: size.height + 40, height: 2))
         topWall.position = CGPoint(x: 0, y: beachBackgroundNodesArray[0].frame.maxY - 10)
@@ -268,42 +256,69 @@ extension GameSceneController {
     }
     
     func setUpdateConditionsForNodes(node: SKNode) {
+        
+        
+        
         switch (node) {
         case paperItem:
             if node.position.x > frame.minX {
                 isMovingScreenLimit = true
                 node.run(movePaper, withKey: "movePaper")
             } else {
-                node.removeAction(forKey: "movePaper")
-                resetPaper()
+                if heartsGone < hearts.count {
+                    node.removeAction(forKey: "movePaper")
+                    runHeartBrokenAnimation(node: hearts[heartsGone])
+                    resetPaper()
+                } else {
+                    resetGame()
+                }
             }
         case glassItem:
             if node.position.x > frame.minX {
                 isMovingScreenLimit = true
                 node.run(moveGlasses, withKey: "moveGlasses")
             } else {
-                node.removeAction(forKey: "moveGlasses")
-                resetGlass()
+                if heartsGone < hearts.count {
+                    node.removeAction(forKey: "moveGlasses")
+                    runHeartBrokenAnimation(node: hearts[heartsGone])
+                    resetGlass()
+                } else {
+                    resetGame()
+                }
             }
         case plasticItem:
             if node.position.x > frame.minX {
                 isMovingScreenLimit = true
                 node.run(movePlastic, withKey: "movePlastic")
             } else {
-                node.removeAction(forKey: "movePlastic")
-                resetPlastic()
+                if heartsGone < hearts.count {
+                    node.removeAction(forKey: "movePlastic")
+                    runHeartBrokenAnimation(node: hearts[heartsGone])
+                    resetPlastic()
+                } else {
+                    resetGame()
+                }
             }
         case metalItem:
             if node.position.x > frame.minX {
                 isMovingScreenLimit = true
                 node.run(moveMetal, withKey: "moveMetal")
             } else {
-                node.removeAction(forKey: "moveMetal")
-                resetMetal()
+                if heartsGone < hearts.count {
+                    node.removeAction(forKey: "moveMetal")
+                    runHeartBrokenAnimation(node: hearts[heartsGone])
+                    resetMetal()
+                } else {
+                    resetGame()
+                }
             }
         default:
             print("Error")
         }
+    }
+    
+    func resetGame() {
+        self.removeFromParent()
     }
     
     func generateRandomTexture(_ type: GarbageType) -> SKTexture {
@@ -493,7 +508,7 @@ extension GameSceneController {
     
     func updateUI() {
         score += 1
-        scoreLabel.text = "Score: \(score)"
+        scoreLabel.text = "Score: \(score)/30"
         changeTrashTexture(textureName: currentTexture)
     }
     
