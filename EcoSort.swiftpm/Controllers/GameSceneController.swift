@@ -37,7 +37,6 @@ class GameSceneController: SKScene {
     var glassItem = SKSpriteNode()
     var plasticItem = SKSpriteNode()
     var metalItem = SKSpriteNode()
-            
     var bananaPeel = SKSpriteNode()
     var apple = SKSpriteNode()
     
@@ -108,8 +107,8 @@ class GameSceneController: SKScene {
     let randomSource = GKRandomSource.sharedRandom()
         
     override func didMove(to view: SKView) {
-        initializeSpeed()
         setupScreenBounds()
+        initializeSpeed()
         intiializeTrashes()
         initializeItemsSizes()
         initializeItemsTextures()
@@ -170,27 +169,11 @@ class GameSceneController: SKScene {
         createBananaPeel()
         createApple()
         
-        heart0 = SKSpriteNode(imageNamed: "heart0")
-        heart0.size = CGSize(width: screenWidth * 0.06, height: screenHeight * 0.08)
-        heart0.position = CGPoint(x: -(screenWidth / 2) + heart0.frame.width / 2 + screenWidth * 0.16, y: screenHeight / 2 - heart0.frame.height / 2 - screenHeight * 0.03)
-        heart0.zPosition = 2
-        addChild(heart0)
+        // Create and add hearts
+        createHearts()
         
-        heart1 = SKSpriteNode(imageNamed: "heart0")
-        heart1.size = CGSize(width: screenWidth * 0.06, height: screenHeight * 0.08)
-        heart1.position = CGPoint(x: heart0.frame.minX - heart1.frame.width / 2 - screenWidth * 0.01, y: screenHeight / 2 - heart1.frame.height / 2 - screenHeight * 0.03)
-        heart1.zPosition = 2
-        addChild(heart1)
-        
-        heart2 = SKSpriteNode(imageNamed: "heart0")
-        heart2.size = CGSize(width: screenWidth * 0.06, height: screenHeight * 0.08)
-        heart2.position = CGPoint(x: heart1.frame.minX - heart2.frame.width / 2 - screenWidth * 0.01, y: screenHeight / 2 - heart2.frame.height / 2 - screenHeight * 0.03)
-        heart2.zPosition = 2
-        addChild(heart2)
-        
-        hearts.append(heart0)
-        hearts.append(heart1)
-        hearts.append(heart2)
+        // Add hearts to array
+        addHeartsToArray()
         
         currentTrashText = "rec-red01"
     }
@@ -264,9 +247,7 @@ class GameSceneController: SKScene {
             print("a")
         }
     }
-    
-    
-    
+
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         for touch in touches {
             let location = touch.location(in: self)
@@ -310,23 +291,7 @@ class GameSceneController: SKScene {
             }
         }
     }
-    
-    func runHeartBrokenAnimation(node: SKSpriteNode) {
-        if heartsGone < hearts.count  {
-            let heartBrokenAnimation = SKAction.animate(with: heartTextures, timePerFrame: 0.15)
-            node.run(heartBrokenAnimation, withKey: "heartAnimation")
-            let delayAction = SKAction.wait(forDuration: Double(heartTextures.count) * 0.15)
-            let fadeOutAction = SKAction.fadeAlpha(to: 0.0, duration: 0.2)
-            let removeAction = SKAction.run {
-                node.removeAction(forKey: "heartAnimation")
-                node.alpha = 0.0
-            }
-            node.run(SKAction.sequence([delayAction, fadeOutAction, removeAction]))
-            
-            heartsGone += 1
-        }
-    }
-    
+
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
         for touch in touches {
             let location = touch.location(in: self)
@@ -356,5 +321,4 @@ class GameSceneController: SKScene {
             removeMoveDownAction()
         }
     }
-    
 }

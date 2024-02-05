@@ -8,7 +8,7 @@
 import SpriteKit
 
 
-class DialogueSceneController: SKScene, ChangeUIProtocol {
+class DialogueSceneController: SKScene {
     var dialogueSceneBackground = SKSpriteNode()
     var currentDialogueBox = SKSpriteNode()
     var emmaBox = SKSpriteNode()
@@ -90,10 +90,6 @@ class DialogueSceneController: SKScene, ChangeUIProtocol {
         gameScene.changeUIDelegate = self
     }
     
-    func updateUI(updateScreen: Bool) {
-        self.updateScreen = updateScreen
-    }
-    
     override func update(_ currentTime: TimeInterval) {
         trashCarried.position = CGPoint(x: player.frame.minX, y: player.position.y + 20)
         
@@ -127,35 +123,6 @@ class DialogueSceneController: SKScene, ChangeUIProtocol {
             updatePlayerPosition()
         } else {
             denitializeNodes()
-        }
-    }
-
-    func updatePlayerPosition() {
-        player.position = CGPoint(x: playerMoveValue - screenMaxX, y: player.position.y)
-    }
-    
-    func updateBottlePosition() {
-        bottle.position = CGPoint(x: bottleMoveValue + screenMaxX, y: bottle.position.y)
-    }
-    
-    func denitializeNodes() {
-        bottle.removeAction(forKey: "moveCan")
-        bottle.removeFromParent()
-        player.removeAction(forKey: "movePlayer")
-        player.removeFromParent()
-        trashCarried.removeFromParent()
-        alreadyCreated = false
-        playerMoveValue = 0
-        bottleMoveValue = 0
-    }
-    
-    func initializeNodes() {
-        if !alreadyCreated {
-            createTrashCarried()
-            setupActions()
-            createBottle()
-            createPlayer()
-            alreadyCreated = true
         }
     }
     

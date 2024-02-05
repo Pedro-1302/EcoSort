@@ -7,7 +7,7 @@
 
 import SpriteKit
 
-// MARK: HomeSceneController extension for setup nodes
+// MARK: - Node Creation
 extension HomeSceneController {
     func createBackground() {
         background = SKSpriteNode(color: .black, size: CGSize(width: screenWidth, height: screenHeight))
@@ -40,17 +40,6 @@ extension HomeSceneController {
         addChild(logo)
     }
     
-    func addLogoAnimation() {
-        let logoAnimation = SKAction.animate(with: logoTextures, timePerFrame: 1)
-        let infiniteLogoAnimation = SKAction.repeatForever(logoAnimation)
-        logo.run(infiniteLogoAnimation)
-    }
-    
-    func addRotateAction() {
-        guard let rotateSymbolAction = rotateAction else { return }
-        recycleSymbol.run(rotateSymbolAction)
-    }
-    
     func createBeachNodes() {
         for i in 0...2 {
             let imageName = "beach\(i)"
@@ -71,7 +60,24 @@ extension HomeSceneController {
             cityBackgroundArray.append(imageName)
         }
     }
+}
+
+// MARK: - Actions
+extension HomeSceneController {
+    func addLogoAnimation() {
+        let logoAnimation = SKAction.animate(with: logoTextures, timePerFrame: 1)
+        let infiniteLogoAnimation = SKAction.repeatForever(logoAnimation)
+        logo.run(infiniteLogoAnimation)
+    }
     
+    func addRotateAction() {
+        guard let rotateSymbolAction = rotateAction else { return }
+        recycleSymbol.run(rotateSymbolAction)
+    }
+}
+
+// MARK: - Aux Methods
+extension HomeSceneController {
     public func addIndividualSprite(texture: String, size: CGSize, zPosition: Double, anchorPoint: CGPoint) -> SKSpriteNode {
         let node = SKSpriteNode()
         node.texture = SKTexture(imageNamed: texture)
