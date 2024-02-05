@@ -7,10 +7,10 @@
 
 import SpriteKit
 
-// MARK: GameSceneController with Node Creations
+// MARK: - Node Creation
 extension GameSceneController {
     func createPlayerNode() {
-        player = SKSpriteNode(imageNamed: "player-stop01")
+        player = SKSpriteNode(imageNamed: "player01")
         player.size = CGSize(width: screenWidth * 0.059, height: screenHeight * 0.16)
         player.position = CGPoint(x: -(screenWidth / 2) + player.frame.width / 2 + screenWidth * 0.19, y: 0)
         player.zPosition = 4
@@ -53,7 +53,7 @@ extension GameSceneController {
         scoreLabel.text = "Score: \(score)/30"
         addChild(scoreLabel)
     }
-
+    
     func createInvisibleTopWall() {
         topWall = SKSpriteNode(color: .clear, size: CGSize(width: size.height + 40, height: 2))
         topWall.position = CGPoint(x: 0, y: beachBackgroundNodesArray[0].frame.maxY - 10)
@@ -160,21 +160,6 @@ extension GameSceneController {
         addChild(apple)
     }
     
-    func addRunAction() {
-        guard let runAction = runAction else { return }
-        player.run(runAction)
-    }
-    
-    func addMoveUpAction() {
-        let moveUp = SKAction.moveBy(x: 0, y: 1, duration: 0.1)
-        moveUpAction = SKAction.repeatForever(moveUp)
-    }
-    
-    func addMoveDownAction() {
-        let moveDown = SKAction.moveBy(x: 0, y: -1, duration: 0.1)
-        moveDownAction = SKAction.repeatForever(moveDown)
-    }
-    
     func createBeachNodes() {
         for i in 0...2 {
             let imageName = "beach\(i)"
@@ -197,8 +182,63 @@ extension GameSceneController {
     }
 }
 
+// MARK: - Actions
+extension GameSceneController {
+    func addRunAction() {
+        guard let runAction = runAction else { return }
+        player.run(runAction)
+    }
+    
+    func addMoveUpAction() {
+        let moveUp = SKAction.moveBy(x: 0, y: 1, duration: 0.1)
+        moveUpAction = SKAction.repeatForever(moveUp)
+    }
+    
+    func addMoveDownAction() {
+        let moveDown = SKAction.moveBy(x: 0, y: -1, duration: 0.1)
+        moveDownAction = SKAction.repeatForever(moveDown)
+    }
+    
+    func removeMoveUpAction() {
+        isMovingUp = false
+        player.removeAction(forKey: "moveUp")
+    }
+    
+    func removeMoveDownAction() {
+        isMovingDown = false
+        player.removeAction(forKey: "moveDown")
+    }
+    
+    func setupItensMove() {
+        movePaper = SKAction.moveBy(x: 0, y: 1, duration: 0.1)
+        moveGlasses = SKAction.moveBy(x: 0, y: 1, duration: 0.1)
+        movePlastic = SKAction.moveBy(x: 0, y: 1, duration: 0.1)
+        moveMetal = SKAction.moveBy(x: 0, y: 1, duration: 0.1)
+    }
+    
+    func removeAnimationTexture() {
+        self.currentTrash.removeAction(forKey: "animateTexture")
+    }
+    
+    func runHeartBrokenAnimation(node: SKSpriteNode) {
+        if heartsGone < hearts.count  {
+            let heartBrokenAnimation = SKAction.animate(with: heartTextures, timePerFrame: 0.15)
+            node.run(heartBrokenAnimation, withKey: "heartAnimation")
+            let delayAction = SKAction.wait(forDuration: Double(heartTextures.count) * 0.15)
+            let fadeOutAction = SKAction.fadeAlpha(to: 0.0, duration: 0.2)
+            let removeAction = SKAction.run {
+                node.removeAction(forKey: "heartAnimation")
+                node.alpha = 0.0
+            }
+            node.run(SKAction.sequence([delayAction, fadeOutAction, removeAction]))
+            
+            heartsGone += 1
+        }
+    }
+}
 
-// MARK: GameSceneController with Other functions
+
+// MARK: - Aux Methods
 extension GameSceneController {
     public func addIndividualSprite(texture: String, size: CGSize, zPosition: Double, anchorPoint: CGPoint) -> SKSpriteNode {
         let node = SKSpriteNode()
@@ -246,13 +286,6 @@ extension GameSceneController {
     
     func updatePlayerPosition() {
         player.position = CGPoint(x: player.position.x, y: value)
-    }
-    
-    func setupItensMove() {
-        movePaper = SKAction.moveBy(x: 0, y: 1, duration: 0.1)
-        moveGlasses = SKAction.moveBy(x: 0, y: 1, duration: 0.1)
-        movePlastic = SKAction.moveBy(x: 0, y: 1, duration: 0.1)
-        moveMetal = SKAction.moveBy(x: 0, y: 1, duration: 0.1)
     }
     
     func setUpdateConditionsForNodes(node: SKNode) {
@@ -337,7 +370,10 @@ extension GameSceneController {
         self.usedYPositions = Set<CGFloat>()
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
-            self.removeAllChildren()
+            let transition = SKTransition.fade(withDuration: 1)
+            let scene = DialogueSceneController(size: self.size)
+            scene.updateUI(updateScreen: true)
+            self.view?.presentScene(scene, transition: transition)
         }
     }
     
@@ -409,7 +445,6 @@ extension GameSceneController {
         isMovingScreenLimit = true
     }
     
-    
     func sortNewPlasticTexture() {
         let texture = generateRandomTexture(.plastic)
         plasticItem.size = generateSize(texture: texture)
@@ -447,17 +482,6 @@ extension GameSceneController {
         default:
             print("Error")
         }
-    }
-    
-    
-    func removeMoveUpAction() {
-        isMovingUp = false
-        player.removeAction(forKey: "moveUp")
-    }
-    
-    func removeMoveDownAction() {
-        isMovingDown = false
-        player.removeAction(forKey: "moveDown")
     }
     
     func addTrashAnimation() {
@@ -532,10 +556,6 @@ extension GameSceneController {
         changeTrashTexture(textureName: currentTexture)
     }
     
-    func removeAnimationTexture() {
-        self.currentTrash.removeAction(forKey: "animateTexture")
-    }
-    
     func initializeSpeed() {
         mapScrollSpeed = constants.getBaseGameSpeed()
         playerMoveSpeed = constants.getPlayerMoveSpeed()
@@ -570,5 +590,32 @@ extension GameSceneController {
         plasticTextures = constants.getPlasticTextures()
         metalTextures = constants.getMetalTextures()
     }
+    
+    func createHearts() {
+        heart0 = SKSpriteNode(imageNamed: "heart0")
+        heart0.size = CGSize(width: screenWidth * 0.06, height: screenHeight * 0.08)
+        heart0.position = CGPoint(x: -(screenWidth / 2) + heart0.frame.width / 2 + screenWidth * 0.16, y: screenHeight / 2 - heart0.frame.height / 2 - screenHeight * 0.03)
+        heart0.zPosition = 2
+        addChild(heart0)
+        
+        heart1 = SKSpriteNode(imageNamed: "heart0")
+        heart1.size = CGSize(width: screenWidth * 0.06, height: screenHeight * 0.08)
+        heart1.position = CGPoint(x: heart0.frame.minX - heart1.frame.width / 2 - screenWidth * 0.01, y: screenHeight / 2 - heart1.frame.height / 2 - screenHeight * 0.03)
+        heart1.zPosition = 2
+        addChild(heart1)
+        
+        heart2 = SKSpriteNode(imageNamed: "heart0")
+        heart2.size = CGSize(width: screenWidth * 0.06, height: screenHeight * 0.08)
+        heart2.position = CGPoint(x: heart1.frame.minX - heart2.frame.width / 2 - screenWidth * 0.01, y: screenHeight / 2 - heart2.frame.height / 2 - screenHeight * 0.03)
+        heart2.zPosition = 2
+        addChild(heart2)
+    }
+    
+    func addHeartsToArray() {
+        hearts.append(heart0)
+        hearts.append(heart1)
+        hearts.append(heart2)
+    }
+    
 }
 

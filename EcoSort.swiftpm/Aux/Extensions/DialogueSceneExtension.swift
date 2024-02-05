@@ -7,6 +7,7 @@
 
 import SpriteKit
 
+// MARK: - Nodes Creation
 extension DialogueSceneController {
     func createDialogueSceneBackground() {
         dialogueSceneBackground = SKSpriteNode(imageNamed: "dialogue-screen")
@@ -37,7 +38,6 @@ extension DialogueSceneController {
         rightArrow = SKSpriteNode(imageNamed: "arrow-right")
         rightArrow.size = CGSize(width: screenWidth * 0.09, height: screenHeight * 0.12)
         rightArrow.position = CGPoint(x: screenWidth / 2 - (rightArrow.frame.width / 2)  - (screenWidth * 0.05), y: currentDialogueBox.position.y)
-        
         rightArrow.zPosition = 2
         addChild(rightArrow)
     }
@@ -49,11 +49,6 @@ extension DialogueSceneController {
         continueButton.zPosition = 2
         continueButton.alpha = 0
         addChild(continueButton)
-    }
-    
-    func setupActions() {
-        moveBottle = SKAction.moveBy(x: 0, y: 1, duration: 0.1)
-        movePlayer = SKAction.move(to: CGPoint(x: 0, y: player.position.y), duration: 5.0)
     }
     
     func createBottle() {
@@ -97,13 +92,24 @@ extension DialogueSceneController {
         elderlyWoman.zPosition = 3
         addChild(elderlyWoman)
     }
+}
+
+// MARK: - Action
+extension DialogueSceneController {
+    func setupActions() {
+        moveBottle = SKAction.moveBy(x: 0, y: 1, duration: 0.1)
+        movePlayer = SKAction.move(to: CGPoint(x: 0, y: player.position.y), duration: 5.0)
+    }
     
     func runElderlyWomanAction() {
         let elderlyWomanAnimation = SKAction.animate(with: elderlyWomanTextures, timePerFrame: 0.3)
         let infiniteElderlyWomanAnimation = SKAction.repeatForever(elderlyWomanAnimation)
         elderlyWoman.run(infiniteElderlyWomanAnimation)
     }
-    
+}
+
+// MARK: - Aux Methods
+extension DialogueSceneController {
     func changeDialogueBoxTexture(spriteValue: Int) {
         currentDialogueBox.texture = dialogueBoxes[spriteValue]
     }
@@ -139,5 +145,41 @@ extension DialogueSceneController {
         screenMinY = constants.getScreenMinY()
         screenHeight = constants.getScreenHeight()
         screenWidth = constants.getScreenWidth()
+    }
+    
+    func updatePlayerPosition() {
+        player.position = CGPoint(x: playerMoveValue - screenMaxX, y: player.position.y)
+    }
+    
+    func updateBottlePosition() {
+        bottle.position = CGPoint(x: bottleMoveValue + screenMaxX, y: bottle.position.y)
+    }
+    
+    func denitializeNodes() {
+        bottle.removeAction(forKey: "moveCan")
+        bottle.removeFromParent()
+        player.removeAction(forKey: "movePlayer")
+        player.removeFromParent()
+        trashCarried.removeFromParent()
+        alreadyCreated = false
+        playerMoveValue = 0
+        bottleMoveValue = 0
+    }
+    
+    func initializeNodes() {
+        if !alreadyCreated {
+            createTrashCarried()
+            setupActions()
+            createBottle()
+            createPlayer()
+            alreadyCreated = true
+        }
+    }
+}
+
+// MARK: - ChangeUIProtocol
+extension DialogueSceneController: ChangeUIProtocol {
+    func updateUI(updateScreen: Bool) {
+        self.updateScreen = updateScreen
     }
 }

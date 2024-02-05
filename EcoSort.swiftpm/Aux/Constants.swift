@@ -51,6 +51,7 @@ struct Constants {
     // Font
     private let fontURL = Bundle.module.url(forResource: "PressStart2P-Regular", withExtension: "ttf")!
     
+    // Arrays 
     private var dialoguesBoxes =  [
         SKTexture(imageNamed: "dialogue-box01"),
         SKTexture(imageNamed: "dialogue-box02"),

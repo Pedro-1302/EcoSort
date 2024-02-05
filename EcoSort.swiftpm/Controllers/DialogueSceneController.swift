@@ -7,6 +7,7 @@
 
 import SpriteKit
 
+
 class DialogueSceneController: SKScene {
     var dialogueSceneBackground = SKSpriteNode()
     var currentDialogueBox = SKSpriteNode()
@@ -19,8 +20,12 @@ class DialogueSceneController: SKScene {
     var trashCarried = SKSpriteNode()
     var elderlyWoman = SKSpriteNode()
     
+    var updateScreen = false
+        
     var constants = Constants()
     
+    var gameScene = GameSceneController()
+        
     var elderlyWomanTextures = [SKTexture]()
     var dialogueBoxes = [SKTexture]()
     var screenMaxX: CGFloat = 0.0
@@ -47,7 +52,7 @@ class DialogueSceneController: SKScene {
         
         self.anchorPoint = CGPoint(x: 0.5, y: 0.5)
         self.size = CGSize(width: screenWidth, height: screenHeight)
-        
+
         // Create scene background
         createDialogueSceneBackground()
         
@@ -69,8 +74,20 @@ class DialogueSceneController: SKScene {
         // Create arrows
         createLeftArrow()
         createRightArrow()
+        
+        if updateScreen {
+            currentDialogueBox.texture = SKTexture(imageNamed: "dialogue-box-lose")
+            leftArrow.alpha = 0
+            leftArrow.isUserInteractionEnabled = false
+            rightArrow.alpha = 0
+            rightArrow.isUserInteractionEnabled = false
+            continueButton.texture = SKTexture(imageNamed: "play-again-button")
+            continueButton.alpha = 1
+        }
                 
         finalPosition = -(screenWidth / 2) + player.frame.width / 2 + screenWidth * 0.19
+        
+        gameScene.changeUIDelegate = self
     }
     
     override func update(_ currentTime: TimeInterval) {
@@ -109,48 +126,19 @@ class DialogueSceneController: SKScene {
         }
     }
     
-    func updatePlayerPosition() {
-        player.position = CGPoint(x: playerMoveValue - screenMaxX, y: player.position.y)
-    }
-    
-    func updateBottlePosition() {
-        bottle.position = CGPoint(x: bottleMoveValue + screenMaxX, y: bottle.position.y)
-    }
-    
-    func denitializeNodes() {
-        bottle.removeAction(forKey: "moveCan")
-        bottle.removeFromParent()
-        player.removeAction(forKey: "movePlayer")
-        player.removeFromParent()
-        trashCarried.removeFromParent()
-        alreadyCreated = false
-        playerMoveValue = 0
-        bottleMoveValue = 0
-    }
-    
-    func initializeNodes() {
-        if !alreadyCreated {
-            createTrashCarried()
-            setupActions()
-            createBottle()
-            createPlayer()
-            alreadyCreated = true
-        }
-    }
-    
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         for touch in touches {
             let location = touch.location(in: self)
             
             if rightArrow.contains(location) {
-                if counter < 5 {
+                if counter < 5 && !updateScreen {
                     counter += 1
                     changeDialogueBoxTexture(spriteValue: counter)
                 }
             }
             
             if leftArrow.contains(location) {
-                if counter > 0 {
+                if counter > 0 && !updateScreen  {
                     counter -= 1
                     changeDialogueBoxTexture(spriteValue: counter)
                 }
@@ -162,8 +150,10 @@ class DialogueSceneController: SKScene {
                 self.view?.presentScene(scene, transition: transition)
             }
             
-            updateArrowsVisibility()
-            updatePlayButtonVisibility()
+            if !updateScreen {
+                updateArrowsVisibility()
+                updatePlayButtonVisibility()
+            }
         }
     }
 }
