@@ -19,6 +19,8 @@ class DialogueSceneController: SKScene, ChangeUIProtocol {
     var player = SKSpriteNode()
     var trashCarried = SKSpriteNode()
     var elderlyWoman = SKSpriteNode()
+    
+    var updateScreen = false
         
     var constants = Constants()
     
@@ -50,7 +52,7 @@ class DialogueSceneController: SKScene, ChangeUIProtocol {
         
         self.anchorPoint = CGPoint(x: 0.5, y: 0.5)
         self.size = CGSize(width: screenWidth, height: screenHeight)
-        
+
         // Create scene background
         createDialogueSceneBackground()
         
@@ -72,16 +74,24 @@ class DialogueSceneController: SKScene, ChangeUIProtocol {
         // Create arrows
         createLeftArrow()
         createRightArrow()
+        
+        if updateScreen {
+            currentDialogueBox.texture = SKTexture(imageNamed: "dialogue-box-lose")
+            leftArrow.alpha = 0
+            leftArrow.isUserInteractionEnabled = false
+            rightArrow.alpha = 0
+            rightArrow.isUserInteractionEnabled = false
+            continueButton.texture = SKTexture(imageNamed: "play-again-button")
+            continueButton.alpha = 1
+        }
                 
         finalPosition = -(screenWidth / 2) + player.frame.width / 2 + screenWidth * 0.19
         
         gameScene.changeUIDelegate = self
     }
     
-    func updateUI(text: String) {
-        print(text)
-        
-        // change ui to gameover
+    func updateUI(updateScreen: Bool) {
+        self.updateScreen = updateScreen
     }
     
     override func update(_ currentTime: TimeInterval) {
@@ -154,14 +164,14 @@ class DialogueSceneController: SKScene, ChangeUIProtocol {
             let location = touch.location(in: self)
             
             if rightArrow.contains(location) {
-                if counter < 5 {
+                if counter < 5 && !updateScreen {
                     counter += 1
                     changeDialogueBoxTexture(spriteValue: counter)
                 }
             }
             
             if leftArrow.contains(location) {
-                if counter > 0 {
+                if counter > 0 && !updateScreen  {
                     counter -= 1
                     changeDialogueBoxTexture(spriteValue: counter)
                 }
@@ -173,8 +183,10 @@ class DialogueSceneController: SKScene, ChangeUIProtocol {
                 self.view?.presentScene(scene, transition: transition)
             }
             
-            updateArrowsVisibility()
-            updatePlayButtonVisibility()
+            if !updateScreen {
+                updateArrowsVisibility()
+                updatePlayButtonVisibility()
+            }
         }
     }
 }

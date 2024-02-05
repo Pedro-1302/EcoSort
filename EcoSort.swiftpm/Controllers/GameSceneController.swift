@@ -16,7 +16,7 @@ enum GarbageType {
 }
 
 protocol ChangeUIProtocol {
-    func updateUI(text: String)
+    func updateUI(updateScreen: Bool)
 }
 
 class GameSceneController: SKScene {
@@ -172,19 +172,19 @@ class GameSceneController: SKScene {
         
         heart0 = SKSpriteNode(imageNamed: "heart0")
         heart0.size = CGSize(width: screenWidth * 0.06, height: screenHeight * 0.08)
-        heart0.position = CGPoint(x: -(screenWidth / 2) + heart0.frame.width / 2 + screenWidth * 0.02, y: screenHeight / 2 - heart0.frame.height / 2 - screenHeight * 0.03)
+        heart0.position = CGPoint(x: -(screenWidth / 2) + heart0.frame.width / 2 + screenWidth * 0.16, y: screenHeight / 2 - heart0.frame.height / 2 - screenHeight * 0.03)
         heart0.zPosition = 2
         addChild(heart0)
         
         heart1 = SKSpriteNode(imageNamed: "heart0")
         heart1.size = CGSize(width: screenWidth * 0.06, height: screenHeight * 0.08)
-        heart1.position = CGPoint(x: heart0.frame.maxX + heart1.frame.width / 2 + screenWidth * 0.01, y: screenHeight / 2 - heart1.frame.height / 2 - screenHeight * 0.03)
+        heart1.position = CGPoint(x: heart0.frame.minX - heart1.frame.width / 2 - screenWidth * 0.01, y: screenHeight / 2 - heart1.frame.height / 2 - screenHeight * 0.03)
         heart1.zPosition = 2
         addChild(heart1)
         
         heart2 = SKSpriteNode(imageNamed: "heart0")
         heart2.size = CGSize(width: screenWidth * 0.06, height: screenHeight * 0.08)
-        heart2.position = CGPoint(x: heart1.frame.maxX + heart2.frame.width / 2 + screenWidth * 0.01, y: screenHeight / 2 - heart2.frame.height / 2 - screenHeight * 0.03)
+        heart2.position = CGPoint(x: heart1.frame.minX - heart2.frame.width / 2 - screenWidth * 0.01, y: screenHeight / 2 - heart2.frame.height / 2 - screenHeight * 0.03)
         heart2.zPosition = 2
         addChild(heart2)
         
@@ -258,8 +258,11 @@ class GameSceneController: SKScene {
         updateNodesPosition(node: metalItem)
         
         addEnumerateNodes(arrayNodeName: beachBackgroundArray, speed: mapScrollSpeed, baseNameNode: "beach", arraySize: beachBackgroundArray.count - 1)
-        
         addEnumerateNodes(arrayNodeName: cityBackgroundArray, speed: mapScrollSpeed, baseNameNode: "city", arraySize: cityBackgroundArray.count - 1)
+        
+        if score == 30 {
+            print("a")
+        }
     }
     
     

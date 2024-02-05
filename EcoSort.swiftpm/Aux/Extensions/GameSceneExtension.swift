@@ -10,7 +10,7 @@ import SpriteKit
 // MARK: GameSceneController with Node Creations
 extension GameSceneController {
     func createPlayerNode() {
-        player = SKSpriteNode(imageNamed: "player-stop01")
+        player = SKSpriteNode(imageNamed: "player01")
         player.size = CGSize(width: screenWidth * 0.059, height: screenHeight * 0.16)
         player.position = CGPoint(x: -(screenWidth / 2) + player.frame.width / 2 + screenWidth * 0.19, y: 0)
         player.zPosition = 4
@@ -339,7 +339,7 @@ extension GameSceneController {
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
             let transition = SKTransition.fade(withDuration: 1)
             let scene = DialogueSceneController(size: self.size)
-            scene.updateUI(text: "a")
+            scene.updateUI(updateScreen: true)
             self.view?.presentScene(scene, transition: transition)
         }
     }
@@ -451,7 +451,6 @@ extension GameSceneController {
             print("Error")
         }
     }
-    
     
     func removeMoveUpAction() {
         isMovingUp = false
