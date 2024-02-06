@@ -15,8 +15,14 @@ enum GarbageType {
     case plastic 
 }
 
+enum GameState {
+    case playing
+    case gameOver
+    case finished
+}
+
 protocol ChangeUIProtocol {
-    func updateUI(updateScreen: Bool)
+    func updateUI(state: GameState)
 }
 
 class GameSceneController: SKScene {
@@ -39,8 +45,12 @@ class GameSceneController: SKScene {
     var metalItem = SKSpriteNode()
     var bananaPeel = SKSpriteNode()
     var apple = SKSpriteNode()
+    var heart0 = SKSpriteNode()
+    var heart1 = SKSpriteNode()
+    var heart2 = SKSpriteNode()
     
-    var changeUIDelegate: ChangeUIProtocol? 
+    // Delegate
+    var changeUIDelegate: ChangeUIProtocol?
         
     // Actions
     var runAction = SKAction(named: "Run")
@@ -76,11 +86,7 @@ class GameSceneController: SKScene {
     var item16xHeight: CGFloat = 0.0
     var item32xWidth: CGFloat = 0.0
     var item32xHeight: CGFloat = 0.0
-    
-    var heart0 = SKSpriteNode()
-    var heart1 = SKSpriteNode()
-    var heart2 = SKSpriteNode()
-
+   
     // Game Controllers
     var isMovingUp = false
     var isMovingDown = false
@@ -243,8 +249,11 @@ class GameSceneController: SKScene {
         addEnumerateNodes(arrayNodeName: beachBackgroundArray, speed: mapScrollSpeed, baseNameNode: "beach", arraySize: beachBackgroundArray.count - 1)
         addEnumerateNodes(arrayNodeName: cityBackgroundArray, speed: mapScrollSpeed, baseNameNode: "city", arraySize: cityBackgroundArray.count - 1)
         
-        if score == 30 {
-            print("a")
+        if score == 2 {
+            let transition = SKTransition.fade(withDuration: 1)
+            let scene = DialogueSceneController(size: self.size)
+            scene.updateUI(state: .finished)
+            self.view?.presentScene(scene, transition: transition)
         }
     }
 
@@ -316,7 +325,7 @@ class GameSceneController: SKScene {
     }
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-        for touch in touches {
+        for _ in touches {
             removeMoveUpAction()
             removeMoveDownAction()
         }

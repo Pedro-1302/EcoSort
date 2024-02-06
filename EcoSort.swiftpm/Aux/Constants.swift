@@ -114,6 +114,15 @@ struct Constants {
         SKTexture(imageNamed: "heart3")
     ]
     
+    private var finishDialogueBoxes = [
+        SKTexture(imageNamed: "finish-dialogue01"),
+        SKTexture(imageNamed: "finish-dialogue02"),
+        SKTexture(imageNamed: "finish-dialogue03"),
+        SKTexture(imageNamed: "finish-dialogue04"),
+        SKTexture(imageNamed: "finish-dialogue05"),
+        SKTexture(imageNamed: "finish-dialogue06")
+    ]
+    
     // Getters
     func getMenuSpeed() -> Int {
         return menuSpeed
@@ -217,5 +226,9 @@ struct Constants {
     
     func getItem32xHeight() -> CGFloat  {
         return item32xHeight
+    }
+    
+    func getFinishDialogueBoxes() -> [SKTexture] {
+        return finishDialogueBoxes
     }
 }

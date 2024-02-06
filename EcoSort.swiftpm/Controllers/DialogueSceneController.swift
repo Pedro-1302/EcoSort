@@ -20,14 +20,15 @@ class DialogueSceneController: SKScene {
     var trashCarried = SKSpriteNode()
     var elderlyWoman = SKSpriteNode()
     
-    var updateScreen = false
-        
+    var updateScreen: GameState = .playing
+    
     var constants = Constants()
     
     var gameScene = GameSceneController()
-        
+    
     var elderlyWomanTextures = [SKTexture]()
     var dialogueBoxes = [SKTexture]()
+    var finishDialogueBoxes = [SKTexture]()
     var screenMaxX: CGFloat = 0.0
     var screenMinX: CGFloat = 0.0
     var screenMinY: CGFloat = 0.0
@@ -52,7 +53,7 @@ class DialogueSceneController: SKScene {
         
         self.anchorPoint = CGPoint(x: 0.5, y: 0.5)
         self.size = CGSize(width: screenWidth, height: screenHeight)
-
+        
         // Create scene background
         createDialogueSceneBackground()
         
@@ -75,16 +76,6 @@ class DialogueSceneController: SKScene {
         createLeftArrow()
         createRightArrow()
         
-        if updateScreen {
-            currentDialogueBox.texture = SKTexture(imageNamed: "dialogue-box-lose")
-            leftArrow.alpha = 0
-            leftArrow.isUserInteractionEnabled = false
-            rightArrow.alpha = 0
-            rightArrow.isUserInteractionEnabled = false
-            continueButton.texture = SKTexture(imageNamed: "play-again-button")
-            continueButton.alpha = 1
-        }
-                
         finalPosition = -(screenWidth / 2) + player.frame.width / 2 + screenWidth * 0.19
         
         gameScene.changeUIDelegate = self
@@ -93,6 +84,12 @@ class DialogueSceneController: SKScene {
     override func update(_ currentTime: TimeInterval) {
         trashCarried.position = CGPoint(x: player.frame.minX, y: player.position.y + 20)
         
+        if updateScreen == .playing {
+            checkAndAddAnimation()
+        }
+    }
+    
+    func checkAndAddAnimation() {
         if counter == 3 {
             initializeNodes()
             
@@ -131,26 +128,39 @@ class DialogueSceneController: SKScene {
             let location = touch.location(in: self)
             
             if rightArrow.contains(location) {
-                if counter < 5 && !updateScreen {
+                if counter < 5 && updateScreen != .gameOver {
                     counter += 1
                     changeDialogueBoxTexture(spriteValue: counter)
                 }
             }
             
             if leftArrow.contains(location) {
-                if counter > 0 && !updateScreen  {
+                if counter > 0 && updateScreen != .gameOver {
                     counter -= 1
                     changeDialogueBoxTexture(spriteValue: counter)
                 }
             }
             
             if continueButton.contains(location) && continueButton.alpha == 1 {
-                let transition = SKTransition.fade(withDuration: 1)
-                let scene = GameSceneController(size: self.size)
-                self.view?.presentScene(scene, transition: transition)
+                switch (updateScreen) {
+                case .finished:
+                    let transition = SKTransition.fade(withDuration: 1)
+                    let scene = HomeSceneController(size: self.size)
+                    self.view?.presentScene(scene, transition: transition)
+                case .gameOver:
+                    let transition = SKTransition.fade(withDuration: 1)
+                    let scene = GameSceneController(size: self.size)
+                    self.view?.presentScene(scene, transition: transition)
+                case .playing:
+                    let transition = SKTransition.fade(withDuration: 1)
+                    let scene = GameSceneController(size: self.size)
+                    self.view?.presentScene(scene, transition: transition)
+                default:
+                    print("a")
+                }
             }
             
-            if !updateScreen {
+            if updateScreen != .gameOver {
                 updateArrowsVisibility()
                 updatePlayButtonVisibility()
             }

@@ -47,10 +47,13 @@ extension GameSceneController {
         
         let fontSizePercentage: CGFloat = 2
         let fontSize = screenWidth * fontSizePercentage / 100.0
-        scoreLabel.position = CGPoint(x: scoreNode.frame.midX, y: scoreNode.frame.midY - scoreNode.frame.height / 4)
+        
+        scoreLabel.position = CGPoint(x: scoreNode.frame.midX, y: scoreNode.frame.midY)
         scoreLabel.zPosition = 3
         scoreLabel.fontSize = fontSize
+        scoreLabel.fontColor = .init(hex: "FFEFD7")
         scoreLabel.text = "Score: \(score)/30"
+        scoreLabel.verticalAlignmentMode = .center
         addChild(scoreLabel)
     }
     
@@ -299,6 +302,8 @@ extension GameSceneController {
                     node.removeAction(forKey: "movePaper")
                     runHeartBrokenAnimation(node: hearts[heartsGone])
                     resetPaper()
+                    
+                    checkToReset()
                 } else {
                     resetGame()
                 }
@@ -312,6 +317,8 @@ extension GameSceneController {
                     node.removeAction(forKey: "moveGlasses")
                     runHeartBrokenAnimation(node: hearts[heartsGone])
                     resetGlass()
+                    
+                    checkToReset()
                 } else {
                     resetGame()
                 }
@@ -325,6 +332,8 @@ extension GameSceneController {
                     node.removeAction(forKey: "movePlastic")
                     runHeartBrokenAnimation(node: hearts[heartsGone])
                     resetPlastic()
+                    
+                    checkToReset()
                 } else {
                     resetGame()
                 }
@@ -338,12 +347,20 @@ extension GameSceneController {
                     node.removeAction(forKey: "moveMetal")
                     runHeartBrokenAnimation(node: hearts[heartsGone])
                     resetMetal()
+                    
+                    checkToReset()
                 } else {
                     resetGame()
                 }
             }
         default:
             print("Error")
+        }
+    }
+    
+    func checkToReset() {
+        if  heartsGone == hearts.count {
+            resetGame()
         }
     }
     
@@ -372,7 +389,7 @@ extension GameSceneController {
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
             let transition = SKTransition.fade(withDuration: 1)
             let scene = DialogueSceneController(size: self.size)
-            scene.updateUI(updateScreen: true)
+            scene.updateUI(state: .gameOver)
             self.view?.presentScene(scene, transition: transition)
         }
     }
@@ -618,4 +635,3 @@ extension GameSceneController {
     }
     
 }
-
