@@ -249,7 +249,7 @@ class GameSceneController: SKScene {
         addEnumerateNodes(arrayNodeName: beachBackgroundArray, speed: mapScrollSpeed, baseNameNode: "beach", arraySize: beachBackgroundArray.count - 1)
         addEnumerateNodes(arrayNodeName: cityBackgroundArray, speed: mapScrollSpeed, baseNameNode: "city", arraySize: cityBackgroundArray.count - 1)
         
-        if score == 2 {
+        if score == 30 {
             let transition = SKTransition.fade(withDuration: 1)
             let scene = DialogueSceneController(size: self.size)
             scene.updateUI(state: .finished)
