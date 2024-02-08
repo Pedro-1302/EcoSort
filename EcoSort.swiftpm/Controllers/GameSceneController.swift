@@ -113,6 +113,9 @@ class GameSceneController: SKScene {
     let randomSource = GKRandomSource.sharedRandom()
         
     override func didMove(to view: SKView) {
+        
+        AudioManager.shared.restartBackgroundMusic()
+
         setupScreenBounds()
         initializeSpeed()
         intiializeTrashes()

@@ -31,12 +31,19 @@ class HomeSceneController: SKScene {
     var screenWidth: CGFloat = 0.0
     var logoTextures = [SKTexture]()
     
+//    private var backgroundMusic = SKAudioNode(fileNamed: "main-music")
+    
     override func didMove(to view: SKView) {
         initializeConstants()
         
         self.anchorPoint = CGPoint(x: 0.5, y: 0.5)
         self.size = CGSize(width: screenWidth, height: screenHeight)
         
+//        backgroundMusic.autoplayLooped = true
+//        addChild(backgroundMusic)
+        
+        AudioManager.shared.playBackgroundMusic()
+                
         createBackground()
         createRecycleSymbol()
         addRotateAction()

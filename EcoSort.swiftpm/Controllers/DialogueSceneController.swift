@@ -54,6 +54,8 @@ class DialogueSceneController: SKScene {
         self.anchorPoint = CGPoint(x: 0.5, y: 0.5)
         self.size = CGSize(width: screenWidth, height: screenHeight)
         
+        AudioManager.shared.stopBackgroundMusic()
+
         // Create scene background
         createDialogueSceneBackground()
         

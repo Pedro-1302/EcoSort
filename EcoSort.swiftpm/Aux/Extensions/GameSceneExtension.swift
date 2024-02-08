@@ -75,7 +75,6 @@ extension GameSceneController {
         greenTrash = SKSpriteNode(imageNamed: "recycle-green-wlabel")
         greenTrash.size = CGSize(width: screenWidth * 0.06, height: screenHeight * 0.12)
         greenTrash.position = CGPoint(x: screenWidth / 2 - (upArrow.frame.width / 2) - screenWidth * 0.14, y: -(screenHeight / 2) + (greenTrash.frame.height / 2) + screenHeight * 0.02)
-        greenTrash.zPosition = 2
         greenTrash.alpha = 0.5
         addChild(greenTrash)
     }
