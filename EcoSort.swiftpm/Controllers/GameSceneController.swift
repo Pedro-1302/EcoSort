@@ -12,7 +12,7 @@ enum GarbageType {
     case paper
     case metal
     case glass
-    case plastic 
+    case plastic
 }
 
 enum GameState {
@@ -51,7 +51,7 @@ class GameSceneController: SKScene {
     
     // Delegate
     var changeUIDelegate: ChangeUIProtocol?
-        
+    
     // Actions
     var runAction = SKAction(named: "Run")
     var moveUpAction, moveDownAction, movePaper, moveGlasses, movePlastic, moveMetal: SKAction!
@@ -77,7 +77,7 @@ class GameSceneController: SKScene {
     var redTrashTextures = [SKTexture]()
     var yellowTrashTextures = [SKTexture]()
     var greenTrashTextures = [SKTexture]()
-    var heartTextures = [SKTexture]() 
+    var heartTextures = [SKTexture]()
     var paperTextures = [SKTexture]()
     var glassTextures = [SKTexture]()
     var plasticTextures = [SKTexture]()
@@ -86,7 +86,7 @@ class GameSceneController: SKScene {
     var item16xHeight: CGFloat = 0.0
     var item32xWidth: CGFloat = 0.0
     var item32xHeight: CGFloat = 0.0
-   
+    
     // Game Controllers
     var isMovingUp = false
     var isMovingDown = false
@@ -111,11 +111,13 @@ class GameSceneController: SKScene {
     var usedYPositions = Set<CGFloat>()
     
     let randomSource = GKRandomSource.sharedRandom()
-        
+    
+    var items = [SKSpriteNode]()
+    
     override func didMove(to view: SKView) {
         
         AudioManager.shared.restartBackgroundMusic()
-
+        
         setupScreenBounds()
         initializeSpeed()
         intiializeTrashes()
@@ -185,12 +187,14 @@ class GameSceneController: SKScene {
         addHeartsToArray()
         
         currentTrashText = "rec-red01"
+        
+        items = [paperItem, metalItem, plasticItem, glassItem]
     }
     
     override func update(_ currentTime: TimeInterval) {
         updateCurrentTrashPosition()
         updatePlayerPosition()
-                
+        
         if isMovingUp && player.frame.minY < topWall.position.y {
             value += playerMoveSpeed
         }
@@ -208,7 +212,7 @@ class GameSceneController: SKScene {
         }
         
         if isMovingScreenLimit && plasticItem.position.x > frame.minX {
-            plasticMoveValue -= mapScrollSpeed 
+            plasticMoveValue -= mapScrollSpeed
         }
         
         if isMovingScreenLimit && metalItem.position.x > frame.minX {
@@ -259,7 +263,7 @@ class GameSceneController: SKScene {
             self.view?.presentScene(scene, transition: transition)
         }
     }
-
+    
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         for touch in touches {
             let location = touch.location(in: self)
@@ -303,7 +307,7 @@ class GameSceneController: SKScene {
             }
         }
     }
-
+    
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
         for touch in touches {
             let location = touch.location(in: self)

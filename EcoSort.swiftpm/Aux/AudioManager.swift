@@ -4,19 +4,20 @@
 //
 //  Created by Pedro Franco on 08/02/24.
 //
-
 import AVFoundation
 
 class AudioManager {
     static let shared = AudioManager()
 
     private var backgroundMusicPlayer: AVAudioPlayer?
+    private var gameOverPlayer: AVAudioPlayer?
 
     private init() {
-        setupAudioPlayer()
+        setupAudioPlayers()
     }
 
-    private func setupAudioPlayer() {
+    private func setupAudioPlayers() {
+        // Configurar a faixa de música de fundo
         guard let musicURL = Bundle.main.url(forResource: "main-music", withExtension: "mp3") else {
             return
         }
@@ -26,7 +27,19 @@ class AudioManager {
             backgroundMusicPlayer?.numberOfLoops = -1 // Reproduz em loop indefinidamente
             backgroundMusicPlayer?.prepareToPlay()
         } catch {
-            print("Erro ao carregar o arquivo de música: \(error.localizedDescription)")
+            print("Error: \(error.localizedDescription)")
+        }
+
+        // Configurar faixa de música de game over
+        guard let gameOverURL = Bundle.main.url(forResource: "gameover-sound", withExtension: "mp3") else {
+            return
+        }
+
+        do {
+            gameOverPlayer = try AVAudioPlayer(contentsOf: gameOverURL)
+            gameOverPlayer?.prepareToPlay()
+        } catch {
+            print("Error: \(error.localizedDescription)")
         }
     }
 
@@ -49,5 +62,12 @@ class AudioManager {
             player.play()
         }
     }
-}
 
+    func playGameOverSound() {
+        if let player = gameOverPlayer {
+            if !player.isPlaying {
+                player.play()
+            }
+        }
+    }
+}

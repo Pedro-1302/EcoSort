@@ -75,6 +75,7 @@ extension GameSceneController {
         greenTrash = SKSpriteNode(imageNamed: "recycle-green-wlabel")
         greenTrash.size = CGSize(width: screenWidth * 0.06, height: screenHeight * 0.12)
         greenTrash.position = CGPoint(x: screenWidth / 2 - (upArrow.frame.width / 2) - screenWidth * 0.14, y: -(screenHeight / 2) + (greenTrash.frame.height / 2) + screenHeight * 0.02)
+        greenTrash.zPosition = 3
         greenTrash.alpha = 0.5
         addChild(greenTrash)
     }
@@ -83,7 +84,7 @@ extension GameSceneController {
         yellowTrash = SKSpriteNode(imageNamed: "recycle-yellow-wlabel")
         yellowTrash.size = greenTrash.size
         yellowTrash.position = CGPoint(x: greenTrash.position.x, y: greenTrash.frame.maxY + yellowTrash.frame.height / 2 + screenHeight * 0.03)
-        yellowTrash.zPosition = 2
+        yellowTrash.zPosition = 3
         yellowTrash.alpha = 0.5
         addChild(yellowTrash)
     }
@@ -92,7 +93,7 @@ extension GameSceneController {
         blueTrash = SKSpriteNode(imageNamed: "recycle-blue-wlabel")
         blueTrash.size = yellowTrash.size
         blueTrash.position = CGPoint(x: yellowTrash.frame.minX - blueTrash.frame.width / 2 - screenWidth * 0.02, y: (yellowTrash.frame.minY + greenTrash.frame.maxY) / 2)
-        blueTrash.zPosition = 2
+        blueTrash.zPosition = 3
         blueTrash.alpha = 0.5
         addChild(blueTrash)
     }
@@ -101,7 +102,7 @@ extension GameSceneController {
         redTrash = SKSpriteNode(imageNamed: "recycle-red-wlabel")
         redTrash.size = blueTrash.size
         redTrash.position = CGPoint(x: yellowTrash.frame.maxX + redTrash.frame.width / 2 + screenWidth * 0.02, y: (yellowTrash.frame.minY + greenTrash.frame.maxY) / 2)
-        redTrash.zPosition = 2
+        redTrash.zPosition = 3
         redTrash.alpha = 1
         addChild(redTrash)
     }
@@ -385,6 +386,8 @@ extension GameSceneController {
         self.score = 0
         self.usedYPositions = Set<CGFloat>()
         
+        AudioManager.shared.playGameOverSound()
+        
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
             let transition = SKTransition.fade(withDuration: 1)
             let scene = DialogueSceneController(size: self.size)
@@ -423,11 +426,26 @@ extension GameSceneController {
         
         sortNewPaperTexture()
         
-        paperItem.position = CGPoint(x: screenMaxX, y: generateRandomYPositionForNodes())
+        let minDistanceBetweenItems: CGFloat = 50.0
+        
+        var newPosition = CGPoint(x: screenMaxX, y: generateRandomYPositionForNodes())
+        
+        for existingItem in items {
+            let distance = abs(existingItem.position.x - newPosition.x)
+            if distance < minDistanceBetweenItems {
+                if existingItem.position.x < newPosition.x {
+                    newPosition.x += minDistanceBetweenItems - distance
+                } else {
+                    newPosition.x -= minDistanceBetweenItems - distance
+                }
+            }
+        }
+        
+        paperItem.position = newPosition
         
         isMovingScreenLimit = true
     }
-    
+
     func sortNewPaperTexture() {
         let texture = generateRandomTexture(.paper)
         paperItem.size = generateSize(texture: texture)
@@ -440,7 +458,22 @@ extension GameSceneController {
         
         sortNewGlassTexture()
         
-        glassItem.position = CGPoint(x: screenMaxX, y: generateRandomYPositionForNodes())
+        let minDistanceBetweenItems: CGFloat = 50.0
+        
+        var newPosition = CGPoint(x: screenMaxX, y: generateRandomYPositionForNodes())
+        
+        for existingItem in items {
+            let distance = abs(existingItem.position.x - newPosition.x)
+            if distance < minDistanceBetweenItems {
+                if existingItem.position.x < newPosition.x {
+                    newPosition.x += minDistanceBetweenItems - distance
+                } else {
+                    newPosition.x -= minDistanceBetweenItems - distance
+                }
+            }
+        }
+        
+        glassItem.position = newPosition
         isMovingScreenLimit = true
     }
     
@@ -456,7 +489,22 @@ extension GameSceneController {
         
         sortNewPlasticTexture()
         
-        plasticItem.position = CGPoint(x: screenMaxX, y: generateRandomYPositionForNodes())
+        let minDistanceBetweenItems: CGFloat = 50.0
+        
+        var newPosition = CGPoint(x: screenMaxX, y: generateRandomYPositionForNodes())
+        
+        for existingItem in items {
+            let distance = abs(existingItem.position.x - newPosition.x)
+            if distance < minDistanceBetweenItems {
+                if existingItem.position.x < newPosition.x {
+                    newPosition.x += minDistanceBetweenItems - distance
+                } else {
+                    newPosition.x -= minDistanceBetweenItems - distance
+                }
+            }
+        }
+        
+        plasticItem.position = newPosition
         
         isMovingScreenLimit = true
     }
@@ -473,7 +521,23 @@ extension GameSceneController {
         
         sortNewMetalTexture()
         
-        metalItem.position = CGPoint(x: screenMaxX, y: generateRandomYPositionForNodes())
+        let minDistanceBetweenItems: CGFloat = 50.0
+        
+        var newPosition = CGPoint(x: screenMaxX, y: generateRandomYPositionForNodes())
+        
+        for existingItem in items {
+            let distance = abs(existingItem.position.x - newPosition.x)
+            if distance < minDistanceBetweenItems {
+                if existingItem.position.x < newPosition.x {
+                    newPosition.x += minDistanceBetweenItems - distance
+                } else {
+                    newPosition.x -= minDistanceBetweenItems - distance
+                }
+            }
+        }
+        
+        metalItem.position = newPosition
+        
         isMovingScreenLimit = true
     }
     
@@ -484,7 +548,7 @@ extension GameSceneController {
     }
     
     func updateNodesPosition(node: SKNode) {
-        let distanceBetweenItems: CGFloat = 50.0 // Ajuste o valor conforme necessário
+        let distanceBetweenItems: CGFloat = 50.0
         
         switch (node) {
         case paperItem:
