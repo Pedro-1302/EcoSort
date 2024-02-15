@@ -74,7 +74,7 @@ extension DialogueSceneController {
         continueButton.size = CGSize(width: screenWidth * 0.23, height: screenHeight * 0.08)
         continueButton.position = CGPoint(x: 0, y: currentDialogueBox.frame.minY - continueButton.frame.height / 2 - (screenHeight * 0.02))
         continueButton.zPosition = 2
- 
+        
         addChild(continueButton)
     }
     
@@ -123,9 +123,11 @@ extension DialogueSceneController {
     func createDialoguePromptText() {
         dialoguePromptText = SKLabelNode()
         if updateScreen == .gameOver {
-            dialoguePromptText.attributedText = generateAttributedString(text: gameOverDialogue)
+            restartAnimation(withText: gameOverDialogue)
+        } else if updateScreen == .finished {
+            restartAnimation(withText: finishDialogues[0])
         } else {
-            dialoguePromptText.attributedText = generateAttributedString(text: dialogues[0])
+            restartAnimation(withText: dialogues[0])
         }
         dialoguePromptText.position = CGPoint(x: currentDialogueBox.frame.midX, y: currentDialogueBox.frame.midY)
         dialoguePromptText.horizontalAlignmentMode = .center
@@ -156,9 +158,30 @@ extension DialogueSceneController {
 extension DialogueSceneController {
     func changeDialogueBoxText(spriteValue: Int) {
         if updateScreen == .playing {
-            dialoguePromptText.attributedText = generateAttributedString(text: dialogues[spriteValue])
+            restartAnimation(withText: dialogues[counter])
         } else if updateScreen == .finished {
-            dialoguePromptText.attributedText = generateAttributedString(text: finishDialogues[spriteValue])
+            restartAnimation(withText: finishDialogues[spriteValue])
+        }
+    }
+    
+    func restartAnimation(withText text: String) {
+        for timer in timers {
+            timer.invalidate()
+        }
+        timers.removeAll()
+        
+        dialoguePromptText.attributedText = NSAttributedString(string: "")
+        var charIndex = 0.0
+        var currentText = ""
+        
+        for letter in text {
+            let timer = Timer.scheduledTimer(withTimeInterval: 0.03 * charIndex, repeats: false) { timer in
+                currentText.append(letter)
+                let attributedText = self.generateAttributedString(text: currentText)
+                self.dialoguePromptText.attributedText = attributedText
+            }
+            timers.append(timer)
+            charIndex += 1
         }
     }
     

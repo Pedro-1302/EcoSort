@@ -54,6 +54,9 @@ class DialogueSceneController: SKScene {
     var finishDialogues = [String]()
     var gameOverDialogue = ""
     
+    var timers: [Timer] = []
+
+    
     override func didMove(to view: SKView) {
         constants.setupCustomFont()
         
@@ -94,9 +97,11 @@ class DialogueSceneController: SKScene {
         
         gameScene.changeUIDelegate = self
         
-        createDialoguePromptText()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.2) {
+            self.createDialoguePromptText()
+        }
     }
-    
+        
     override func update(_ currentTime: TimeInterval) {
         trashCarried.position = CGPoint(x: player.frame.minX, y: player.position.y + 20)
         
