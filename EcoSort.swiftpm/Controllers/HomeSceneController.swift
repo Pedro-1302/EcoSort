@@ -20,7 +20,7 @@ class HomeSceneController: SKScene {
     var cityBackgroundArray = [String]()
     var beachBackgroundNodesArrays = [SKSpriteNode]()
     
-    var constants = Constants()
+    var constants = K()
     
     var mapScrollSpeed = 0
     var screenMaxX: CGFloat = 0.0

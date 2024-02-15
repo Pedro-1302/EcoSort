@@ -64,7 +64,7 @@ class GameSceneController: SKScene {
     var hearts = [SKSpriteNode]()
     
     // Constants
-    var constants = Constants()
+    var constants = K()
     var mapScrollSpeed: CGFloat = 0.0
     var playerMoveSpeed: CGFloat = 0.0
     var screenMaxX: CGFloat = 0.0
@@ -116,6 +116,7 @@ class GameSceneController: SKScene {
     
     override func didMove(to view: SKView) {
         
+        AudioManager.shared.stopDialogueSounds()
         AudioManager.shared.restartBackgroundMusic()
         
         setupScreenBounds()
@@ -189,6 +190,8 @@ class GameSceneController: SKScene {
         currentTrashText = "rec-red01"
         
         items = [paperItem, metalItem, plasticItem, glassItem]
+        
+        
     }
     
     override func update(_ currentTime: TimeInterval) {
@@ -256,11 +259,9 @@ class GameSceneController: SKScene {
         addEnumerateNodes(arrayNodeName: beachBackgroundArray, speed: mapScrollSpeed, baseNameNode: "beach", arraySize: beachBackgroundArray.count - 1)
         addEnumerateNodes(arrayNodeName: cityBackgroundArray, speed: mapScrollSpeed, baseNameNode: "city", arraySize: cityBackgroundArray.count - 1)
         
-        if score == 30 {
-            let transition = SKTransition.fade(withDuration: 1)
-            let scene = DialogueSceneController(size: self.size)
-            scene.updateUI(state: .finished)
-            self.view?.presentScene(scene, transition: transition)
+        if score == 1 {
+            let dialogueSceneController = DialogueSceneController(size: self.size)
+            changeScene(to: dialogueSceneController, with: .finished)
         }
     }
     

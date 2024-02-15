@@ -21,14 +21,7 @@ extension DialogueSceneController {
     }
     
     func createDialogueBox() {
-        if updateScreen == .finished {
-            currentDialogueBox = SKSpriteNode(imageNamed: "finish-dialogue01")
-        } else if updateScreen == .gameOver {
-            currentDialogueBox.texture = SKTexture(imageNamed: "dialogue-box-lose")
-        } else {
-            currentDialogueBox = SKSpriteNode(imageNamed: "dialogue-box01")
-        }
-
+        currentDialogueBox = SKSpriteNode(imageNamed: "default-dialogue-box")
         currentDialogueBox.size = CGSize(width: screenWidth * 0.46, height: screenHeight * 0.21)
         currentDialogueBox.position = CGPoint(x: screenWidth / 2 - currentDialogueBox.frame.width / 2 - screenWidth * 0.18, y: -(screenHeight / 2) + currentDialogueBox.size.height / 2 + screenHeight * 0.13)
         currentDialogueBox.zPosition = 2
@@ -126,6 +119,23 @@ extension DialogueSceneController {
         elderlyWoman.zPosition = 3
         addChild(elderlyWoman)
     }
+    
+    func createDialoguePromptText() {
+        dialoguePromptText = SKLabelNode()
+        if updateScreen == .gameOver {
+            dialoguePromptText.attributedText = generateAttributedString(text: gameOverDialogue)
+        } else {
+            dialoguePromptText.attributedText = generateAttributedString(text: dialogues[0])
+        }
+        dialoguePromptText.position = CGPoint(x: currentDialogueBox.frame.midX, y: currentDialogueBox.frame.midY)
+        dialoguePromptText.horizontalAlignmentMode = .center
+        dialoguePromptText.verticalAlignmentMode = .center
+        dialoguePromptText.numberOfLines = 0
+        dialoguePromptText.preferredMaxLayoutWidth = currentDialogueBox.frame.width - (screenWidth * 0.08)
+        dialoguePromptText.zPosition = 10
+        
+        addChild(dialoguePromptText)
+    }
 }
 
 // MARK: - Action
@@ -144,12 +154,26 @@ extension DialogueSceneController {
 
 // MARK: - Aux Methods
 extension DialogueSceneController {
-    func changeDialogueBoxTexture(spriteValue: Int) {
+    func changeDialogueBoxText(spriteValue: Int) {
         if updateScreen == .playing {
-            currentDialogueBox.texture = dialogueBoxes[spriteValue]
+            dialoguePromptText.attributedText = generateAttributedString(text: dialogues[spriteValue])
         } else if updateScreen == .finished {
-            currentDialogueBox.texture = finishDialogueBoxes[spriteValue]
+            dialoguePromptText.attributedText = generateAttributedString(text: finishDialogues[spriteValue])
         }
+    }
+    
+    func generateAttributedString(text: String) -> NSAttributedString {
+        
+        let paragraphStyle = NSMutableParagraphStyle()
+        paragraphStyle.lineSpacing = 8
+        
+        let descriptionAttributedString = NSMutableAttributedString(string: text, attributes: [
+            .font: UIFont(name: "PressStart2P-Regular", size: 20)!,
+            .foregroundColor: UIColor.white,
+            NSAttributedString.Key.paragraphStyle: paragraphStyle
+        ])
+        
+        return descriptionAttributedString
     }
     
     func updatePlayButtonVisibility() {
@@ -176,14 +200,15 @@ extension DialogueSceneController {
     
     func initializeConstants() {
         elderlyWomanTextures = constants.getElderlyWomanTextures()
-        dialogueBoxes = constants.getDialogueBoxes()
-        finishDialogueBoxes = constants.getFinishDialogueBoxes()
         screenMaxX = constants.getScreenMaxX()
         screenMinX = constants.getScreenMinX()
         screenMaxY = constants.getScreenMaxY()
         screenMinY = constants.getScreenMinY()
         screenHeight = constants.getScreenHeight()
         screenWidth = constants.getScreenWidth()
+        dialogues = constants.getDialogues()
+        finishDialogues = constants.getFinishDialogues()
+        gameOverDialogue = constants.getGameOverDialogue()
     }
     
     func updatePlayerPosition() {

@@ -11,6 +11,7 @@ import SpriteKit
 class DialogueSceneController: SKScene {
     var dialogueSceneBackground = SKSpriteNode()
     var currentDialogueBox = SKSpriteNode()
+    
     var emmaBox = SKSpriteNode()
     var leftArrow = SKSpriteNode()
     var rightArrow = SKSpriteNode()
@@ -22,12 +23,11 @@ class DialogueSceneController: SKScene {
     
     var updateScreen: GameState = .playing
     
-    var constants = Constants()
+    var constants = K()
     
     var gameScene = GameSceneController()
     
     var elderlyWomanTextures = [SKTexture]()
-    var dialogueBoxes = [SKTexture]()
     var finishDialogueBoxes = [SKTexture]()
     var screenMaxX: CGFloat = 0.0
     var screenMinX: CGFloat = 0.0
@@ -48,14 +48,26 @@ class DialogueSceneController: SKScene {
     
     var finalPosition: CGFloat = 0.0
     
+    var dialoguePromptText = SKLabelNode()
+    
+    var dialogues = [String]()
+    var finishDialogues = [String]()
+    var gameOverDialogue = ""
+    
     override func didMove(to view: SKView) {
+        constants.setupCustomFont()
+        
         initializeConstants()
         
         self.anchorPoint = CGPoint(x: 0.5, y: 0.5)
         self.size = CGSize(width: screenWidth, height: screenHeight)
         
         AudioManager.shared.stopBackgroundMusic()
-
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.2) {
+            AudioManager.shared.playDialogueBackgroundSounds()
+        }
+        
         // Create scene background
         createDialogueSceneBackground()
         
@@ -81,6 +93,8 @@ class DialogueSceneController: SKScene {
         finalPosition = -(screenWidth / 2) + player.frame.width / 2 + screenWidth * 0.19
         
         gameScene.changeUIDelegate = self
+        
+        createDialoguePromptText()
     }
     
     override func update(_ currentTime: TimeInterval) {
@@ -132,34 +146,19 @@ class DialogueSceneController: SKScene {
             if rightArrow.contains(location) {
                 if counter < 5 && updateScreen != .gameOver {
                     counter += 1
-                    changeDialogueBoxTexture(spriteValue: counter)
+                    changeDialogueBoxText(spriteValue: counter)
                 }
             }
             
             if leftArrow.contains(location) {
                 if counter > 0 && updateScreen != .gameOver {
                     counter -= 1
-                    changeDialogueBoxTexture(spriteValue: counter)
+                    changeDialogueBoxText(spriteValue: counter)
                 }
             }
             
             if continueButton.contains(location) && continueButton.alpha == 1 {
-                switch (updateScreen) {
-                case .finished:
-                    let transition = SKTransition.fade(withDuration: 1)
-                    let scene = HomeSceneController(size: self.size)
-                    self.view?.presentScene(scene, transition: transition)
-                case .gameOver:
-                    let transition = SKTransition.fade(withDuration: 1)
-                    let scene = GameSceneController(size: self.size)
-                    self.view?.presentScene(scene, transition: transition)
-                case .playing:
-                    let transition = SKTransition.fade(withDuration: 1)
-                    let scene = GameSceneController(size: self.size)
-                    self.view?.presentScene(scene, transition: transition)
-                default:
-                    print("a")
-                }
+                transitionToScene(is: updateScreen)
             }
             
             if updateScreen != .gameOver {
@@ -167,5 +166,23 @@ class DialogueSceneController: SKScene {
                 updatePlayButtonVisibility()
             }
         }
+    }
+    
+    func transitionToScene(is state: GameState) {
+        let transition = SKTransition.fade(withDuration: 1)
+        
+        var nextScene: SKScene
+        
+        switch state {
+            case .finished:
+                nextScene = HomeSceneController(size: self.size)
+            case .gameOver, .playing:
+                nextScene = GameSceneController(size: self.size)
+        }
+        
+        AudioManager.shared.stopDialogueSounds()
+        AudioManager.shared.restartBackgroundMusic()
+        
+        self.view?.presentScene(nextScene, transition: transition)
     }
 }

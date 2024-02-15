@@ -7,7 +7,7 @@
 
 import SpriteKit
 
-struct Constants {
+struct K {
     // Speed
     private var menuSpeed = 1
     private var baseGameSpeed = 5.0
@@ -50,16 +50,6 @@ struct Constants {
     
     // Font
     private let fontURL = Bundle.module.url(forResource: "PressStart2P-Regular", withExtension: "ttf")!
-    
-    // Arrays 
-    private var dialoguesBoxes =  [
-        SKTexture(imageNamed: "dialogue-box01"),
-        SKTexture(imageNamed: "dialogue-box02"),
-        SKTexture(imageNamed: "dialogue-box03"),
-        SKTexture(imageNamed: "dialogue-box04"),
-        SKTexture(imageNamed: "dialogue-box05"),
-        SKTexture(imageNamed: "dialogue-box06")
-    ]
     
     private var elderlyWomanTextures = [
         SKTexture(imageNamed: "elderly-woman01"),
@@ -114,14 +104,25 @@ struct Constants {
         SKTexture(imageNamed: "heart3")
     ]
     
-    private var finishDialogueBoxes = [
-        SKTexture(imageNamed: "finish-dialogue01"),
-        SKTexture(imageNamed: "finish-dialogue02"),
-        SKTexture(imageNamed: "finish-dialogue03"),
-        SKTexture(imageNamed: "finish-dialogue04"),
-        SKTexture(imageNamed: "finish-dialogue05"),
-        SKTexture(imageNamed: "finish-dialogue06")
+    private var dialogues = [
+        "Hi, my name is Emma, and i play a crucial role as a Waste Picker in the beach where i live.",
+        "However, due to my age, i have been facing challenges in keeping the beach clean.",
+        "Unfortunately, the beach is full of scattered recyclable materials that need to be collected urgently.",
+        "Wow, look! Another recyclable item is coming! Now your mission will be to collect trash to clean the beach.",
+        "The waste is categorized into metal, plastic, paper and glass.",
+        "Come on, can you contribute to making our beach cleaner and more sustainable?"
     ]
+    
+    private var finishDialogues = [
+        "Oooh, you did it! You have successfully cleaned all the recyclable trash from our beach!",
+        "Cleaning beaches is essential to preserve our planet, protect marine life and reduce ocean contamination.",
+        "Throughout the year, local environmental groups, city councils, and state agencies organize cleanup events.",
+        "Stay up to date on beach cleanups in your country by contacting these environmental organizations.",
+        "This way, you can significantly contribute to making our beaches cleaner.",
+        "Remember, beach conservation is a shared responsibility. We couldn't do this without you!"
+    ]
+    
+    private var gameOverDialogue = "You let a lot of trash through, but you can't keep me waiting! Come on, try again, you are sooo close!!!"
     
     // Getters
     func getMenuSpeed() -> Int {
@@ -154,10 +155,6 @@ struct Constants {
     
     func setupCustomFont() {
         CTFontManagerRegisterFontsForURL(fontURL as CFURL, CTFontManagerScope.process, nil)
-    }
-    
-    func getDialogueBoxes() -> [SKTexture] {
-        return dialoguesBoxes
     }
     
     func getElderlyWomanTextures() -> [SKTexture] {
@@ -228,7 +225,15 @@ struct Constants {
         return item32xHeight
     }
     
-    func getFinishDialogueBoxes() -> [SKTexture] {
-        return finishDialogueBoxes
+    func getDialogues() -> [String] {
+        return dialogues
+    }
+    
+    func getFinishDialogues() -> [String] {
+        return finishDialogues
+    }
+    
+    func getGameOverDialogue() -> String {
+        return gameOverDialogue
     }
 }

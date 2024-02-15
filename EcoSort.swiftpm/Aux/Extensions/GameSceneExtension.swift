@@ -389,10 +389,8 @@ extension GameSceneController {
         AudioManager.shared.playGameOverSound()
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
-            let transition = SKTransition.fade(withDuration: 1)
-            let scene = DialogueSceneController(size: self.size)
-            scene.updateUI(state: .gameOver)
-            self.view?.presentScene(scene, transition: transition)
+            let dialogueSceneController = DialogueSceneController(size: self.size)
+            self.changeScene(to: dialogueSceneController, with: .gameOver)
         }
     }
     
@@ -697,4 +695,12 @@ extension GameSceneController {
         hearts.append(heart2)
     }
     
+    func changeScene(to spriteScene: DialogueSceneController, with state: GameState) {
+        let transition = SKTransition.fade(withDuration: 1)
+        let scene = spriteScene
+        
+        scene.updateUI(state: state)
+        
+        self.view?.presentScene(scene, transition: transition)
+    }
 }

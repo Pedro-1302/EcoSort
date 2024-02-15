@@ -10,6 +10,7 @@ class AudioManager {
     static let shared = AudioManager()
 
     private var backgroundMusicPlayer: AVAudioPlayer?
+    private var dialogueMusicPlayer: AVAudioPlayer?
     private var gameOverPlayer: AVAudioPlayer?
 
     private init() {
@@ -17,27 +18,41 @@ class AudioManager {
     }
 
     private func setupAudioPlayers() {
-        // Configurar a faixa de música de fundo
+        // Configure main music
         guard let musicURL = Bundle.main.url(forResource: "main-music", withExtension: "mp3") else {
             return
         }
-
+        
         do {
             backgroundMusicPlayer = try AVAudioPlayer(contentsOf: musicURL)
-            backgroundMusicPlayer?.numberOfLoops = -1 // Reproduz em loop indefinidamente
+            backgroundMusicPlayer?.numberOfLoops = -1 // Loop
             backgroundMusicPlayer?.prepareToPlay()
         } catch {
             print("Error: \(error.localizedDescription)")
         }
-
-        // Configurar faixa de música de game over
+        
+        // Configure game over sound effect
         guard let gameOverURL = Bundle.main.url(forResource: "gameover-sound", withExtension: "mp3") else {
             return
         }
-
+        
         do {
             gameOverPlayer = try AVAudioPlayer(contentsOf: gameOverURL)
             gameOverPlayer?.prepareToPlay()
+        } catch {
+            print("Error: \(error.localizedDescription)")
+        }
+        
+        // Configure dialogue music
+        guard let dialogueMusicURL = Bundle.main.url(forResource: "dialogue-music", withExtension: "mp3") else {
+            return
+        }
+        
+        do {
+            dialogueMusicPlayer = try AVAudioPlayer(contentsOf: dialogueMusicURL)
+            dialogueMusicPlayer?.numberOfLoops = -1
+            dialogueMusicPlayer?.volume = 0.7
+            dialogueMusicPlayer?.prepareToPlay()
         } catch {
             print("Error: \(error.localizedDescription)")
         }
@@ -48,9 +63,19 @@ class AudioManager {
             player.play()
         }
     }
+    
+    func playDialogueBackgroundSounds() {
+        if let player = dialogueMusicPlayer, !player.isPlaying {
+            player.play()
+        }
+    }
 
     func stopBackgroundMusic() {
         backgroundMusicPlayer?.stop()
+    }
+    
+    func stopDialogueSounds() {
+        dialogueMusicPlayer?.stop()
     }
 
     func restartBackgroundMusic() {
