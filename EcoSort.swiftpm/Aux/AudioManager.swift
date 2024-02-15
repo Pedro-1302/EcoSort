@@ -12,6 +12,7 @@ class AudioManager {
     private var backgroundMusicPlayer: AVAudioPlayer?
     private var dialogueMusicPlayer: AVAudioPlayer?
     private var gameOverPlayer: AVAudioPlayer?
+    private var typingSoundEffectPlayer: AVAudioPlayer?
 
     private init() {
         setupAudioPlayers()
@@ -56,6 +57,21 @@ class AudioManager {
         } catch {
             print("Error: \(error.localizedDescription)")
         }
+        
+        // Configure typing sound
+        guard let typingSoundURL = Bundle.main.url(forResource: "typing", withExtension: "mp3") else {
+            return
+        }
+        
+        do {
+            typingSoundEffectPlayer = try AVAudioPlayer(contentsOf: typingSoundURL)
+            typingSoundEffectPlayer?.numberOfLoops = 0
+            typingSoundEffectPlayer?.volume = 1
+            typingSoundEffectPlayer?.prepareToPlay()
+        } catch {
+            print("Error: \(error.localizedDescription)")
+        }
+
     }
 
     func playBackgroundMusic() {
@@ -77,6 +93,10 @@ class AudioManager {
     func stopDialogueSounds() {
         dialogueMusicPlayer?.stop()
     }
+    
+    func stopTypingSound() {
+        typingSoundEffectPlayer?.stop()
+    }
 
     func restartBackgroundMusic() {
         if let player = backgroundMusicPlayer {
@@ -90,6 +110,14 @@ class AudioManager {
 
     func playGameOverSound() {
         if let player = gameOverPlayer {
+            if !player.isPlaying {
+                player.play()
+            }
+        }
+    }
+    
+    func playTypingSoundEffect() {
+        if let player = typingSoundEffectPlayer {
             if !player.isPlaying {
                 player.play()
             }

@@ -123,10 +123,13 @@ extension DialogueSceneController {
     func createDialoguePromptText() {
         dialoguePromptText = SKLabelNode()
         if updateScreen == .gameOver {
+            AudioManager.shared.playTypingSoundEffect()
             restartAnimation(withText: gameOverDialogue)
         } else if updateScreen == .finished {
+            AudioManager.shared.playTypingSoundEffect()
             restartAnimation(withText: finishDialogues[0])
         } else {
+            AudioManager.shared.playTypingSoundEffect()
             restartAnimation(withText: dialogues[0])
         }
         dialoguePromptText.position = CGPoint(x: currentDialogueBox.frame.midX, y: currentDialogueBox.frame.midY)
@@ -158,8 +161,10 @@ extension DialogueSceneController {
 extension DialogueSceneController {
     func changeDialogueBoxText(spriteValue: Int) {
         if updateScreen == .playing {
+            AudioManager.shared.playTypingSoundEffect()
             restartAnimation(withText: dialogues[counter])
         } else if updateScreen == .finished {
+            AudioManager.shared.playTypingSoundEffect()
             restartAnimation(withText: finishDialogues[spriteValue])
         }
     }
@@ -168,6 +173,7 @@ extension DialogueSceneController {
         for timer in timers {
             timer.invalidate()
         }
+        
         timers.removeAll()
         
         dialoguePromptText.attributedText = NSAttributedString(string: "")
