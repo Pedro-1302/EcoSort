@@ -223,24 +223,28 @@ class GameSceneController: SKScene {
         
         if player.frame.intersects(paperItem.frame) && currentTrashText == "rec-blue01" {
             resetPaper()
+            playItemCollectedSoundEffect()
             addTrashAnimation()
             updateUI()
         }
         
         if player.frame.intersects(glassItem.frame) && currentTrashText == "rec-green01" {
             resetGlass()
+            playItemCollectedSoundEffect()
             addTrashAnimation()
             updateUI()
         }
         
         if player.frame.intersects(plasticItem.frame) && currentTrashText == "rec-red01" {
             resetPlastic()
+            playItemCollectedSoundEffect()
             addTrashAnimation()
             updateUI()
         }
         
         if player.frame.intersects(metalItem.frame) && currentTrashText == "rec-yellow01" {
             resetMetal()
+            playItemCollectedSoundEffect()
             addTrashAnimation()
             updateUI()
         }
@@ -306,6 +310,10 @@ class GameSceneController: SKScene {
                 changeCurrentTrashAlpha(trashNode: redTrash)
             }
         }
+    }
+    
+    func playItemCollectedSoundEffect() {
+        AudioManager.shared.playItemCollectedSoundEffect()
     }
     
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {

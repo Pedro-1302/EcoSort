@@ -7,13 +7,14 @@
 import AVFoundation
 
 class AudioManager {
-    
     static let shared = AudioManager()
 
     private var backgroundMusicPlayer: AVAudioPlayer?
     private var dialogueMusicPlayer: AVAudioPlayer?
     private var gameOverPlayer: AVAudioPlayer?
     private var typingSoundEffectPlayer: AVAudioPlayer?
+    private var itemCollectedSoundEffectPlayer: AVAudioPlayer?
+
 
     private init() {
         setupAudioPlayers()
@@ -73,6 +74,18 @@ class AudioManager {
             print("Error: \(error.localizedDescription)")
         }
 
+        guard let itemCollectedURL = Bundle.main.url(forResource: "trash-collected", withExtension: "mp3") else {
+            return
+        }
+        
+        do {
+            itemCollectedSoundEffectPlayer = try AVAudioPlayer(contentsOf: itemCollectedURL)
+            itemCollectedSoundEffectPlayer?.numberOfLoops = 0
+            itemCollectedSoundEffectPlayer?.volume = 1
+            itemCollectedSoundEffectPlayer?.prepareToPlay()
+        } catch {
+            print("Error: \(error.localizedDescription)")
+        }
     }
 
     func playBackgroundMusic() {
@@ -83,6 +96,32 @@ class AudioManager {
     
     func playDialogueBackgroundSounds() {
         if let player = dialogueMusicPlayer, !player.isPlaying {
+            player.play()
+        }
+    }
+    
+    func playGameOverSound() {
+        if let player = gameOverPlayer {
+            if !player.isPlaying {
+                player.play()
+            }
+        }
+    }
+    
+    func playTypingSoundEffect() {
+        if let player = typingSoundEffectPlayer {
+            if !player.isPlaying {
+                player.play()
+            }
+        }
+    }
+    
+    func playItemCollectedSoundEffect() {
+        if let player = itemCollectedSoundEffectPlayer {
+            if player.isPlaying {
+                player.stop()
+            }
+            player.currentTime = 0
             player.play()
         }
     }
@@ -98,7 +137,7 @@ class AudioManager {
     func stopTypingSound() {
         typingSoundEffectPlayer?.stop()
     }
-
+    
     func restartBackgroundMusic() {
         if let player = backgroundMusicPlayer {
             if player.isPlaying {
@@ -126,22 +165,6 @@ class AudioManager {
             }
             player.currentTime = 0
             player.play()
-        }
-    }
-
-    func playGameOverSound() {
-        if let player = gameOverPlayer {
-            if !player.isPlaying {
-                player.play()
-            }
-        }
-    }
-    
-    func playTypingSoundEffect() {
-        if let player = typingSoundEffectPlayer {
-            if !player.isPlaying {
-                player.play()
-            }
         }
     }
 
