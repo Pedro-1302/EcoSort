@@ -7,6 +7,7 @@
 import AVFoundation
 
 class AudioManager {
+    
     static let shared = AudioManager()
 
     private var backgroundMusicPlayer: AVAudioPlayer?
@@ -52,7 +53,7 @@ class AudioManager {
         do {
             dialogueMusicPlayer = try AVAudioPlayer(contentsOf: dialogueMusicURL)
             dialogueMusicPlayer?.numberOfLoops = -1
-            dialogueMusicPlayer?.volume = 0.7
+            dialogueMusicPlayer?.volume = 0.8
             dialogueMusicPlayer?.prepareToPlay()
         } catch {
             print("Error: \(error.localizedDescription)")
@@ -66,7 +67,7 @@ class AudioManager {
         do {
             typingSoundEffectPlayer = try AVAudioPlayer(contentsOf: typingSoundURL)
             typingSoundEffectPlayer?.numberOfLoops = 0
-            typingSoundEffectPlayer?.volume = 1
+            typingSoundEffectPlayer?.volume = 0.7
             typingSoundEffectPlayer?.prepareToPlay()
         } catch {
             print("Error: \(error.localizedDescription)")
@@ -107,6 +108,26 @@ class AudioManager {
             player.play()
         }
     }
+    
+    func restartTypingSound() {
+        if let player = typingSoundEffectPlayer {
+            if player.isPlaying {
+                player.stop()
+            }
+            player.currentTime = 0
+            player.play()
+        }
+    }
+    
+    func restartDialogueMusic() {
+        if let player = dialogueMusicPlayer {
+            if player.isPlaying {
+                player.stop()
+            }
+            player.currentTime = 0
+            player.play()
+        }
+    }
 
     func playGameOverSound() {
         if let player = gameOverPlayer {
@@ -123,4 +144,5 @@ class AudioManager {
             }
         }
     }
+
 }

@@ -56,7 +56,6 @@ class DialogueSceneController: SKScene {
     
     var timers: [Timer] = []
 
-    
     override func didMove(to view: SKView) {
         constants.setupCustomFont()
         
@@ -110,40 +109,6 @@ class DialogueSceneController: SKScene {
         }
     }
     
-    func checkAndAddAnimation() {
-        if counter == 3 {
-            initializeNodes()
-            
-            if isMovingPlayer && player.position.x < finalPosition {
-                playerMoveValue += 8
-            }
-            
-            if player.position.x < finalPosition {
-                isMovingPlayer = true
-                player.run(movePlayer, withKey: "movePlayer")
-            } else {
-                player.removeAction(forKey: "movePlayer")
-                if isMovingBottle && bottle.position.x > finalPosition {
-                    bottleMoveValue -= 6
-                }
-                
-                if bottle.position.x > finalPosition {
-                    isMovingBottle = true
-                    bottle.run(moveBottle, withKey: "moveCan")
-                } else {
-                    bottle.removeAction(forKey: "moveCan")
-                    bottle.removeFromParent()
-                }
-                
-                updateBottlePosition()
-            }
-            
-            updatePlayerPosition()
-        } else {
-            denitializeNodes()
-        }
-    }
-    
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         for touch in touches {
             let location = touch.location(in: self)
@@ -151,6 +116,7 @@ class DialogueSceneController: SKScene {
             if rightArrow.contains(location) {
                 if counter < 5 && updateScreen != .gameOver {
                     counter += 1
+                    restartTypingSound()
                     changeDialogueBoxText(spriteValue: counter)
                 }
             }
@@ -158,6 +124,7 @@ class DialogueSceneController: SKScene {
             if leftArrow.contains(location) {
                 if counter > 0 && updateScreen != .gameOver {
                     counter -= 1
+                    restartTypingSound()
                     changeDialogueBoxText(spriteValue: counter)
                 }
             }
@@ -173,21 +140,4 @@ class DialogueSceneController: SKScene {
         }
     }
     
-    func transitionToScene(is state: GameState) {
-        let transition = SKTransition.fade(withDuration: 1)
-        
-        var nextScene: SKScene
-        
-        switch state {
-            case .finished:
-                nextScene = HomeSceneController(size: self.size)
-            case .gameOver, .playing:
-                nextScene = GameSceneController(size: self.size)
-        }
-        
-        AudioManager.shared.stopDialogueSounds()
-        AudioManager.shared.restartBackgroundMusic()
-        
-        self.view?.presentScene(nextScene, transition: transition)
-    }
 }

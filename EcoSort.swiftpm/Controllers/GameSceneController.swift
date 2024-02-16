@@ -115,21 +115,22 @@ class GameSceneController: SKScene {
     var items = [SKSpriteNode]()
     
     override func didMove(to view: SKView) {
-        
+        // Setup music and sound effects
+        AudioManager.shared.stopTypingSound()
         AudioManager.shared.stopDialogueSounds()
         AudioManager.shared.restartBackgroundMusic()
         
+        // Initialize Constants
         setupScreenBounds()
         initializeSpeed()
         intiializeTrashes()
         initializeItemsSizes()
         initializeItemsTextures()
-        
         heartTextures = constants.getHeartTextures()
         
+        // Setup view/scene configuration
         view.isMultipleTouchEnabled = true
         view.isExclusiveTouch = true
-        
         self.anchorPoint = CGPoint(x: 0.5, y: 0.5)
         self.size = CGSize(width: screenWidth, height: screenHeight)
         
@@ -190,8 +191,6 @@ class GameSceneController: SKScene {
         currentTrashText = "rec-red01"
         
         items = [paperItem, metalItem, plasticItem, glassItem]
-        
-        
     }
     
     override func update(_ currentTime: TimeInterval) {

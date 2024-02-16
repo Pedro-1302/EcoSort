@@ -233,6 +233,7 @@ extension GameSceneController {
                 node.removeAction(forKey: "heartAnimation")
                 node.alpha = 0.0
             }
+
             node.run(SKAction.sequence([delayAction, fadeOutAction, removeAction]))
             
             heartsGone += 1
@@ -301,6 +302,9 @@ extension GameSceneController {
                 if heartsGone < hearts.count {
                     node.removeAction(forKey: "movePaper")
                     runHeartBrokenAnimation(node: hearts[heartsGone])
+                    
+                    runPlayerDamageAnimation()
+
                     resetPaper()
                     
                     checkToReset()
@@ -316,6 +320,9 @@ extension GameSceneController {
                 if heartsGone < hearts.count {
                     node.removeAction(forKey: "moveGlasses")
                     runHeartBrokenAnimation(node: hearts[heartsGone])
+                    
+                    runPlayerDamageAnimation()
+
                     resetGlass()
                     
                     checkToReset()
@@ -331,6 +338,9 @@ extension GameSceneController {
                 if heartsGone < hearts.count {
                     node.removeAction(forKey: "movePlastic")
                     runHeartBrokenAnimation(node: hearts[heartsGone])
+                    
+                    runPlayerDamageAnimation()
+
                     resetPlastic()
                     
                     checkToReset()
@@ -346,6 +356,9 @@ extension GameSceneController {
                 if heartsGone < hearts.count {
                     node.removeAction(forKey: "moveMetal")
                     runHeartBrokenAnimation(node: hearts[heartsGone])
+                    
+                    runPlayerDamageAnimation()
+
                     resetMetal()
                     
                     checkToReset()
@@ -387,6 +400,7 @@ extension GameSceneController {
         self.usedYPositions = Set<CGFloat>()
         
         AudioManager.shared.playGameOverSound()
+        AudioManager.shared.restartDialogueMusic() 
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
             let dialogueSceneController = DialogueSceneController(size: self.size)
@@ -442,6 +456,14 @@ extension GameSceneController {
         paperItem.position = newPosition
         
         isMovingScreenLimit = true
+    }
+    
+    func runPlayerDamageAnimation() {
+        let fadeOut = SKAction.fadeAlpha(to: 0.2, duration: 0.1)
+        let fadeIn = SKAction.fadeAlpha(to: 1.0, duration: 0.1)
+        let blinkSequence = SKAction.sequence([fadeOut, fadeIn, fadeOut, fadeIn, fadeOut, fadeIn])
+
+        player.run(blinkSequence)
     }
 
     func sortNewPaperTexture() {

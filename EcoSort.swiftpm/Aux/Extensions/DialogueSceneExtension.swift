@@ -122,6 +122,7 @@ extension DialogueSceneController {
     
     func createDialoguePromptText() {
         dialoguePromptText = SKLabelNode()
+        
         if updateScreen == .gameOver {
             AudioManager.shared.playTypingSoundEffect()
             restartAnimation(withText: gameOverDialogue)
@@ -132,6 +133,7 @@ extension DialogueSceneController {
             AudioManager.shared.playTypingSoundEffect()
             restartAnimation(withText: dialogues[0])
         }
+        
         dialoguePromptText.position = CGPoint(x: currentDialogueBox.frame.midX, y: currentDialogueBox.frame.midY)
         dialoguePromptText.horizontalAlignmentMode = .center
         dialoguePromptText.verticalAlignmentMode = .center
@@ -161,22 +163,19 @@ extension DialogueSceneController {
 extension DialogueSceneController {
     func changeDialogueBoxText(spriteValue: Int) {
         if updateScreen == .playing {
-            AudioManager.shared.playTypingSoundEffect()
+            playTipingSound()
             restartAnimation(withText: dialogues[counter])
         } else if updateScreen == .finished {
-            AudioManager.shared.playTypingSoundEffect()
+            playTipingSound()
             restartAnimation(withText: finishDialogues[spriteValue])
         }
     }
     
     func restartAnimation(withText text: String) {
-        for timer in timers {
-            timer.invalidate()
-        }
-        
-        timers.removeAll()
+        resetTimers()
         
         dialoguePromptText.attributedText = NSAttributedString(string: "")
+        
         var charIndex = 0.0
         var currentText = ""
         
@@ -191,8 +190,14 @@ extension DialogueSceneController {
         }
     }
     
+    func resetTimers() {
+        for timer in timers {
+            timer.invalidate()
+        }
+        timers.removeAll()
+    }
+    
     func generateAttributedString(text: String) -> NSAttributedString {
-        
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.lineSpacing = 8
         
@@ -201,6 +206,20 @@ extension DialogueSceneController {
             .foregroundColor: UIColor.white,
             NSAttributedString.Key.paragraphStyle: paragraphStyle
         ])
+        
+        let wordColors: [String: UIColor] = [
+            "metal": UIColor.yellow,
+            "plastic": UIColor.red,
+            "paper": UIColor.blue,
+            "glass": UIColor.green
+        ]
+        
+        for (word, color) in wordColors {
+            let range = (text as NSString).range(of: word, options: .caseInsensitive)
+            if range.location != NSNotFound {
+                descriptionAttributedString.addAttribute(.foregroundColor, value: color, range: range)
+            }
+        }
         
         return descriptionAttributedString
     }
@@ -266,6 +285,70 @@ extension DialogueSceneController {
             createBottle()
             createPlayer()
             alreadyCreated = true
+        }
+    }
+    
+    func restartTypingSound() {
+        AudioManager.shared.restartTypingSound()
+    }
+    
+    func stopTypingSound() {
+        AudioManager.shared.stopTypingSound()
+    }
+    
+    func playTipingSound() {
+        AudioManager.shared.playTypingSoundEffect()
+    }
+    
+    func transitionToScene(is state: GameState) {
+        let transition = SKTransition.fade(withDuration: 1)
+        
+        var nextScene: SKScene
+        
+        switch state {
+            case .finished:
+                nextScene = HomeSceneController(size: self.size)
+            case .gameOver, .playing:
+                nextScene = GameSceneController(size: self.size)
+        }
+        
+        AudioManager.shared.stopDialogueSounds()
+        
+        self.view?.presentScene(nextScene, transition: transition)
+    }
+    
+    func checkAndAddAnimation() {
+        if counter == 3 {
+            initializeNodes()
+            
+            if isMovingPlayer && player.position.x < finalPosition {
+                playerMoveValue += 8
+            }
+            
+            if player.position.x < finalPosition {
+                isMovingPlayer = true
+                player.run(movePlayer, withKey: "movePlayer")
+            } else {
+                player.removeAction(forKey: "movePlayer")
+                if isMovingBottle && bottle.position.x > finalPosition {
+                    bottleMoveValue -= 6
+                }
+                
+                if bottle.position.x > finalPosition {
+                    isMovingBottle = true
+                    bottle.run(moveBottle, withKey: "moveCan")
+                } else {
+                    bottle.removeAction(forKey: "moveCan")
+                    
+                    bottle.removeFromParent()
+                }
+                
+                updateBottlePosition()
+            }
+            
+            updatePlayerPosition()
+        } else {
+            denitializeNodes()
         }
     }
 }
