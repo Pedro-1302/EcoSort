@@ -52,7 +52,7 @@ extension GameSceneController {
         scoreLabel.zPosition = 3
         scoreLabel.fontSize = fontSize
         scoreLabel.fontColor = .init(hex: "FFEFD7")
-        scoreLabel.text = "Score: \(score)/30"
+        scoreLabel.text = "Score: \(score)/20"
         scoreLabel.verticalAlignmentMode = .center
         addChild(scoreLabel)
     }
@@ -438,24 +438,11 @@ extension GameSceneController {
         
         sortNewPaperTexture()
         
-        let minDistanceBetweenItems: CGFloat = 50.0
+        paperItem.position = CGPoint(x: screenMaxX, y: generateRandomYPositionForNodes())
         
-        var newPosition = CGPoint(x: screenMaxX, y: generateRandomYPositionForNodes())
-        
-        for existingItem in items {
-            let distance = abs(existingItem.position.x - newPosition.x)
-            if distance < minDistanceBetweenItems {
-                if existingItem.position.x < newPosition.x {
-                    newPosition.x += minDistanceBetweenItems - distance
-                } else {
-                    newPosition.x -= minDistanceBetweenItems - distance
-                }
-            }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2.3) {
+            self.isMovingScreenLimit = true
         }
-        
-        paperItem.position = newPosition
-        
-        isMovingScreenLimit = true
     }
     
     func runPlayerDamageAnimation() {
@@ -478,23 +465,11 @@ extension GameSceneController {
         
         sortNewGlassTexture()
         
-        let minDistanceBetweenItems: CGFloat = 50.0
+        glassItem.position = CGPoint(x: screenMaxX, y: generateRandomYPositionForNodes())
         
-        var newPosition = CGPoint(x: screenMaxX, y: generateRandomYPositionForNodes())
-        
-        for existingItem in items {
-            let distance = abs(existingItem.position.x - newPosition.x)
-            if distance < minDistanceBetweenItems {
-                if existingItem.position.x < newPosition.x {
-                    newPosition.x += minDistanceBetweenItems - distance
-                } else {
-                    newPosition.x -= minDistanceBetweenItems - distance
-                }
-            }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.8) {
+            self.isMovingScreenLimit = true
         }
-        
-        glassItem.position = newPosition
-        isMovingScreenLimit = true
     }
     
     func sortNewGlassTexture() {
@@ -508,25 +483,12 @@ extension GameSceneController {
         plasticMoveValue = 0
         
         sortNewPlasticTexture()
+
+        plasticItem.position = CGPoint(x: screenMaxX, y: generateRandomYPositionForNodes())
         
-        let minDistanceBetweenItems: CGFloat = 50.0
-        
-        var newPosition = CGPoint(x: screenMaxX, y: generateRandomYPositionForNodes())
-        
-        for existingItem in items {
-            let distance = abs(existingItem.position.x - newPosition.x)
-            if distance < minDistanceBetweenItems {
-                if existingItem.position.x < newPosition.x {
-                    newPosition.x += minDistanceBetweenItems - distance
-                } else {
-                    newPosition.x -= minDistanceBetweenItems - distance
-                }
-            }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
+            self.isMovingScreenLimit = true
         }
-        
-        plasticItem.position = newPosition
-        
-        isMovingScreenLimit = true
     }
     
     func sortNewPlasticTexture() {
@@ -541,24 +503,11 @@ extension GameSceneController {
         
         sortNewMetalTexture()
         
-        let minDistanceBetweenItems: CGFloat = 50.0
+        metalItem.position = CGPoint(x: screenMaxX, y: generateRandomYPositionForNodes())
         
-        var newPosition = CGPoint(x: screenMaxX, y: generateRandomYPositionForNodes())
-        
-        for existingItem in items {
-            let distance = abs(existingItem.position.x - newPosition.x)
-            if distance < minDistanceBetweenItems {
-                if existingItem.position.x < newPosition.x {
-                    newPosition.x += minDistanceBetweenItems - distance
-                } else {
-                    newPosition.x -= minDistanceBetweenItems - distance
-                }
-            }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.6) {
+            self.isMovingScreenLimit = true
         }
-        
-        metalItem.position = newPosition
-        
-        isMovingScreenLimit = true
     }
     
     func sortNewMetalTexture() {
@@ -568,17 +517,15 @@ extension GameSceneController {
     }
     
     func updateNodesPosition(node: SKNode) {
-        let distanceBetweenItems: CGFloat = 50.0
-        
         switch (node) {
         case paperItem:
-            paperItem.position = CGPoint(x: paperMoveValue + 1750 + screenMaxX, y: paperItem.position.y)
+            paperItem.position = CGPoint(x: paperMoveValue + screenMaxX + 350, y: paperItem.position.y)
         case glassItem:
-            glassItem.position = CGPoint(x: glassMoveValue + 1130 + screenMaxX + distanceBetweenItems, y: glassItem.position.y)
+            glassItem.position = CGPoint(x: glassMoveValue + screenMaxX + 700, y: glassItem.position.y)
         case plasticItem:
-            plasticItem.position = CGPoint(x: plasticMoveValue + 650 + screenMaxX + 2 * distanceBetweenItems, y: plasticItem.position.y)
+            plasticItem.position = CGPoint(x: plasticMoveValue + screenMaxX + 1050, y: plasticItem.position.y)
         case metalItem:
-            metalItem.position = CGPoint(x: metalMoveValue + screenMaxX + 3 * distanceBetweenItems, y: metalItem.position.y)
+            metalItem.position = CGPoint(x: metalMoveValue + screenMaxX + 1400, y: metalItem.position.y)
         default:
             print("Error")
         }
@@ -652,7 +599,7 @@ extension GameSceneController {
     
     func updateUI() {
         score += 1
-        scoreLabel.text = "Score: \(score)/30"
+        scoreLabel.text = "Score: \(score)/20"
         changeTrashTexture(textureName: currentTexture)
     }
     
