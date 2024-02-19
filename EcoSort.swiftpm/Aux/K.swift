@@ -10,10 +10,8 @@ import SpriteKit
 struct K {
     // Speed
     private var menuSpeed = 1
-    private var baseGameSpeed = 5.0
-    private var playerMoveSpeed = 2.0
-    
-    
+    private var baseGameSpeed = 4.0
+    private var playerMoveSpeed = 4.0
     
     // Bounds
     private var screenMaxX = UIScreen.main.bounds.maxX

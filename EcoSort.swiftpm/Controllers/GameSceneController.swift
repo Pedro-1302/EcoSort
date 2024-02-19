@@ -262,7 +262,7 @@ class GameSceneController: SKScene {
         addEnumerateNodes(arrayNodeName: beachBackgroundArray, speed: mapScrollSpeed, baseNameNode: "beach", arraySize: beachBackgroundArray.count - 1)
         addEnumerateNodes(arrayNodeName: cityBackgroundArray, speed: mapScrollSpeed, baseNameNode: "city", arraySize: cityBackgroundArray.count - 1)
         
-        if score == 1 {
+        if score == 30 {
             let dialogueSceneController = DialogueSceneController(size: self.size)
             changeScene(to: dialogueSceneController, with: .finished)
         }

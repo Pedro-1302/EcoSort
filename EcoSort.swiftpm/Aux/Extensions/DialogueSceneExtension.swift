@@ -180,7 +180,7 @@ extension DialogueSceneController {
         var currentText = ""
         
         for letter in text {
-            let timer = Timer.scheduledTimer(withTimeInterval: 0.04 * charIndex, repeats: false) { timer in
+            let timer = Timer.scheduledTimer(withTimeInterval: 0.027 * charIndex, repeats: false) { timer in
                 currentText.append(letter)
                 let attributedText = self.generateAttributedString(text: currentText)
                 self.dialoguePromptText.attributedText = attributedText
