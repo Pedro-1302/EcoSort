@@ -202,7 +202,7 @@ extension DialogueSceneController {
         paragraphStyle.lineSpacing = 8
         
         let descriptionAttributedString = NSMutableAttributedString(string: text, attributes: [
-            .font: UIFont(name: "PressStart2P-Regular", size: 20)!,
+            .font: UIFont(name: "PressStart2P-Regular", size: 16)!,
             .foregroundColor: UIColor.white,
             NSAttributedString.Key.paragraphStyle: paragraphStyle
         ])
