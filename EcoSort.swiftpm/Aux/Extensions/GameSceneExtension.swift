@@ -52,7 +52,7 @@ extension GameSceneController {
         scoreLabel.zPosition = 3
         scoreLabel.fontSize = fontSize
         scoreLabel.fontColor = .init(hex: "FFEFD7")
-        scoreLabel.text = "Score: \(score)/30"
+        scoreLabel.text = "Score: \(score)/25"
         scoreLabel.verticalAlignmentMode = .center
         addChild(scoreLabel)
     }
@@ -599,7 +599,7 @@ extension GameSceneController {
     
     func updateUI() {
         score += 1
-        scoreLabel.text = "Score: \(score)/30"
+        scoreLabel.text = "Score: \(score)/25"
         changeTrashTexture(textureName: currentTexture)
     }
     

@@ -118,7 +118,7 @@ class GameSceneController: SKScene {
         // Setup music and sound effects
         AudioManager.shared.stopTypingSound()
         AudioManager.shared.stopDialogueSounds()
-        AudioManager.shared.restartBackgroundMusic()
+        AudioManager.shared.playBackgroundMusic()
         
         // Initialize Constants
         setupScreenBounds()
@@ -262,7 +262,7 @@ class GameSceneController: SKScene {
         addEnumerateNodes(arrayNodeName: beachBackgroundArray, speed: mapScrollSpeed, baseNameNode: "beach", arraySize: beachBackgroundArray.count - 1)
         addEnumerateNodes(arrayNodeName: cityBackgroundArray, speed: mapScrollSpeed, baseNameNode: "city", arraySize: cityBackgroundArray.count - 1)
         
-        if score == 30 {
+        if score == 25 {
             let dialogueSceneController = DialogueSceneController(size: self.size)
             changeScene(to: dialogueSceneController, with: .finished)
         }

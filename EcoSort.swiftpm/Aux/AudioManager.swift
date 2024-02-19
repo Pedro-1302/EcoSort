@@ -54,7 +54,7 @@ class AudioManager {
         do {
             dialogueMusicPlayer = try AVAudioPlayer(contentsOf: dialogueMusicURL)
             dialogueMusicPlayer?.numberOfLoops = -1
-            dialogueMusicPlayer?.volume = 0.8
+            dialogueMusicPlayer?.volume = 1
             dialogueMusicPlayer?.prepareToPlay()
         } catch {
             print("Error: \(error.localizedDescription)")
@@ -68,7 +68,7 @@ class AudioManager {
         do {
             typingSoundEffectPlayer = try AVAudioPlayer(contentsOf: typingSoundURL)
             typingSoundEffectPlayer?.numberOfLoops = 0
-            typingSoundEffectPlayer?.volume = 0.7
+            typingSoundEffectPlayer?.volume = 0.8
             typingSoundEffectPlayer?.prepareToPlay()
         } catch {
             print("Error: \(error.localizedDescription)")
@@ -89,7 +89,11 @@ class AudioManager {
     }
 
     func playBackgroundMusic() {
-        if let player = backgroundMusicPlayer, !player.isPlaying {
+        if let player = backgroundMusicPlayer {
+            if player.isPlaying {
+                player.stop()
+            }
+            player.currentTime = 0
             player.play()
         }
     }
@@ -136,16 +140,6 @@ class AudioManager {
     
     func stopTypingSound() {
         typingSoundEffectPlayer?.stop()
-    }
-    
-    func restartBackgroundMusic() {
-        if let player = backgroundMusicPlayer {
-            if player.isPlaying {
-                player.stop()
-            }
-            player.currentTime = 0
-            player.play()
-        }
     }
     
     func restartTypingSound() {
