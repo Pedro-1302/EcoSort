@@ -16,14 +16,6 @@ extension HomeSceneController {
         addChild(background)
     }
     
-    func createRecycleSymbol() {
-        recycleSymbol = SKSpriteNode(imageNamed: "recycle-symbol")
-        recycleSymbol.size = CGSize(width: screenWidth * 0.08, height: screenHeight * 0.13)
-        recycleSymbol.position = CGPoint(x: logo.frame.midX + screenWidth * 0.12, y: logo.frame.minX + screenHeight * 0.16)
-        recycleSymbol.zPosition = 3
-        addChild(recycleSymbol)
-    }
-    
     func createPlayButton() {
         playButton = SKSpriteNode(imageNamed: "play-button")
         playButton.size = CGSize(width: screenWidth * 0.18, height: screenHeight * 0.12)
@@ -35,9 +27,17 @@ extension HomeSceneController {
     func createLogo() {
         logo = SKSpriteNode(imageNamed: "logo0")
         logo.size = CGSize(width: screenWidth * 0.56, height: screenHeight * 0.23)
-        logo.position = CGPoint(x: 0, y: playButton.frame.maxY + (logo.size.height / 2) + screenHeight * 0.19)
+        logo.position = CGPoint(x: -(screenWidth / 2) + logo.frame.width / 2 + screenWidth * 0.16, y: 0)
         logo.zPosition = 3
         addChild(logo)
+    }
+    
+    func createRecycleSymbol() {
+        recycleSymbol = SKSpriteNode(imageNamed: "recycle-symbol")
+        recycleSymbol.size = CGSize(width: screenWidth * 0.095, height: screenHeight * 0.11)
+        recycleSymbol.position = CGPoint(x: logo.frame.maxX + recycleSymbol.frame.width / 2 + screenWidth * 0.02, y: logo.frame.maxY - recycleSymbol.frame.height / 2)
+        recycleSymbol.zPosition = 3
+        addChild(recycleSymbol)
     }
     
     func createBeachNodes() {

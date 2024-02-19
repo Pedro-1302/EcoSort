@@ -41,14 +41,14 @@ class HomeSceneController: SKScene {
         
         if !(view.contains(background)) && !(view.contains(recycleSymbol)){
             createBackground()
+            createPlayButton()
+            createBeachNodes()
+            createCityNodes()
+            createLogo()
             createRecycleSymbol()
         }
         
         addRotateAction()
-        createPlayButton()
-        createBeachNodes()
-        createCityNodes()
-        createLogo()
         addLogoAnimation()
     }
     
