@@ -55,6 +55,8 @@ class DialogueSceneController: SKScene {
     var gameOverDialogue = ""
     
     var timers: [Timer] = []
+    
+    var trashes = SKSpriteNode()
 
     override func didMove(to view: SKView) {
         constants.setupCustomFont()
@@ -99,6 +101,14 @@ class DialogueSceneController: SKScene {
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.2) {
             self.createDialoguePromptText()
         }
+        
+        if updateScreen == .finished {
+            trashes = SKSpriteNode(imageNamed: "finish-trashes")
+            trashes.size = CGSize(width: screenWidth * 0.62, height: screenHeight * 0.19)
+            trashes.position = CGPoint(x: 0, y: 0)
+            addChild(trashes)
+        }
+        
     }
         
     override func update(_ currentTime: TimeInterval) {
