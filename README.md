@@ -1,8 +1,5 @@
 # ♻︎ Eco Sort ♻︎
 
-## About me 
-Hello Apple! My name is Pedro Franco and im 20 years old and im a technologist in Systems Analysis and Development student. 
-
 ## Description About ♻︎ Eco Sort ♻︎
 Eco Sort is an educational game that aims to explain concepts of sustainable waste collection, encouraging individuals to play their part in beach pollution prevention. The game not only educates players on the importance of responsible waste disposal at beaches but also emphasizes their role in keeping the shores clean.
 
