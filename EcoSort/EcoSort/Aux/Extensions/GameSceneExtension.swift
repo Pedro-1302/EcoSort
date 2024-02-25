@@ -72,7 +72,7 @@ extension GameSceneController {
         var fontSizePercentage: CGFloat = 0.0
         
         if isIphone {
-            fontSizePercentage = 1.5
+            fontSizePercentage = 1.4
         } else {
             fontSizePercentage = 2
         }
