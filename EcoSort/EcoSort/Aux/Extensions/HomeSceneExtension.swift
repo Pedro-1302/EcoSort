@@ -18,8 +18,15 @@ extension HomeSceneController {
     
     func createPlayButton() {
         playButton = SKSpriteNode(imageNamed: "play-button")
-        playButton.size = CGSize(width: screenWidth * 0.18, height: screenHeight * 0.12)
-        playButton.position = CGPoint(x: 0, y: (-(screenHeight / 2) + (playButton.size.height / 2)) + screenHeight * 0.1)
+
+        if isIphone {
+            playButton.size = CGSize(width: screenWidth * 0.15, height: screenHeight * 0.15)
+            playButton.position = CGPoint(x: 0, y: (-(screenHeight / 2) + (playButton.size.height / 2)) + screenHeight * 0.08)
+        } else {
+            playButton.size = CGSize(width: screenWidth * 0.18, height: screenHeight * 0.12)
+            playButton.position = CGPoint(x: 0, y: (-(screenHeight / 2) + (playButton.size.height / 2)) + screenHeight * 0.1)
+        }
+        
         playButton.zPosition = 3
         addChild(playButton)
     }
@@ -27,8 +34,6 @@ extension HomeSceneController {
     func createLogo() {
         logo = SKSpriteNode(imageNamed: "logo0")
 
-        let isIphone: Bool = checkUIDevice()
-        
         if isIphone {
             logo.size = CGSize(width: screenWidth * 0.51, height: screenHeight * 0.33)
             logo.position = CGPoint(x: -(screenWidth / 2) + logo.frame.width / 2 + screenWidth * 0.20, y: 0)
@@ -42,16 +47,9 @@ extension HomeSceneController {
         addChild(logo)
     }
     
-    func checkUIDevice() -> Bool {
-        UIDevice.current.userInterfaceIdiom == .phone ? print("iPhone") : print("iPad")
-        return UIDevice.current.userInterfaceIdiom == .phone ? true : false
-    }
-    
     func createRecycleSymbol() {
         recycleSymbol = SKSpriteNode(imageNamed: "recycle-symbol")
-        
-        let isIphone: Bool = checkUIDevice()
-        
+
         if isIphone {
             recycleSymbol.size = CGSize(width: screenWidth * 0.086, height: screenHeight * 0.16)
             recycleSymbol.position = CGPoint(x: logo.frame.maxX + recycleSymbol.frame.width / 2 + screenWidth * 0.01, y: logo.frame.maxY - recycleSymbol.frame.height / 2)

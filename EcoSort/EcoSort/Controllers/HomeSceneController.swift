@@ -30,8 +30,12 @@ class HomeSceneController: SKScene {
     var screenHeight: CGFloat = 0.0
     var screenWidth: CGFloat = 0.0
     var logoTextures = [SKTexture]()
+    
+    var isIphone: Bool = false
         
     override func didMove(to view: SKView) {
+        isIphone = K.checkUIDevice()
+        
         initializeConstants()
         
         self.anchorPoint = CGPoint(x: 0.5, y: 0.5)

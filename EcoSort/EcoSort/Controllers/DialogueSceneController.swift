@@ -56,9 +56,11 @@ class DialogueSceneController: SKScene {
     var timers: [Timer] = []
     
     var trashes = SKSpriteNode()
+    
+    var isIphone: Bool = false
 
     override func didMove(to view: SKView) {
-//        constants.setupCustomFont()
+        isIphone = K.checkUIDevice()
         
         initializeConstants()
         

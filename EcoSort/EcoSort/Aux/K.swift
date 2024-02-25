@@ -236,4 +236,9 @@ struct K {
     func getGameOverDialogue() -> String {
         return gameOverDialogue
     }
+    
+    static func checkUIDevice() -> Bool {
+        UIDevice.current.userInterfaceIdiom == .phone ? print("iPhone") : print("iPad")
+        return UIDevice.current.userInterfaceIdiom == .phone ? true : false
+    }
 }

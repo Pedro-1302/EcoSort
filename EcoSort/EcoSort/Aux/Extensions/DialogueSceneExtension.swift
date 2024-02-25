@@ -22,8 +22,15 @@ extension DialogueSceneController {
     
     func createDialogueBox() {
         currentDialogueBox = SKSpriteNode(imageNamed: "default-dialogue-box")
-        currentDialogueBox.size = CGSize(width: screenWidth * 0.46, height: screenHeight * 0.21)
-        currentDialogueBox.position = CGPoint(x: screenWidth / 2 - currentDialogueBox.frame.width / 2 - screenWidth * 0.18, y: -(screenHeight / 2) + currentDialogueBox.size.height / 2 + screenHeight * 0.13)
+
+        if isIphone {
+            currentDialogueBox.size = CGSize(width: screenWidth * 0.30, height: screenHeight * 0.22)
+            currentDialogueBox.position = CGPoint(x: screenWidth / 2 - currentDialogueBox.frame.width / 2 - screenWidth * 0.30, y: -(screenHeight / 2) + currentDialogueBox.size.height / 2 + screenHeight * 0.16)
+        } else {
+            currentDialogueBox.size = CGSize(width: screenWidth * 0.46, height: screenHeight * 0.21)
+            currentDialogueBox.position = CGPoint(x: screenWidth / 2 - currentDialogueBox.frame.width / 2 - screenWidth * 0.18, y: -(screenHeight / 2) + currentDialogueBox.size.height / 2 + screenHeight * 0.13)
+        }
+        
         currentDialogueBox.zPosition = 2
         currentDialogueBox.anchorPoint = CGPoint(x: 0.5, y: 0.5)
         addChild(currentDialogueBox)
@@ -31,8 +38,15 @@ extension DialogueSceneController {
     
     func createLeftArrow() {
         leftArrow = SKSpriteNode(imageNamed: "arrow-left")
-        leftArrow.size = CGSize(width: screenWidth * 0.09, height: screenHeight * 0.12)
-        leftArrow.position = CGPoint(x: -(screenWidth / 2) + (leftArrow.frame.width / 2) + (screenWidth * 0.05), y: currentDialogueBox.position.y)
+
+        if isIphone {
+            leftArrow.size = CGSize(width: screenWidth * 0.06, height: screenHeight * 0.12)
+            leftArrow.position = CGPoint(x: -(screenWidth / 2) + (leftArrow.frame.width / 2) + screenWidth * 0.21, y: currentDialogueBox.position.y)
+        } else {
+            leftArrow.size = CGSize(width: screenWidth * 0.09, height: screenHeight * 0.12)
+            leftArrow.position = CGPoint(x: -(screenWidth / 2) + (leftArrow.frame.width / 2) + (screenWidth * 0.05), y: currentDialogueBox.position.y)
+        }
+        
         leftArrow.zPosition = 2
         
         if updateScreen == .gameOver {
@@ -47,8 +61,15 @@ extension DialogueSceneController {
     
     func createRightArrow() {
         rightArrow = SKSpriteNode(imageNamed: "arrow-right")
-        rightArrow.size = CGSize(width: screenWidth * 0.09, height: screenHeight * 0.12)
-        rightArrow.position = CGPoint(x: screenWidth / 2 - (rightArrow.frame.width / 2)  - (screenWidth * 0.05), y: currentDialogueBox.position.y)
+
+        if isIphone { 
+            rightArrow.size = CGSize(width: screenWidth * 0.06, height: screenHeight * 0.12)
+            rightArrow.position = CGPoint(x: screenWidth / 2 - (rightArrow.frame.width / 2)  - (screenWidth * 0.21), y: currentDialogueBox.position.y)
+        } else {
+            rightArrow.size = CGSize(width: screenWidth * 0.09, height: screenHeight * 0.12)
+            rightArrow.position = CGPoint(x: screenWidth / 2 - (rightArrow.frame.width / 2)  - (screenWidth * 0.05), y: currentDialogueBox.position.y)
+        }
+        
         rightArrow.zPosition = 2
         
         if updateScreen == .gameOver {
@@ -70,9 +91,15 @@ extension DialogueSceneController {
             continueButton = SKSpriteNode(imageNamed: "letsplay-button")
             continueButton.alpha = 0
         }
+
+        if isIphone {
+            continueButton.size = CGSize(width: screenWidth * 0.20, height: screenHeight * 0.12)
+            continueButton.position = CGPoint(x: 0, y: currentDialogueBox.frame.minY - continueButton.frame.height / 2 - (screenHeight * 0.02))
+        } else {
+            continueButton.size = CGSize(width: screenWidth * 0.23, height: screenHeight * 0.08)
+            continueButton.position = CGPoint(x: 0, y: currentDialogueBox.frame.minY - continueButton.frame.height / 2 - (screenHeight * 0.02))
+        }
         
-        continueButton.size = CGSize(width: screenWidth * 0.23, height: screenHeight * 0.08)
-        continueButton.position = CGPoint(x: 0, y: currentDialogueBox.frame.minY - continueButton.frame.height / 2 - (screenHeight * 0.02))
         continueButton.zPosition = 2
         
         addChild(continueButton)
@@ -80,16 +107,27 @@ extension DialogueSceneController {
     
     func createBottle() {
         bottle = SKSpriteNode(imageNamed: "water-bottle")
-        bottle.size = CGSize(width: 80, height: 36)
+        
+        if isIphone {
+            bottle.size = CGSize(width: screenWidth * 0.056, height: screenHeight * 0.06)
+        } else {
+            bottle.size = CGSize(width: screenWidth * 0.06, height: screenHeight * 0.04)
+        }
+        
         bottle.position = CGPoint(x: screenMaxX, y: 0)
-        bottle.position = CGPoint(x: screenMinX, y: 0)
         bottle.zPosition = 3
         addChild(bottle)
     }
     
     func createPlayer() {
         player = SKSpriteNode(imageNamed: "player01")
-        player.size = CGSize(width: 80, height: 160)
+        
+        if isIphone {
+            player.size = CGSize(width: screenWidth * 0.04, height: screenHeight * 0.18)
+        } else {
+            player.size = CGSize(width: screenWidth * 0.06, height: screenHeight * 0.16)
+        }
+        
         player.position = CGPoint(x: screenMinX, y: 0)
         player.zPosition = 4
         addChild(player)
@@ -97,7 +135,13 @@ extension DialogueSceneController {
     
     func createTrashCarried() {
         trashCarried = SKSpriteNode(imageNamed: "rec-red01")
-        trashCarried.size = CGSize(width: 120, height: 120)
+        
+        if isIphone {
+            trashCarried.size = CGSize(width: screenWidth * 0.06, height: screenHeight * 0.15)
+        } else {
+            trashCarried.size = CGSize(width: screenWidth * 0.09, height: screenHeight * 0.12)
+        }
+        
         trashCarried.position = CGPoint(x: -1000, y: player.position.y + 20)
         trashCarried.zPosition = 3
         addChild(trashCarried)
@@ -105,8 +149,15 @@ extension DialogueSceneController {
     
     func createEmmaBox() {
         emmaBox = SKSpriteNode(imageNamed: "emma-box")
-        emmaBox.size = CGSize(width: screenWidth * 0.17, height: screenHeight * 0.21)
-        emmaBox.position = CGPoint(x: currentDialogueBox.frame.minX - emmaBox.frame.width / 2, y: currentDialogueBox.position.y)
+
+        if isIphone {
+            emmaBox.size = CGSize(width: screenWidth * 0.10, height: screenHeight * 0.22)
+            emmaBox.position = CGPoint(x: currentDialogueBox.frame.minX - emmaBox.frame.width / 2, y: currentDialogueBox.position.y)
+        } else {
+            emmaBox.size = CGSize(width: screenWidth * 0.17, height: screenHeight * 0.21)
+            emmaBox.position = CGPoint(x: currentDialogueBox.frame.minX - emmaBox.frame.width / 2, y: currentDialogueBox.position.y)
+        }
+        
         emmaBox.zPosition = 2
         emmaBox.anchorPoint = CGPoint(x: 0.5, y: 0.5)
         addChild(emmaBox)
@@ -114,8 +165,15 @@ extension DialogueSceneController {
     
     func createElderlyWoman() {
         elderlyWoman = SKSpriteNode(imageNamed: "elderly-woman01")
-        elderlyWoman.position = CGPoint(x: emmaBox.frame.midX, y: emmaBox.frame.midY)
-        elderlyWoman.size = CGSize(width: screenWidth * 0.10, height: screenHeight * 0.14)
+     
+        if isIphone {
+            elderlyWoman.size = CGSize(width: screenWidth * 0.07, height: screenHeight * 0.15)
+            elderlyWoman.position = CGPoint(x: emmaBox.frame.midX, y: emmaBox.frame.midY)
+        } else {
+            elderlyWoman.size = CGSize(width: screenWidth * 0.10, height: screenHeight * 0.14)
+            elderlyWoman.position = CGPoint(x: emmaBox.frame.midX, y: emmaBox.frame.midY)
+        }
+        
         elderlyWoman.zPosition = 3
         addChild(elderlyWoman)
     }
@@ -138,7 +196,13 @@ extension DialogueSceneController {
         dialoguePromptText.horizontalAlignmentMode = .center
         dialoguePromptText.verticalAlignmentMode = .center
         dialoguePromptText.numberOfLines = 0
-        dialoguePromptText.preferredMaxLayoutWidth = currentDialogueBox.frame.width - (screenWidth * 0.08)
+        
+        if isIphone {
+            dialoguePromptText.preferredMaxLayoutWidth = currentDialogueBox.frame.width - (screenWidth * 0.048)
+        } else {
+            dialoguePromptText.preferredMaxLayoutWidth = currentDialogueBox.frame.width - (screenWidth * 0.08)
+        }
+        
         dialoguePromptText.zPosition = 10
         
         addChild(dialoguePromptText)
@@ -199,10 +263,19 @@ extension DialogueSceneController {
     
     func generateAttributedString(text: String) -> NSAttributedString {
         let paragraphStyle = NSMutableParagraphStyle()
-        paragraphStyle.lineSpacing = 8
+
+        var fontSize = 0.0
         
+        if isIphone {
+            fontSize = 8
+            paragraphStyle.lineSpacing = 5
+        } else {
+            fontSize = 16
+            paragraphStyle.lineSpacing = 8
+        }
+
         let descriptionAttributedString = NSMutableAttributedString(string: text, attributes: [
-            .font: UIFont(name: "PressStart2P-Regular", size: 16)!,
+            .font: UIFont(name: "PressStart2P-Regular", size: fontSize)!,
             .foregroundColor: UIColor.white,
             NSAttributedString.Key.paragraphStyle: paragraphStyle
         ])
