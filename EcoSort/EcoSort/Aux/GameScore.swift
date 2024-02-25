@@ -9,13 +9,14 @@ import SpriteKit
 
 struct GameScore {
     // Singleton variable to share GameScore
-    static let shared = GameScore()
+    static var shared = GameScore()
     
     private init(){}
     
-    private var gameScore = 0
+    var gameScore = 0
+    private var winValue = 30
     
-    func getGameScore() -> Int {
-        return gameScore
+    func getWinValue() -> Int {
+        return winValue
     }
 }

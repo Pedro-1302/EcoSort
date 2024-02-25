@@ -21,12 +21,6 @@ struct K {
     private var screenHeight = UIScreen.main.bounds.height
     private var screenWidht = UIScreen.main.bounds.width
     
-    // Items sizes
-    private var item16xWidth = 0.04
-    private var item16xHeight = 0.06
-    private var item32xWidth = 0.06
-    private var item32xHeight = 0.04
-    
     // Items textures
     private var paperTextures = [
         SKTexture(imageNamed: "paper-plane"),
@@ -47,10 +41,7 @@ struct K {
         SKTexture(imageNamed: "metal-can"),
         SKTexture(imageNamed: "can-opened")
     ]
-    
-//    // Font
-//    private let fontURL = Bundle.module.url(forResource: "PressStart2P-Regular", withExtension: "ttf")!
-//    
+
     private var elderlyWomanTextures = [
         SKTexture(imageNamed: "elderly-woman01"),
         SKTexture(imageNamed: "elderly-woman02"),
@@ -153,10 +144,6 @@ struct K {
         return screenMinY
     }
     
-//    func setupCustomFont() {
-//        CTFontManagerRegisterFontsForURL(fontURL as CFURL, CTFontManagerScope.process, nil)
-//    }
-    
     func getElderlyWomanTextures() -> [SKTexture] {
         return elderlyWomanTextures
     }
@@ -207,22 +194,6 @@ struct K {
     
     func getScreenWidth() -> CGFloat {
         return screenWidht
-    }
-    
-    func getItem16xWidth() -> CGFloat {
-        return item16xWidth
-    }
-    
-    func getItem16xHeight() -> CGFloat {
-        return item16xHeight
-    }
-    
-    func getItem32xWidth() -> CGFloat  {
-        return item32xWidth
-    }
-    
-    func getItem32xHeight() -> CGFloat  {
-        return item32xHeight
     }
     
     func getDialogues() -> [String] {

@@ -43,8 +43,6 @@ class GameSceneController: SKScene {
     var glassItem = SKSpriteNode()
     var plasticItem = SKSpriteNode()
     var metalItem = SKSpriteNode()
-    var bananaPeel = SKSpriteNode()
-    var apple = SKSpriteNode()
     var heart0 = SKSpriteNode()
     var heart1 = SKSpriteNode()
     var heart2 = SKSpriteNode()
@@ -82,10 +80,6 @@ class GameSceneController: SKScene {
     var glassTextures = [SKTexture]()
     var plasticTextures = [SKTexture]()
     var metalTextures = [SKTexture]()
-    var item16xWidth: CGFloat = 0.0
-    var item16xHeight: CGFloat = 0.0
-    var item32xWidth: CGFloat = 0.0
-    var item32xHeight: CGFloat = 0.0
     
     // Game Controllers
     var isMovingUp = false
@@ -104,9 +98,6 @@ class GameSceneController: SKScene {
     
     var heartsGone = 0
     
-    // Game Score
-    var score = GameScore.shared.getGameScore()
-    
     // Itens positions
     var usedYPositions = Set<CGFloat>()
     
@@ -114,7 +105,15 @@ class GameSceneController: SKScene {
     
     var items = [SKSpriteNode]()
     
+    var isIphone: Bool = false
+    
+    var winValue = 0
+    
     override func didMove(to view: SKView) {
+        isIphone = K.checkUIDevice()
+        
+        winValue = GameScore.shared.getWinValue()
+        
         // Setup music and sound effects
         AudioManager.shared.stopTypingSound()
         AudioManager.shared.stopDialogueSounds()
@@ -124,7 +123,6 @@ class GameSceneController: SKScene {
         setupScreenBounds()
         initializeSpeed()
         intiializeTrashes()
-        initializeItemsSizes()
         initializeItemsTextures()
         heartTextures = constants.getHeartTextures()
         
@@ -179,8 +177,6 @@ class GameSceneController: SKScene {
         createGlassItem()
         createPlasticItem()
         createMetalItem()
-        createBananaPeel()
-        createApple()
         
         // Create and add hearts
         createHearts()
@@ -262,7 +258,7 @@ class GameSceneController: SKScene {
         addEnumerateNodes(arrayNodeName: beachBackgroundArray, speed: mapScrollSpeed, baseNameNode: "beach", arraySize: beachBackgroundArray.count - 1)
         addEnumerateNodes(arrayNodeName: cityBackgroundArray, speed: mapScrollSpeed, baseNameNode: "city", arraySize: cityBackgroundArray.count - 1)
         
-        if score == 15 {
+        if GameScore.shared.gameScore == winValue {
             let dialogueSceneController = DialogueSceneController(size: self.size)
             changeScene(to: dialogueSceneController, with: .finished)
         }

@@ -11,7 +11,13 @@ import SpriteKit
 extension GameSceneController {
     func createPlayerNode() {
         player = SKSpriteNode(imageNamed: "player01")
-        player.size = CGSize(width: screenWidth * 0.059, height: screenHeight * 0.16)
+        
+        if isIphone {
+            player.size = CGSize(width: screenWidth * 0.04, height: screenHeight * 0.18)
+        } else {
+            player.size = CGSize(width: screenWidth * 0.059, height: screenHeight * 0.16)
+        }
+        
         player.position = CGPoint(x: -(screenWidth / 2) + player.frame.width / 2 + screenWidth * 0.19, y: 0)
         player.zPosition = 4
         addChild(player)
@@ -19,7 +25,13 @@ extension GameSceneController {
     
     func createDownArrow() {
         downArrow = SKSpriteNode(imageNamed: "arrow-down")
-        downArrow.size = CGSize(width: screenWidth * 0.088, height: screenHeight * 0.12)
+        
+        if isIphone {
+            downArrow.size = CGSize(width: screenWidth * 0.07, height: screenHeight * 0.15)
+        } else {
+            downArrow.size = CGSize(width: screenWidth * 0.088, height: screenHeight * 0.12)
+        }
+        
         downArrow.position = CGPoint(x: -(screenWidth / 2) + (downArrow.frame.width / 2) + screenWidth * 0.06, y: -(screenHeight / 2) + (downArrow.frame.height / 2) + screenHeight * 0.029)
         downArrow.zPosition = 2
         addChild(downArrow)
@@ -27,7 +39,13 @@ extension GameSceneController {
     
     func createUpArrow() {
         upArrow = SKSpriteNode(imageNamed: "arrow-up")
-        upArrow.size = CGSize(width: screenWidth * 0.088, height: screenHeight * 0.12)
+        
+        if isIphone {
+            upArrow.size = CGSize(width: screenWidth * 0.07, height: screenHeight * 0.15)
+        } else {
+            upArrow.size = CGSize(width: screenWidth * 0.088, height: screenHeight * 0.12)
+        }
+        
         upArrow.position = CGPoint(x: -(screenWidth / 2) + (upArrow.frame.width / 2) + screenWidth * 0.06, y: downArrow.frame.maxY + upArrow.frame.height / 2 + screenHeight * 0.008)
         upArrow.zPosition = 2
         addChild(upArrow)
@@ -35,7 +53,13 @@ extension GameSceneController {
     
     func createScoreNode() {
         scoreNode = SKSpriteNode(imageNamed: "score-box")
-        scoreNode.size = CGSize(width: screenWidth * 0.28, height: screenHeight * 0.088)
+        
+        if isIphone {
+            scoreNode.size = CGSize(width: screenWidth * 0.19, height: screenHeight * 0.1)
+        } else {
+            scoreNode.size = CGSize(width: screenWidth * 0.28, height: screenHeight * 0.088)
+        }
+
         scoreNode.position = CGPoint(x: screenWidth / 2 - (scoreNode.frame.width / 2) - screenWidth * 0.023, y: screenHeight / 2 - (scoreNode.frame.height / 2) - screenHeight * 0.032)
         scoreNode.zPosition = 2
         scoreNode.anchorPoint = CGPoint(x: 0.5, y: 0.5)
@@ -45,14 +69,21 @@ extension GameSceneController {
     func createScoreLabel() {
         scoreLabel = SKLabelNode(fontNamed: "PressStart2P-Regular")
         
-        let fontSizePercentage: CGFloat = 2
+        var fontSizePercentage: CGFloat = 0.0
+        
+        if isIphone {
+            fontSizePercentage = 1.5
+        } else {
+            fontSizePercentage = 2
+        }
+        
         let fontSize = screenWidth * fontSizePercentage / 100.0
         
         scoreLabel.position = CGPoint(x: scoreNode.frame.midX, y: scoreNode.frame.midY)
         scoreLabel.zPosition = 3
         scoreLabel.fontSize = fontSize
         scoreLabel.fontColor = .init(hex: "FFEFD7")
-        scoreLabel.text = "Score: \(score)/15"
+        scoreLabel.text = "Score: \(GameScore.shared.gameScore)/\(winValue)"
         scoreLabel.verticalAlignmentMode = .center
         addChild(scoreLabel)
     }
@@ -73,7 +104,13 @@ extension GameSceneController {
     
     func createGreenTrash() {
         greenTrash = SKSpriteNode(imageNamed: "recycle-green-wlabel")
-        greenTrash.size = CGSize(width: screenWidth * 0.06, height: screenHeight * 0.12)
+        
+        if isIphone {
+            greenTrash.size = CGSize(width: screenWidth * 0.06, height: screenHeight * 0.17)
+        } else {
+            greenTrash.size = CGSize(width: screenWidth * 0.06, height: screenHeight * 0.12)
+        }
+        
         greenTrash.position = CGPoint(x: screenWidth / 2 - (upArrow.frame.width / 2) - screenWidth * 0.14, y: -(screenHeight / 2) + (greenTrash.frame.height / 2) + screenHeight * 0.02)
         greenTrash.zPosition = 3
         greenTrash.alpha = 0.5
@@ -109,7 +146,13 @@ extension GameSceneController {
     
     func createCurrentTrashCarried() {
         currentTrash = SKSpriteNode(imageNamed: "rec-red01")
-        currentTrash.size = CGSize(width: screenWidth * 0.09, height: screenHeight * 0.12)
+        
+        if isIphone {
+            currentTrash.size = CGSize(width: screenWidth * 0.061, height: screenHeight * 0.163)
+        } else {
+            currentTrash.size = CGSize(width: screenWidth * 0.09, height: screenHeight * 0.12)
+        }
+        
         currentTrash.position = CGPoint(x: player.frame.minX, y: player.position.y)
         currentTrash.zPosition = 3
         addChild(currentTrash)
@@ -117,7 +160,13 @@ extension GameSceneController {
     
     func createPaperItem() {
         paperItem = SKSpriteNode(imageNamed: "newspaper")
-        paperItem.size = CGSize(width: screenWidth * item32xWidth, height: screenHeight * item32xHeight)
+        
+        if isIphone {
+            paperItem.size = CGSize(width: screenWidth * 0.04, height: screenHeight * 0.04)
+        } else {
+            paperItem.size = CGSize(width: screenWidth * 0.06, height: screenHeight * 0.04)
+        }
+        
         paperItem.zPosition = 2
         paperItem.position = CGPoint(x: screenMaxX, y: generateRandomYPositionForNodes())
         addChild(paperItem)
@@ -125,7 +174,13 @@ extension GameSceneController {
     
     func createGlassItem() {
         glassItem = SKSpriteNode(imageNamed: "wine")
-        glassItem.size = CGSize(width: screenWidth * item32xWidth, height: screenHeight * item32xHeight)
+        
+        if isIphone {
+            glassItem.size = CGSize(width: screenWidth * 0.04, height: screenHeight * 0.04)
+        } else {
+            glassItem.size = CGSize(width: screenWidth * 0.06, height: screenHeight * 0.04)
+        }
+        
         glassItem.zPosition = 2
         glassItem.position = CGPoint(x: screenMaxX, y: generateRandomYPositionForNodes())
         addChild(glassItem)
@@ -133,7 +188,13 @@ extension GameSceneController {
     
     func createPlasticItem() {
         plasticItem = SKSpriteNode(imageNamed: "water-bottle")
-        plasticItem.size = CGSize(width: screenWidth * item32xWidth, height: screenHeight * item32xHeight)
+        
+        if isIphone {
+            plasticItem.size = CGSize(width: screenWidth * 0.04, height: screenHeight * 0.04)
+        } else {
+            plasticItem.size = CGSize(width: screenWidth * 0.06, height: screenHeight * 0.04)
+        }
+        
         plasticItem.zPosition = 2
         plasticItem.position = CGPoint(x: screenMaxX, y: generateRandomYPositionForNodes())
         addChild(plasticItem)
@@ -141,26 +202,16 @@ extension GameSceneController {
     
     func createMetalItem() {
         metalItem = SKSpriteNode(imageNamed: "metal-can")
-        metalItem.size = CGSize(width: screenWidth * item16xWidth, height: screenHeight * item16xHeight)
+        
+        if isIphone {
+            metalItem.size = CGSize(width: screenWidth * 0.04, height: screenHeight * 0.09)
+        } else {
+            metalItem.size = CGSize(width: screenWidth * 0.04, height: screenHeight * 0.06)
+        }
+        
         metalItem.zPosition = 2
         metalItem.position = CGPoint(x: screenMaxX, y: generateRandomYPositionForNodes())
         addChild(metalItem)
-    }
-    
-    func createBananaPeel() {
-        bananaPeel = SKSpriteNode(imageNamed: "banana-peel")
-        bananaPeel.size = CGSize(width: screenWidth * item32xWidth, height: screenHeight * item32xHeight)
-        bananaPeel.zPosition = 2
-        bananaPeel.position = CGPoint(x: screenMaxX, y: generateRandomYPositionForNodes())
-        addChild(bananaPeel)
-    }
-    
-    func createApple() {
-        apple = SKSpriteNode(imageNamed: "apple")
-        apple.size = CGSize(width: screenWidth * item16xWidth, height: screenHeight * item16xHeight)
-        apple.zPosition = 2
-        apple.position = CGPoint(x: screenMaxX, y: generateRandomYPositionForNodes())
-        addChild(apple)
     }
     
     func createBeachNodes() {
@@ -396,7 +447,7 @@ extension GameSceneController {
         self.currentTrashText = "rec-red01"
         self.currentTexture = "rec-red01"
         self.heartsGone = 0
-        self.score = 0
+        GameScore.shared.gameScore = 0
         self.usedYPositions = Set<CGFloat>()
         
         AudioManager.shared.playGameOverSound()
@@ -428,8 +479,12 @@ extension GameSceneController {
         return randomTexture
     }
     
-    func generateSize(texture: SKTexture) -> CGSize {
-        return CGSize(width: screenWidth * (texture.size().width / screenWidth), height: screenHeight * (texture.size().height / screenHeight))
+    func runPlayerDamageAnimation() {
+        let fadeOut = SKAction.fadeAlpha(to: 0.2, duration: 0.1)
+        let fadeIn = SKAction.fadeAlpha(to: 1.0, duration: 0.1)
+        let blinkSequence = SKAction.sequence([fadeOut, fadeIn, fadeOut, fadeIn, fadeOut, fadeIn])
+
+        player.run(blinkSequence)
     }
     
     func resetPaper() {
@@ -445,17 +500,15 @@ extension GameSceneController {
         }
     }
     
-    func runPlayerDamageAnimation() {
-        let fadeOut = SKAction.fadeAlpha(to: 0.2, duration: 0.1)
-        let fadeIn = SKAction.fadeAlpha(to: 1.0, duration: 0.1)
-        let blinkSequence = SKAction.sequence([fadeOut, fadeIn, fadeOut, fadeIn, fadeOut, fadeIn])
-
-        player.run(blinkSequence)
-    }
-
     func sortNewPaperTexture() {
         let texture = generateRandomTexture(.paper)
-        paperItem.size = generateSize(texture: texture)
+        
+        if isIphone {
+            paperItem.size = CGSize(width: screenWidth * 0.04, height: screenHeight * 0.04)
+        } else {
+            paperItem.size = CGSize(width: screenWidth * 0.06, height: screenHeight * 0.04)
+        }
+        
         paperItem.texture = texture
     }
     
@@ -474,7 +527,13 @@ extension GameSceneController {
     
     func sortNewGlassTexture() {
         let texture = generateRandomTexture(.glass)
-        glassItem.size = generateSize(texture: texture)
+        
+        if isIphone {
+            glassItem.size = CGSize(width: screenWidth * 0.04, height: screenHeight * 0.04)
+        } else {
+            glassItem.size = CGSize(width: screenWidth * 0.06, height: screenHeight * 0.04)
+        }
+        
         glassItem.texture = texture
     }
     
@@ -493,7 +552,13 @@ extension GameSceneController {
     
     func sortNewPlasticTexture() {
         let texture = generateRandomTexture(.plastic)
-        plasticItem.size = generateSize(texture: texture)
+        
+        if isIphone {
+            plasticItem.size = CGSize(width: screenWidth * 0.04, height: screenHeight * 0.04)
+        } else {
+            plasticItem.size = CGSize(width: screenWidth * 0.06, height: screenHeight * 0.04)
+        }
+        
         plasticItem.texture = texture
     }
     
@@ -512,7 +577,13 @@ extension GameSceneController {
     
     func sortNewMetalTexture() {
         let texture = generateRandomTexture(.metal)
-        metalItem.size = generateSize(texture: texture)
+        
+        if isIphone {
+            metalItem.size = CGSize(width: screenWidth * 0.04, height: screenHeight * 0.09)
+        } else {
+            metalItem.size = CGSize(width: screenWidth * 0.04, height: screenHeight * 0.06)
+        }
+        
         metalItem.texture = texture
     }
     
@@ -598,8 +669,8 @@ extension GameSceneController {
     }
     
     func updateUI() {
-        score += 1
-        scoreLabel.text = "Score: \(score)/15"
+        GameScore.shared.gameScore += 1
+        scoreLabel.text = "Score: \(GameScore.shared.gameScore)/\(winValue)"
         changeTrashTexture(textureName: currentTexture)
     }
     
@@ -623,14 +694,7 @@ extension GameSceneController {
         yellowTrashTextures = constants.getYellowTrashArray()
         greenTrashTextures = constants.getGreenTrashArray()
     }
-    
-    func initializeItemsSizes() {
-        item16xWidth = constants.getItem16xWidth()
-        item16xHeight = constants.getItem16xHeight()
-        item32xWidth = constants.getItem32xWidth()
-        item32xHeight = constants.getItem32xHeight()
-    }
-    
+
     func initializeItemsTextures() {
         paperTextures = constants.getPaperTextures()
         glassTextures = constants.getGlassTextures()
@@ -640,19 +704,23 @@ extension GameSceneController {
     
     func createHearts() {
         heart0 = SKSpriteNode(imageNamed: "heart0")
-        heart0.size = CGSize(width: screenWidth * 0.06, height: screenHeight * 0.08)
+        if isIphone {
+            heart0.size = CGSize(width: screenWidth * 0.047, height: screenHeight * 0.1)
+        } else {
+            heart0.size = CGSize(width: screenWidth * 0.06, height: screenHeight * 0.08)
+        }
         heart0.position = CGPoint(x: -(screenWidth / 2) + heart0.frame.width / 2 + screenWidth * 0.16, y: screenHeight / 2 - heart0.frame.height / 2 - screenHeight * 0.03)
         heart0.zPosition = 2
         addChild(heart0)
         
         heart1 = SKSpriteNode(imageNamed: "heart0")
-        heart1.size = CGSize(width: screenWidth * 0.06, height: screenHeight * 0.08)
+        heart1.size = heart0.size
         heart1.position = CGPoint(x: heart0.frame.minX - heart1.frame.width / 2 - screenWidth * 0.01, y: screenHeight / 2 - heart1.frame.height / 2 - screenHeight * 0.03)
         heart1.zPosition = 2
         addChild(heart1)
         
         heart2 = SKSpriteNode(imageNamed: "heart0")
-        heart2.size = CGSize(width: screenWidth * 0.06, height: screenHeight * 0.08)
+        heart2.size = heart1.size
         heart2.position = CGPoint(x: heart1.frame.minX - heart2.frame.width / 2 - screenWidth * 0.01, y: screenHeight / 2 - heart2.frame.height / 2 - screenHeight * 0.03)
         heart2.zPosition = 2
         addChild(heart2)

@@ -105,7 +105,13 @@ class DialogueSceneController: SKScene {
         
         if updateScreen == .finished {
             trashes = SKSpriteNode(imageNamed: "finish-trashes")
-            trashes.size = CGSize(width: screenWidth * 0.62, height: screenHeight * 0.19)
+            
+            if isIphone {
+                trashes.size = CGSize(width: screenWidth * 0.38, height: screenHeight * 0.20)
+            } else {
+                trashes.size = CGSize(width: screenWidth * 0.62, height: screenHeight * 0.19)
+            }
+            
             trashes.position = CGPoint(x: 0, y: 0)
             addChild(trashes)
         }
