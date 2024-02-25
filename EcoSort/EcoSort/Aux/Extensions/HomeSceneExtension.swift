@@ -44,7 +44,7 @@ extension HomeSceneController {
     
     func checkUIDevice() -> Bool {
         UIDevice.current.userInterfaceIdiom == .phone ? print("iPhone") : print("iPad")
-        UIDevice.current.userInterfaceIdiom == .phone ? true : false
+        return UIDevice.current.userInterfaceIdiom == .phone ? true : false
     }
     
     func createRecycleSymbol() {
