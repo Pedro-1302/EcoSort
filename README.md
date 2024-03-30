@@ -1,4 +1,4 @@
-# ♻︎ Eco Sort (WWDC Winner) ♻︎
+# ♻︎ Eco Sort (WWDC 24 Winner) ♻︎
 
 ## Description
 Eco Sort is an educational game that aims to explain concepts of sustainable waste collection, encouraging individuals to play their part in beach pollution prevention. The game not only educates players on the importance of responsible waste disposal at beaches but also emphasizes their role in keeping the shores clean.
